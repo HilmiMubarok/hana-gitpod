@@ -1,0 +1,97 @@
+.back-prefix {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #597c97 !important;
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.e-breadcrumb-text {
+  color: #597c97 !important;
+}
+
+.e-breadcrumb-icon.e-icons.e-home {
+  color: #597c97 !important;
+}
+
+.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+.mat-button-toggle-group-appearance-standard {
+  border: none !important;
+}
+
+.mat-button-toggle {
+  margin: 0 3px;
+  border-radius: 5px !important;
+  font-weight: 400;
+}
+
+.mat-button-toggle-appearance-standard {
+  background: #e5e5e5;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+  border: none;
+}
+
+.mat-button-toggle-checked {
+  color: rgb(255 255 255 / 87%);
+  background: #48a5a0;
+}
+
+.back-image {
+  width: 25px;
+  height: 25px;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.header-content {
+  display: flex;
+}
+
+.header-container {
+  display: flex;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.e-card .e-card-header .e-card-header-caption .e-card-sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #597c97;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+
+.e-card {
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.select-all {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 48px;
+  height: 48px;
+  padding: 0 16px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.select-all:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}

@@ -1,0 +1,76 @@
+<form [formGroup]="misYearlyReport" (ngSubmit)="generateMISYearlyReport()">
+  <div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+        <e-breadcrumb-item text="Yearly Report" url=""> </e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+  </div>
+
+  <div class="department-header">
+    <div class="department-name h4">CREDIT REVIEW DEPARTMENT</div>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
+          <div #formContainer>
+            <form [formGroup]="misYearlyReport">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Year</mat-label>
+                <input matInput [matDatepicker]="yearPicker" placeholder="Select Year" formControlName="year" readonly />
+                <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+                <mat-datepicker
+                  #yearPicker
+                  startView="multi-year"
+                  (yearSelected)="chosenYearHandler($event, yearPicker)"
+                  panelClass="year-picker"
+                ></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 mb-1">
+          <div #formContainer>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Prpoposal Type</mat-label>
+              <mat-select formControlName="proposalType">
+                <mat-option *ngFor="let item of lovProposalType" [value]="item.code">{{ item.code }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div #formContainer>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Branch</mat-label>
+            <mat-select formControlName="branchId" multiple>
+              <li class="select-all" (click)="toggleSelectBranch()">
+                {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let branch of lovBranch" [value]="branch.id">{{ branch.facilityName }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="mt-3 text-center">
+    <button
+      mat-raised-button
+      id="generate-btn"
+      class="confirm-button-no"
+      type="submit"
+      [disabled]="misReportService.loadingGenerateDocument$ | async"
+      [class.loading]="misReportService.loadingGenerateDocument$ | async"
+    >
+      {{ misReportService.generateDocumentLabel$ | async }}
+    </button>
+  </div>
+</form>

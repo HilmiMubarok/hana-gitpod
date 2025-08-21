@@ -41,6 +41,18 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnDestroy {
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'docType', 'sizeFile', 'action'];
+  public statusesCanGenerateDocument = [
+    'CP_DRAFT',
+    'CP_RETURN_TO_RM',
+    'CP_RETURN_TO_CR',
+    'RETURN_TO_RM_CRA',
+    'OL_CONFIRMATION',
+    'OL_APPEAL',
+    'PK_RETURN_TO_RM',
+    'RETURN_TO_RM_LEGAL',
+    'DPDL_RETURN_TO_RM',
+  ];
+  public isCanGenerate = false;
   public currencyMaster: number;
   private ngUnsubscribe = new Subject();
   public state: string;
@@ -150,6 +162,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
   }
 
   ngOnInit(): void {
+    this.isCanGenerate = this.statusesCanGenerateDocument.includes(this.item.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });

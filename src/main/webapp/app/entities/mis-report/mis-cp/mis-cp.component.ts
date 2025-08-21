@@ -157,50 +157,74 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     this.processData(data);
 
     this._applyStyles(worksheet);
+    this._setAutoWidthForAllColumns();
+    this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
+    this._resetData();
   }
 
   get columns(): any[] {
     return [
-      { header: 'No.', key: 'no', width: 5 },
-      { header: 'Segment', key: 'segment', width: 10 },
-      { header: 'Proposal Type', key: 'proposalType', width: 30 },
-      { header: 'Proposal Date', key: 'proposalDate', width: 15 },
-      { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
-      { header: 'Program', key: 'program', width: 15 },
-      { header: 'Branchs', key: 'branchs', width: 30 },
-      { header: 'Regional', key: 'regional', width: 15 },
-      { header: 'SME Head Name', key: 'headName', width: 15 },
-      { header: 'BM', key: 'bm', width: 25 },
-      { header: 'RM', key: 'rm', width: 40 },
-      { header: 'Debtor Name', key: 'debtorName', width: 30 },
-      { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
-      { header: 'Line Of Business', key: 'lineOfBusiness', width: 40 },
-      { header: 'Proposed', key: 'proposed', width: 30 },
-      { header: 'Facility', key: 'facility', width: 15 },
-      { header: 'Facility Tenor', key: 'facilityTenor', width: 15 },
-      { header: 'Period Type', key: 'periodType', width: 15 },
-      { header: 'Maturity Date', key: 'maturityDate', width: 15 },
-      { header: 'Currency', key: 'currency', width: 15 },
-      { header: 'Initial Limit', key: 'initialLimit', width: 15 },
-      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 25 },
-      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR', width: 40 },
-      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR', width: 40 },
-      { header: 'Interest Rate (%)', key: 'interestRate', width: 15 },
-      { header: 'Provision Fee', key: 'provisionFee', width: 15 },
-      { header: 'Provision Type', key: 'provisionType', width: 15 },
-      { header: 'Admin Fee', key: 'adminFee', width: 15 },
-      { header: 'Admin Type', key: 'adminType', width: 15 },
-      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral', width: 40 },
-      { header: 'MV (internal) (In Currency)', key: 'mv', width: 25 },
-      { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR', width: 30 },
-      { header: 'LV Internal', key: 'lvInternal', width: 15 },
-      { header: 'Group Name', key: 'groupName', width: 30 },
-      { header: 'DEBITUR GROUP', key: 'debiturGroup', width: 30 },
-      { header: 'Reviewer', key: 'reviewer', width: 20 },
-      { header: 'Status', key: 'status', width: 20 },
-      { header: 'Date of Status', key: 'dateOfStatus', width: 20 },
-      { header: 'Memo', key: 'memo', width: 30 },
+      { header: 'No.', key: 'no' },
+      { header: 'Date of Approval to LA', key: 'dateOfApprovalToLA' },
+      { header: 'Date of Assignment', key: 'dateOfAssignment' },
+      { header: 'Segment', key: 'segment' },
+      { header: 'Proposal Type', key: 'proposalType' },
+      { header: 'Proposal Date', key: 'proposalDate' },
+      { header: 'Proposal Number', key: 'proposalNumber' },
+      { header: 'DAR Date of Proposal', key: 'darDateOfProposal' },
+      { header: 'DAR Number of Proposal', key: 'darNumberOfProposal' },
+      { header: 'Appeal Date', key: 'appealDate' },
+      { header: 'Appeal Number', key: 'appealNumber' },
+      { header: 'DAR Date of Appeal', key: 'darDateOfAppeal' },
+      { header: 'DAR Number of Appeal', key: 'darNumberOfAppeal' },
+      { header: 'Program', key: 'program' },
+      { header: 'Branchs', key: 'branchs' },
+      { header: 'Regional', key: 'regional' },
+      { header: 'SME Head', key: 'headName' },
+      { header: 'BM', key: 'bm' },
+      { header: 'Dep Head', key: 'depHead' },
+      { header: 'Div Head', key: 'divHead' },
+      { header: 'RM', key: 'rm' },
+      { header: 'Debtor Name', key: 'debtorName' },
+      { header: 'Loan Comm Approval', key: 'loanCommApproval' },
+      { header: 'Line Of Business', key: 'lineOfBusiness' },
+      { header: 'Scorecard', key: 'scorecard' },
+      { header: 'Credit Rating', key: 'creditRating' },
+      { header: 'Application Type', key: 'applicationType' },
+      { header: 'Take Over (Y/N)', key: 'takeOverYN' },
+      { header: 'Previous Bank', key: 'previousBank' },
+      { header: 'Facility Type', key: 'facilityType' },
+      { header: 'Facility Tenor', key: 'facilityTenor' },
+      { header: 'Period Type', key: 'periodType' },
+      { header: 'Maturity Date', key: 'maturityDate' },
+      { header: 'Currency', key: 'currency' },
+      { header: 'Initial Limit', key: 'initialLimit' },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR' },
+      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR' },
+      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR' },
+      { header: 'Interest Rate (%)', key: 'interestRate' },
+      { header: 'Provision Fee', key: 'provisionFee' },
+      { header: 'Provision Type', key: 'provisionType' },
+      { header: 'Admin Fee', key: 'adminFee' },
+      { header: 'Admin Type', key: 'adminType' },
+      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral' },
+      { header: 'Cross Collateral (Other CIF)', key: 'crossCollateral' },
+      { header: `Debtor's Name of Cross Collateral`, key: 'debtorNameCrossCollateral' },
+      { header: 'Appraisal No', key: 'appraisalNo' },
+      { header: 'Appraisal Date', key: 'appraisalDate' },
+      { header: 'MV (internal) (In Currency)', key: 'mv' },
+      { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR' },
+      { header: 'Total MV Internal (Eq to IDR)', key: 'totalMVInternalEqToIDR' },
+      { header: 'LV Internal (In Currency)', key: 'lvInternalInCurrency' },
+      { header: 'LV Internal (Eq to IDR)', key: 'lvInternalEqToIDR' },
+      { header: 'Total LV Internal (Eq to IDR)', key: 'totalLVInternalEqToIDR' },
+      { header: 'Group Name', key: 'groupName' },
+      { header: 'DEBITUR GROUP', key: 'debiturGroup' },
+      { header: 'Reviewer', key: 'reviewer' },
+      { header: 'Proposal Status', key: 'proposalStatus' },
+      { header: 'Date of Status', key: 'dateOfStatus' },
+      { header: 'Memo', key: 'memo' },
     ];
   }
 
@@ -208,6 +232,88 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     data.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
+  }
+
+  private getDebtorNameCrossCollateral(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const debtorNames: string[] = [];
+
+    proposal.collateral.forEach(col => {
+      if (col.crossCollaterals && Array.isArray(col.crossCollaterals)) {
+        col.crossCollaterals.forEach((cc: any) => {
+          if (cc.debtorName && !debtorNames.includes(cc.debtorName)) {
+            debtorNames.push(cc.debtorName);
+          }
+        });
+      }
+    });
+
+    return debtorNames.join(',\n');
+  }
+
+  private getAppraisalNumbers(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const appraisalNumbers: string[] = [];
+
+    for (const col of proposal.collateral) {
+      if (!col.appraisal || !Array.isArray(col.appraisal)) {
+        continue;
+      }
+
+      for (const appraisal of col.appraisal) {
+        if (appraisal.appraisalType === 'Internal' && appraisal.appraisalNumber) {
+          appraisalNumbers.push(appraisal.appraisalNumber);
+        }
+      }
+    }
+
+    return appraisalNumbers.join(',\n');
+  }
+
+  private getAppraisalDates(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const dates: string[] = [];
+
+    for (const col of proposal.collateral) {
+      if (!col.appraisal || !Array.isArray(col.appraisal)) {
+        continue;
+      }
+
+      for (const appraisal of col.appraisal) {
+        if (appraisal.appraisalType !== 'Internal') {
+          continue;
+        }
+
+        if (!appraisal.timeLine || !Array.isArray(appraisal.timeLine)) {
+          continue;
+        }
+
+        for (const timeline of appraisal.timeLine) {
+          if (timeline.statusDescription === 'Visited' && timeline.createdDate) {
+            dates.push(timeline.createdDate);
+          }
+        }
+      }
+    }
+
+    return dates.join(',\n');
+  }
+
+  private _formatTwoDecimals(value: any): string {
+    const num = parseFloat(value);
+    if (isNaN(num)) {
+      return '';
+    }
+    return num.toFixed(2);
   }
 
   // ini bergantung dari jumlah si facilitynya
@@ -221,21 +327,35 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
       const row = worksheet.addRow({
         no: i === 0 ? index + 1 : '',
-        segment: proposal.segment || '',
+        dateOfApprovalToLA: this.getDateOfApprovalToLA(proposal),
+        dateOfAssignment: this.getDateOfAssignment(proposal),
+        segment: proposal.segmentParentRM || '',
         proposalType: proposal.proposalType || '',
-        proposalDate: proposal.proposalDate || '',
+        proposalDate: this.formatDateMISCP(proposal.proposalDate) || '',
         proposalNumber: proposal.proposalNumber || '',
+        darDateOfProposal: this.getDarDateOfProposal(proposal) || '',
+        darNumberOfProposal: proposal.darDocNo || '',
+        appealDate: this.getAppealDate(proposal),
+        appealNumber: this.getAppealNumber(proposal),
+        darDateOfAppeal: this.getDarDateOfAppeal(proposal),
+        darNumberOfAppeal: this.getDarNumberOfAppeal(proposal),
         program: proposal.program || '',
         branchs: proposal.bookingBranchName || '',
         regional: proposal.regionalParentRM || '',
         headName: proposal.headName || '',
         bm: proposal.bm || '',
+        depHead: proposal.deptHeadName || '',
+        divHead: proposal.dhName || '',
         rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
         debtorName: proposal.debtorName || '',
         loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
         lineOfBusiness: proposal.lineOfBusiness || '',
-        proposed: product.pengajuan || '',
-        facility: product.facility || '',
+        scorecard: this.getScoreCardAndCreditRating(proposal, 'scorecard'),
+        creditRating: this.getScoreCardAndCreditRating(proposal, 'creditRating'),
+        applicationType: product.pengajuan || '',
+        takeOverYN: this.getTakeOverYN(proposal),
+        previousBank: this.getPreviousBank(proposal),
+        facilityType: product.facilityType || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
         maturityDate: product.maturityDate === 'null' ? '' : product.maturityDate || '',
@@ -244,34 +364,35 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         totalChangesEqToIDR: i === 0 ? proposal.totalChangesEqToIDR || '' : '',
         grandTotalPlafondDebtorIDR: i === 0 ? proposal.totalPlafondDebtorOnlyIDR || '' : '',
         grandTotalPlafondExposureIDR: i === 0 ? proposal.grandTotalPlafondEqToIDR || '' : '',
-        interestRate: product.currentRate || '',
-        provisionFee: product.provisionFee || '',
+        interestRate: this._formatTwoDecimals(product.currentRate),
+        provisionFee: this._formatTwoDecimals(product.provisionFee),
         provisionType: product.provisionFeeType || '',
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
         collateral: proposal.collateral?.map(col => col.collateralCode).join(',\n') || '',
+        crossCollateral: proposal.collateral?.map(col => col.paripasuStatus).join(',\n') || '',
+        debtorNameCrossCollateral: this.getDebtorNameCrossCollateral(proposal),
+        appraisalNo: this.getAppraisalNumbers(proposal),
+        appraisalDate: this.getAppraisalDates(proposal),
         mv: proposal.collateral?.map(col => col.collateralProperty?.marketValueOriginal || '').join(',\n') || '',
         mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
-        lvInternal: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
+        totalMVInternalEqToIDR: proposal.totalMVInternal || '',
+        lvInternalInCurrency: '',
+        lvInternalEqToIDR: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
+        totalLVInternalEqToIDR: proposal.totalLVInternal || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
         reviewer: proposal.dataAssignToCROName || '',
         status: proposal.status || '',
-        dateOfStatus: proposal.statusDate || '',
-        memo: proposal.approvalStatus || '',
+        dateOfStatus: this.formatDateMISCP(proposal.lastModifiedDate) || '',
+        memo: this.getMemo(proposal),
       });
-
-      row.getCell('collateral').alignment = { wrapText: true };
-      row.getCell('mv').alignment = { wrapText: true };
-      row.getCell('mvIDR').alignment = { wrapText: true };
-      row.getCell('lvInternal').alignment = { wrapText: true };
-      row.getCell('debiturGroup').alignment = { wrapText: true };
 
       const maxContentLength = Math.max(
         row.getCell('collateral').value?.toString().split('\n').length || 1,
         row.getCell('mv').value?.toString().split('\n').length || 1,
         row.getCell('mvIDR').value?.toString().split('\n').length || 1,
-        row.getCell('lvInternal').value?.toString().split('\n').length || 1,
+        row.getCell('lvInternalInCurrency').value?.toString().split('\n').length || 1,
         row.getCell('debiturGroup').value?.toString().split('\n').length || 1
       );
       row.height = maxContentLength * 15;
@@ -286,13 +407,46 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         'collateral',
         'mv',
         'mvIDR',
-        'lvInternal',
+        'lvInternalInCurrency',
         'groupName',
         'debiturGroup',
         'reviewer',
-        'status',
+        'proposalStatus',
         'dateOfStatus',
         'memo',
+        'scorecard',
+        'creditRating',
+        'depHead',
+        'darDateOfAppeal',
+        'divHead',
+        'appealDate',
+        'dateOfApprovalToLA',
+        'dateOfAssignment',
+        'segment',
+        'program',
+        'proposalType',
+        'proposalDate',
+        'proposalNumber',
+        'darDateOfProposal',
+        'darNumberOfProposal',
+        'branchs',
+        'regional',
+        'headName',
+        'bm',
+        'rm',
+        'debtorName',
+        'appealNumber',
+        'darNumberOfAppeal',
+        'loanCommApproval',
+        'lineOfBusiness',
+        'takeOverYN',
+        'previousBank',
+        'crossCollateral',
+        'debtorNameCrossCollateral',
+        'appraisalNo',
+        'appraisalDate',
+        'totalMVInternalEqToIDR',
+        'totalLVInternalEqToIDR',
       ]);
     }
   }
@@ -305,41 +459,198 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
     super.applyStyles('FFD3D3D3');
-    const columnsToBeWraped = [
-      'collateral',
-      'mv',
-      'mvIDR',
-      'lvInternal',
-      'groupName',
-      'debiturGroup',
-      'reviewer',
-      'status',
-      'dateOfStatus',
-      'memo',
-    ];
-    columnsToBeWraped.forEach(column => {
-      this.worksheet.getColumn(column).alignment = {
+    this.columns.forEach(column => {
+      const col = this.worksheet.getColumn(column.key);
+      col.alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
-    });
 
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center' };
-      }
+      const columnValue = this.worksheet.getColumn(column.key);
 
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'top', horizontal: 'center' };
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
       });
+
+      columnValue.values = newValue;
     });
+  }
+
+  private formatDateMISCP(dateStr: string): string {
+    if (!dateStr || dateStr === 'null' || dateStr === '') {
+      return '';
+    }
+    return (
+      this.formatDateID(dateStr).getDay() +
+      '-' +
+      this.formatDateID(dateStr).getMonth().substring(0, 3) +
+      '-' +
+      this.formatDateID(dateStr).getYear()
+    );
+  }
+
+  private getDateOfApprovalToLA(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline) {
+      return '';
+    }
+    const approvalToLA = timeline
+      .filter((item: any) => item.statusDescription === 'Approve To Loan Analysis')
+      .map((item: any) => this.formatDateMISCP(item.createdDate))
+      .join(',\n');
+    return approvalToLA || '';
+  }
+
+  private getDateOfAssignment(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+    const assignment = timeline.find((item: any) => item.statusDescription === 'Assignment');
+    if (!assignment) {
+      return '';
+    }
+    return this.formatDateMISCP(assignment.createdDate);
+  }
+
+  private getDarDateOfProposal(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+
+    const darDateOfProposal = timeline.find(
+      (item: any) => item.statusDescription === 'DAR Checker' || item.statusDescription === 'DAR Notif'
+    );
+    if (!darDateOfProposal) {
+      return '';
+    }
+    return this.formatDateMISCP(darDateOfProposal.createdDate);
+  }
+
+  private getAppealDate(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline || !Array.isArray(timeline)) {
+      return '';
+    }
+
+    const reversedTimeline = [...timeline].reverse();
+    const darAppealIndex = reversedTimeline.findIndex((item: any) => item.statusDescription === 'DAR Appeal');
+
+    if (darAppealIndex === -1) {
+      return '';
+    }
+
+    const afterDarAppeal = reversedTimeline.slice(darAppealIndex + 1);
+
+    const approveToLAList = afterDarAppeal
+      .filter((item: any) => item.statusDescription === 'Approve To Loan Analysis')
+      .map((item: any) => this.formatDateMISCP(item.createdDate));
+
+    if (approveToLAList.length === 0) {
+      return '';
+    }
+
+    return approveToLAList.join(',\n');
+  }
+
+  private getAppealNumber(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline || !Array.isArray(timeline)) {
+      return '';
+    }
+
+    const hasDarAppeal = timeline.some((item: any) => item.statusDescription === 'DAR Appeal');
+    const hasApproveToLA = timeline.some((item: any) => item.statusDescription === 'Approve To Loan Analysis');
+
+    if (hasDarAppeal && hasApproveToLA) {
+      return proposal.appealMemoDocNo || '';
+    }
+
+    return '';
+  }
+
+  private getDarDateOfAppeal(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+
+    // if not Dar Appeal, return empty string
+    const darAppeal = timeline.find((item: any) => item.statusDescription === 'DAR Appeal');
+    if (!darAppeal) {
+      return '';
+    }
+
+    const darDateOfProposal = timeline.find(
+      (item: any) => item.statusDescription === 'DAR Checker' || item.statusDescription === 'DAR Notif'
+    );
+    if (!darDateOfProposal) {
+      return '';
+    }
+    return this.formatDateMISCP(darDateOfProposal.createdDate);
+  }
+
+  private getDarNumberOfAppeal(proposal: any): string {
+    if (proposal.appealMemoDocNo) {
+      return proposal.darDocNo;
+    }
+    return '';
+  }
+
+  private getScoreCardAndCreditRating(proposal, type): string {
+    const c = proposal.creditGrading || '';
+
+    if (type === 'scorecard') {
+      if (c.charAt(0) !== c.charAt(0).toUpperCase()) {
+        return c;
+      } else {
+        return '';
+      }
+    } else {
+      if (c.charAt(0) === c.charAt(0).toUpperCase()) {
+        return c;
+      } else {
+        return '';
+      }
+    }
+  }
+
+  private getTakeOverYN(proposal): string {
+    const previousBank = proposal.previousBank;
+
+    if (previousBank || previousBank !== '' || previousBank !== null || previousBank !== 'null') {
+      return 'N';
+    }
+    return 'Y';
+  }
+
+  private getPreviousBank(proposal): string {
+    const previousBank = proposal.previousBank;
+    if (previousBank || previousBank !== '' || previousBank !== null || previousBank !== 'null') {
+      return previousBank;
+    }
+    return '';
+  }
+
+  private getMemo(proposal): string {
+    const darAppealSequence = proposal.darAppealSeqNo;
+    const appealMemoDocNo = proposal.appealMemoDocNo;
+
+    if (
+      !darAppealSequence ||
+      darAppealSequence === 0 ||
+      darAppealSequence === '0' ||
+      !appealMemoDocNo ||
+      appealMemoDocNo === '' ||
+      appealMemoDocNo === 'null'
+    ) {
+      return 'No';
+    }
+    return 'Yes';
   }
 }

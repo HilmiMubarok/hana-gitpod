@@ -1,26 +1,26 @@
 <form [formGroup]="misCp" (ngSubmit)="generateMISSLAInsurance()">
+  <div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+        <e-breadcrumb-item text="SLA Credit Insurance" url=""> </e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+  </div>
   <mat-card>
-    <div class="e-card-header-caption">
-      <ejs-breadcrumb cssClass="margin: 1rem;">
-        <e-breadcrumb-items>
-          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-          <e-breadcrumb-item text="SLA Credit Insurance" url=""> </e-breadcrumb-item>
-        </e-breadcrumb-items>
-      </ejs-breadcrumb>
-    </div>
-
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
+              <input matStartDate formControlName="date1" placeholder="Start date" [readonly]="true" (focus)="picker.open()" />
+              <input matEndDate formControlName="date2" placeholder="End date" [readonly]="true" (focus)="picker.open()" />
             </mat-date-range-input>
+
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-date-range-picker #picker> </mat-date-range-picker>
             <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
               <mat-icon matDatepickerToggleIcon>clear</mat-icon>
             </mat-datepicker-toggle>
@@ -43,13 +43,9 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Username</mat-label>
-            <mat-select formControlName="username" multiple>
-              <li class="select-all" (click)="toggleSelectUsernameAll()">
-                {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin">
-                {{ item.firstName + ' ' + item.lastName }}
-              </mat-option>
+            <mat-select formControlName="username">
+              <mat-option [value]="null">--Select Username--</mat-option>
+              <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin">{{ item.firstName + ' ' + item.lastName }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

@@ -512,16 +512,13 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     // Process fasilitasLain
     if (response.fasilitasLain && response.fasilitasLain.length) {
-
       response.fasilitasLain.forEach(item => {
-
         if (item.limit !== null) {
           const index = item.limit.indexOf(',');
           if (index !== -1) {
             item.limit = item.limit.substring(0, index);
           }
         }
-
       });
 
       data.push(...response.fasilitasLain);
@@ -537,9 +534,16 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
      * !!! NOTE !!!
      * Surat Berharga belum ada mappingannya. jadi tidak ditampilkan dulu.
      */
-    // if (response.suratBerharga && response.suratBerharga.length) {
-    //   data.push(...response.suratBerharga);
-    // }
+
+    // Process suratBerharga
+    /**
+     * !!! NOTE !!!
+     * Open comment if di bawah .
+     */
+
+    if (response.suratBerharga && response.suratBerharga.length) {
+      data.push(...response.suratBerharga);
+    }
     return data;
   }
   public openDialogUpload(): void {
@@ -553,6 +557,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe((response: any) => {
+      if (!response || !response.data) {
+        return; // keluar dari subscribe jika data tidak valid
+      }
+
       this.resData = this._processResponseData(response.data);
 
       if (this.resData) {
@@ -565,14 +573,16 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           const partySlik: IPartySlik = this.mapperIPDFSlikToPartySlik(item);
           listPartySlik.push(partySlik);
         }
+
         if (listPartySlik.length > 0) {
           this.creditProposalService.partySliks = listPartySlik;
-          this.partySlikService.saveAll(listPartySlik).subscribe(res => {
+          this.partySlikService.saveAll(listPartySlik).subscribe(() => {
             this.loadDataBy();
           });
         } else {
           this.loadDataBy();
         }
+
         this.TransferService.setparam(listPartySlik);
       }
     });
@@ -606,9 +616,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   public savePartySlik(res: IPartySlik): void {
     if (res.id) {
-      this.partySlikService.update(res).subscribe(res2 => { });
+      this.partySlikService.update(res).subscribe(res2 => {});
     } else {
-      this.partySlikService.create(res).subscribe(res2 => { });
+      this.partySlikService.create(res).subscribe(res2 => {});
     }
   }
 

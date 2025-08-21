@@ -61,7 +61,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public rmSegment: IInternal;
   public rmRegional: IInternal;
   public rmBranch: IInternal;
-  public rmPosition: IPosition;
+  public rmPosition: IPosition[];
   public statusId: string;
   public statusRealTime = [];
   public _collateralAPpraisal: ICollateralAppraisal;
@@ -162,7 +162,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   ) {
     this.internals = [];
     this.rmRegional = new Internal();
-    this.rmPosition = new Position();
+    this.rmPosition = [];
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
     this.statusId = '';
@@ -202,7 +202,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.checkLogin();
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
-    this.loadBranchNew();
+    // this.loadBranchNew();
 
     this.timeLine();
 
@@ -385,10 +385,11 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
       if (this.surveyAppraisal.ownerPosition.partyId) {
-        this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+        this.positionService.queryFilterBy({ idParty: partyId, size: 9999, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
-            this.rmPosition = res.body[0];
-            resolve(this.rmPosition);
+            this.rmPosition = res.body;
+            const activeRM = this.rmPosition.find(item => item.statusId === 'ACTIVE' && item.id === this.surveyAppraisal.ownerPosition.id);
+            resolve(activeRM);
           } else {
             resolve(null);
           }

@@ -1229,7 +1229,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Insurance Type</mat-label>
-                    <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType" disabled>
+                    <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType" [disabled]="field">
                       <mat-option value=" ">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of insuranceTypes" [value]="item.code">
                         {{ item.value }}
@@ -1252,7 +1252,14 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Insurance Amount</mat-label>
-                    <input currencyMask matInput type="text" [(ngModel)]="insurance.insuranceAmount" [options]="logoIdr" disabled />
+                    <input
+                      currencyMask
+                      matInput
+                      type="text"
+                      [(ngModel)]="insurance.insuranceAmount"
+                      [options]="logoIdr"
+                      [disabled]="field"
+                    />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
@@ -1270,7 +1277,7 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Rank</mat-label>
-                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" disabled>
+                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" [disabled]="field">
                       <mat-option value=" ">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of lovRank" [value]="item.code">
                         {{ item.value }}
@@ -1293,7 +1300,7 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Cross Collateral Status</mat-label>
-                    <mat-select [(ngModel)]="collateral.paripasuStatus" disabled>
+                    <mat-select [(ngModel)]="collateral.paripasuStatus" [disabled]="field">
                       <mat-option value=" ">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
                         {{ item.value }}
@@ -1321,7 +1328,7 @@
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>CCY</mat-label>
-                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" disabled>
+                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" [disabled]="field">
                         <mat-option value=" ">- Please Select -</mat-option>
                         <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
                           {{ item.value }}
@@ -1421,7 +1428,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Binding Type</mat-label>
-                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
+                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="field">
                       <mat-option value="">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code">
                         {{ item.value }}

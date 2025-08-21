@@ -1250,11 +1250,13 @@ export class LoanAnalysMainComponent implements OnInit {
       width: '80vw',
       data: { processTask: task },
     });
+
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
+
         if (
           this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
           this.creditProposal.attributes['approvalStatus'] === 'Reject' &&
@@ -1267,10 +1269,12 @@ export class LoanAnalysMainComponent implements OnInit {
           });
         } else if (
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-            this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed' &&
+            (this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed' ||
+              this.creditProposal.attributes['approvalStatus'] === 'Approved as Proposed') &&
             _res.caption === 'Reject') ||
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-            this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' &&
+            (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' ||
+              this.creditProposal.attributes['approvalStatus'] === 'Approved as Condition') &&
             _res.caption === 'Reject')
         ) {
           this.messageService.add({
@@ -1345,6 +1349,7 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     });
   }
+
   public lovProposalType() {
     this.generalParameterService
       .queryFilterBy({
@@ -2019,38 +2024,36 @@ export class LoanAnalysMainComponent implements OnInit {
     });
   }
   private saveUpdate(status: string, source: string): void {
-    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary).then(() => {
-      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-        this.creditProposal.products = res.body.products;
-        this.creditProposal.notes = res.body.notes;
-        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-        const tempRouterA = this.router.url.split('/')[1];
+    this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+      this.creditProposal.products = res.body.products;
+      this.creditProposal.notes = res.body.notes;
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      const tempRouterA = this.router.url.split('/')[1];
 
-        if (tempRouterA === 'cc-review') {
-          if (this.loanAnalysOpinionCompliancePartComponent) {
-            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-            this.loanAnalysOpinionCompliancePartComponent.refresh();
-            this.loanAnalysOpinionCompliancePartComponent.onCreate();
-          }
+      if (tempRouterA === 'cc-review') {
+        if (this.loanAnalysOpinionCompliancePartComponent) {
+          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+          this.loanAnalysOpinionCompliancePartComponent.refresh();
+          this.loanAnalysOpinionCompliancePartComponent.onCreate();
         }
+      }
 
-        if (tempRouterA === 'cc-checking') {
-          if (this.loanAnalysOpinionCompliance) {
-            this.loanAnalysOpinionCompliance.triggeredSave();
-            this.loanAnalysOpinionCompliance.onCreate();
-          }
+      if (tempRouterA === 'cc-checking') {
+        if (this.loanAnalysOpinionCompliance) {
+          this.loanAnalysOpinionCompliance.triggeredSave();
+          this.loanAnalysOpinionCompliance.onCreate();
         }
+      }
 
-        if (this.selectedMenu === 'loan-facility') {
-          if (this.loanFacilityDetailTempComponent) {
-            this.loanFacilityDetailTempComponent.triggeredSave();
-            this.loanFacilityDetailTempComponent.onCreate();
-          }
+      if (this.selectedMenu === 'loan-facility') {
+        if (this.loanFacilityDetailTempComponent) {
+          this.loanFacilityDetailTempComponent.triggeredSave();
+          this.loanFacilityDetailTempComponent.onCreate();
         }
+      }
 
-        this.saveDoc = true;
-        this.saveApplicationRole(source);
-      });
+      this.saveDoc = true;
+      this.saveApplicationRole(source);
     });
 
     /* if (status === 'not-complete-not-visit') {
@@ -2133,7 +2136,25 @@ export class LoanAnalysMainComponent implements OnInit {
       }
   } */
   }
+  async saveCoverageAndUpdate(status: string, source: string) {
+    try {
+      // Perform the pre-save and update credit proposal
+      const preSaveData = this.preSave(status);
+      const res = await this.creditProposalService.update(preSaveData).toPromise();
+      // Update credit proposal fields with response data
+      this.creditProposal.products = res.body.products;
+      this.creditProposal.collaterals = res.body.collaterals;
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      // Update coverage
+      await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
 
+      // Save the update with the given status and source
+      this.saveUpdate(status, source);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      // Handle the error appropriately
+    }
+  }
   public onSave(source: string, caption: string): void {
     this.saveState = source;
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
@@ -2158,7 +2179,7 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
           }
         } else {
-          this.saveUpdate('not-complete-not-visit', source);
+          this.saveCoverageAndUpdate('not-complete-not-visit', source);
         }
       } else if (source === 'process') {
         if (!caption.includes('return') && !caption.includes('Return')) {
@@ -2182,7 +2203,7 @@ export class LoanAnalysMainComponent implements OnInit {
                     detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                   });
                 } else {
-                  this.saveUpdate('complete-not-visit', source);
+                  this.saveCoverageAndUpdate('complete-not-visit', source);
                 }
               }
             }
@@ -2201,7 +2222,7 @@ export class LoanAnalysMainComponent implements OnInit {
                       detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                     });
                   } else {
-                    this.saveUpdate('complete-not-visit', source);
+                    this.saveCoverageAndUpdate('complete-not-visit', source);
                   }
                 } else {
                   this.messageService.add({
@@ -2219,10 +2240,10 @@ export class LoanAnalysMainComponent implements OnInit {
               }
             }
           } else {
-            this.saveUpdate('not-complete-not-visit', source);
+            this.saveCoverageAndUpdate('not-complete-not-visit', source);
           }
         } else {
-          this.saveUpdate('complete-not-visit', source);
+          this.saveCoverageAndUpdate('complete-not-visit', source);
         }
       }
     }

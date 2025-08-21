@@ -6,9 +6,7 @@ import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
-import { distinctUntilChanged, map } from 'rxjs';
 import { InternalService } from 'app/entities/internal/internal.service';
-import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -49,6 +47,43 @@ import { PageEvent } from '@angular/material/paginator';
         display: block;
         margin-bottom: 0px;
       }
+
+      .nav-button {
+        min-width: 250px;
+        min-height: 40px;
+        border-radius: 10px;
+        font-weight: bold;
+        color: #9dcac7;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .nav-button.active {
+        background-color: #5bafaa;
+        color: white;
+      }
+
+      .department-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        height: 74px;
+        margin-bottom: 3px;
+        margin-top: 25px;
+      }
+
+      .department-name {
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5bafaa;
+      }
     `,
   ],
 })
@@ -59,14 +94,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   allSelected = false;
   searchFieldDisabled = false;
   dateRangeAndStatusDisabled = false;
-  showDateRange = false;
-  showStatusAndRegional = false;
-  dateTypes: string[] = ['Proposal Date', 'Date From Status'];
 
-  public lovCustomerType = ['NEW', 'EXISTING'];
-  public allSelectedRegional = false;
-  public lovRegional = [];
-  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
   changeOption(event) {
     console.log('test', event.value);
@@ -78,13 +106,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      type: new FormControl(''),
       search: new FormControl(
         '',
         Validators.pattern(/^\d{5}\/\d{2}\/CP\/(Comm|CB|EB|GLO|SME)\/(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\/\d{4}$/)
       ),
-      regional: new FormControl(null),
-      customerType: new FormControl(null),
       query: new FormControl(''),
     });
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(date => {
@@ -103,70 +128,29 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
-    this.misCpTimeline.get('regional')?.valueChanges.subscribe(() => {
-      this.checkFieldStatus();
-      // if type is array and length 0, change to null
-      if (Array.isArray(this.misCpTimeline.get('regional')?.value) && this.misCpTimeline.get('regional')?.value.length === 0) {
-        this.misCpTimeline.get('regional')?.setValue(null);
-      }
-    });
-
-    this.misCpTimeline.get('customerType')?.valueChanges.subscribe(() => this.checkFieldStatus());
-    // this.getStatus();
-
-    this.misCpTimeline.get('type')?.valueChanges.subscribe(type => {
-      this.searchResult = null;
-
-      if (type === 'Date From Status') {
-        this.showDateRange = true;
-        this.showStatusAndRegional = false;
-
-        this.misCpTimeline.get('date1')?.enable();
-        this.misCpTimeline.get('date2')?.enable();
-        this.misCpTimeline.get('status')?.enable();
-      } else if (type === 'Proposal Date') {
-        this.showDateRange = true;
-        this.showStatusAndRegional = true;
-
-        this.misCpTimeline.get('date1')?.enable();
-        this.misCpTimeline.get('date2')?.enable();
-        this.misCpTimeline.get('status')?.enable();
-        this.misCpTimeline.get('regional')?.enable();
-        this.misCpTimeline.get('customerType')?.enable();
-      } else {
-        this.showDateRange = false;
-        this.showStatusAndRegional = false;
-
-        this.misCpTimeline.get('date1')?.disable();
-        this.misCpTimeline.get('date2')?.disable();
-        this.misCpTimeline.get('status')?.disable();
-      }
-
-      this.misCpTimeline.get('status')?.reset();
-      this.misCpTimeline.get('date1')?.reset();
-      this.misCpTimeline.get('date2')?.reset();
-      this.misCpTimeline.get('query')?.reset();
-    });
   }
 
   ngOnInit(): void {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_TIMELINE').subscribe({
+    this.misReportService.getStatuses('MIS_CP_CRO_TIMELINE').subscribe({
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
-    this._getRegionalLOV();
+
+    this.misCpTimeline.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   checkFieldStatus() {
     const date1 = this.misCpTimeline.get('date1')?.value;
     const date2 = this.misCpTimeline.get('date2')?.value;
     const status = this.misCpTimeline.get('status')?.value;
-    const regional = this.misCpTimeline.get('regional')?.value;
-    const customerType = this.misCpTimeline.get('customerType')?.value;
 
-    if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
+    if (date1 || date2 || (status && status.length > 0)) {
       this.misCpTimeline.get('query')?.disable();
       this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
@@ -179,8 +163,6 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.disable();
     this.misCpTimeline.get('date2')?.disable();
     this.misCpTimeline.get('status')?.disable();
-    this.misCpTimeline.get('regional')?.disable();
-    this.misCpTimeline.get('customerType')?.disable();
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
@@ -190,8 +172,6 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.misCpTimeline.get('date1')?.enable();
       this.misCpTimeline.get('date2')?.enable();
       this.misCpTimeline.get('status')?.enable();
-      this.misCpTimeline.get('regional')?.enable();
-      this.misCpTimeline.get('customerType')?.enable();
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
@@ -226,9 +206,8 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     }
   }
 
-  clearSearch(): void {
-    this.misCpTimeline.get('query')?.reset();
-    // reset the searchResult
+  public clearSearch(): void {
+    this.misCpTimeline.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
     this.searchResult = null;
   }
 
@@ -240,6 +219,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       customerType: '',
       proposalDate: '',
       statusDescription: '',
+      select: '',
     },
   ];
 
@@ -261,7 +241,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   public searchResult = null;
-  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription'];
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription', 'select'];
 
   public pageSize = 10;
   public currentPage = 0;
@@ -276,9 +256,11 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.misCpTimeline.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.misCpTimeline.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -292,8 +274,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.misCpTimeline.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.misCpTimeline.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -317,8 +310,6 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
 
   generateMISCPTimeline() {
     let params;
-    const selectedDateType = this.misCpTimeline.get('type')?.value;
-    let dateTypeValue = null;
 
     if (this.misCpTimeline.get('query')?.value) {
       params = { query: this.misCpTimeline.get('query')?.value };
@@ -368,19 +359,11 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       return;
     }
 
-    if (selectedDateType === 'Date From Status') {
-      dateTypeValue = 'STATELOG';
-    } else if (selectedDateType === 'Proposal Date') {
-      dateTypeValue = null;
-    }
-
     params = {
       startDate: this.misCpTimeline.get('date1')?.value,
       endDate: this.misCpTimeline.get('date2')?.value,
       status: this._convertStatusToString(this.misCpTimeline.get('status')?.value),
-      regionalRM: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
-      customerType: this._convertStatusToString(this.misCpTimeline.get('customerType')?.value),
-      dateType: dateTypeValue, // Tambahkan dateType di parameter
+      dataType: 'STATELOG',
     };
 
     this.misReportService.getMisReportCP(params).subscribe({
@@ -395,46 +378,6 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         this.misReportService.setLoading(false);
       },
     });
-  }
-
-  allSelectedCustomerType = false;
-  public toggleSelectCustomerTypeAll(): void {
-    this.allSelectedCustomerType = !this.allSelectedCustomerType;
-    if (this.allSelectedCustomerType) {
-      this.misCpTimeline.get('customerType')?.setValue([...this.lovCustomerType]);
-    } else {
-      this.misCpTimeline.get('customerType')?.setValue(null);
-    }
-  }
-
-  public toggleSelectRegionalAll(): void {
-    this.allSelectedRegional = !this.allSelectedRegional;
-    if (this.allSelectedRegional) {
-      this.misCpTimeline.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
-    } else {
-      this.misCpTimeline.get('regional')?.setValue(null);
-    }
-  }
-
-  private _getRegionalLOV(): void {
-    this.internalService
-      .queryFilterBy({
-        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
-        size: 9999,
-        page: 0,
-      })
-      .pipe(
-        map(response => response.body),
-        map(internals =>
-          internals
-            .filter(internal => this.parentIds.includes(String(internal.parentId)))
-            .map(internal => ({ id: internal.id, name: internal.facilityName }))
-        )
-      )
-      .subscribe({
-        next: internals => (this.lovRegional = internals),
-        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
-      });
   }
 
   private _processGenerate(data, fileName) {
@@ -458,7 +401,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   protected processData(data: any[]): void {
-    data.sort((a, b) => {
+    const selectedData =
+      this.selectedApplications.length > 0 ? data.filter(item => this.selectedApplications.includes(item.proposalNumber)) : data;
+
+    selectedData.sort((a, b) => {
       const dateA = new Date(a.proposalDate);
       const dateB = new Date(b.proposalDate);
 
@@ -469,9 +415,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       return dateA.getTime() - dateB.getTime();
     });
 
-    data.forEach((timeLineCreditProposal, index) => {
-      this._addTimelineData(this.worksheet, timeLineCreditProposal, index);
-    });
+    let proposalIndex = 1;
+    for (const proposal of selectedData) {
+      this._addTimelineData(this.worksheet, proposal, proposalIndex++);
+    }
   }
 
   get columns(): any[] {
@@ -489,153 +436,64 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       { header: 'Debtor Name', key: 'debtorName', width: 30 },
       { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
       { header: 'Proposal Type', key: 'proposalType', width: 30 },
-      { header: ' Previous Status', key: 'previousStatus', width: 20 },
-      { header: 'Next Status', key: 'nextStatus', width: 20 },
-      { header: 'Previous Date', key: 'previousDate', width: 20 },
-      { header: 'Next Date', key: 'nextDate', width: 20 },
+      { header: 'Timeline Status', key: 'timelineStatus', width: 30 },
+      { header: 'Date of Time', key: 'dateOfTime', width: 15 },
       { header: 'PIC', key: 'pic', width: 30 },
       { header: 'NOTE', key: 'note', width: 25 },
-      { header: 'Status', key: 'status', width: 25 },
-      { header: 'TAT Pipeline Process', key: 'tatPipelineProcess', width: 25 },
-      { header: 'TAT Review Process', key: 'tatReviewProcess', width: 25 },
-      { header: 'TAT Pending Acceptance', key: 'tatPendingAcceptance', width: 25 },
-      { header: 'TAT Appeal Pipeline Process', key: 'tatAppealPipelineProcess', width: 25 },
-      { header: 'TAT Appeal Review Process', key: 'tatAppealReviewProcess', width: 25 },
-      { header: 'TAT Appeal Pending Acceptance', key: 'tatAppealPendingAcceptance', width: 25 },
-      { header: 'TAT Signed', key: 'tatSigned', width: 25 },
-      { header: 'TAT', key: 'tat', width: 25 },
+      { header: 'Current Status', key: 'status', width: 25 },
+      { header: 'Date of Current Status', key: 'dateOfCurrentStatus', width: 25 },
     ];
   }
 
-  private _tatPipelineProcess(timeline) {
-    const draft = this._getDate(timeline, 'Draft', 'createdDate');
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate', true);
+  public getLatestTimelineStatus(data: any): { status: string; createdDate: string } {
+    const timeLineCreditProposal = data.timeLineCreditProposal;
 
-    console.log('asdkasjhdgsakdksagdasdgsagdks', { draft, assignment });
-
-    console.log('sadjshgjgh: ', this.countWeekdays(draft, assignment));
-
-    return this.countWeekdays(draft, assignment);
-  }
-
-  private _tatAppealPipelineProcess(timeline) {
-    const darAppeal = this._getDate(timeline, 'DAR Appeal', 'createdDate');
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
-
-    console.log('tatAppealPipelineProcess', { darAppeal, assignment });
-
-    console.log('tatAppealPipelineProcess: ', this.countWeekdays(darAppeal, assignment));
-
-    return this.countWeekdays(darAppeal, assignment);
-  }
-
-  private _tatAppealReviewProcess(timeline) {
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
+    if (!Array.isArray(timeLineCreditProposal)) {
+      return { status: '', createdDate: '' }; // Mengembalikan nilai default jika bukan array
     }
 
-    console.log('_tatAppealReviewProcess', { assignment, loanComm });
+    const latestStatus = timeLineCreditProposal.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())[0];
 
-    console.log('_tatAppealReviewProcess: ', this.countWeekdays(assignment, loanComm));
-
-    return this.countWeekdays(assignment, loanComm);
+    return {
+      status: latestStatus.statusDescription,
+      createdDate: latestStatus.createdDate,
+    };
   }
 
-  private _getDate(timeLineCreditProposal, status, date, isLast = false): string | null {
-    console.log({ timeLineCreditProposal });
-
-    const data = timeLineCreditProposal.timeLineCreditProposal?.filter(t => t.statusDescription === status).map(t => t[date]);
-
-    if (isLast) {
-      return data.length > 0 ? data[data.length - 1] : null;
-    }
-
-    return data.length > 0 ? data[0] : null;
-  }
-
-  private _tatReviewProcess(timeline) {
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate', true);
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate', true);
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate', true);
-    }
-
-    return this.countWeekdays(assignment, loanComm);
-  }
-
-  private _tatPendingAcceptance(timeline) {
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate', true);
-    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate', true);
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
-    }
-
-    console.log('_tatPendingAcceptance', { loanComm, confirmation });
-
-    console.log('_tatPendingAcceptance: ', this.countWeekdays(loanComm, confirmation));
-
-    return this.countWeekdays(loanComm, confirmation);
-  }
-
-  private _tatAppealPendingAcceptance(timeline) {
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
-    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate');
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
-    }
-
-    console.log('_tatAppealPendingAcceptance', { loanComm, confirmation });
-
-    console.log('_tatAppealPendingAcceptance: ', this.countWeekdays(loanComm, confirmation));
-
-    return this.countWeekdays(loanComm, confirmation);
-  }
-
-  private _tatSigned(timeline) {
-    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate', true);
-    const complete = this._getDate(timeline, 'Complete', 'createdDate');
-
-    console.log('_tatSigned', { confirmation, complete });
-
-    console.log('_tatSigned: ', this.countWeekdays(confirmation, complete));
-
-    return this.countWeekdays(confirmation, complete);
-  }
-
-  private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
+  private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal: any, index: number): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
-    const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
 
-    function calculateWorkDays(startDate: Date, endDate: Date): number {
-      let workDays = 0;
-      const currentDate = new Date(startDate);
-      currentDate.setDate(currentDate.getDate() + 1);
+    const customerType = this.misCpTimeline.get('customerType')?.value;
+    const search = this.misCpTimeline.get('query')?.value;
 
-      while (currentDate <= endDate) {
-        const day = currentDate.getDay();
-        if (day !== 0 && day !== 6) {
-          workDays++;
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
+    let filteredTimeline;
+    if (!customerType || customerType.length === 0 || (search && search !== '')) {
+      filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+    } else {
+      const customerStatus = timeLineCreditProposal.customerStatus || '';
+      if (customerType.includes(customerStatus)) {
+        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+      } else {
+        filteredTimeline = [];
       }
-
-      return workDays;
     }
+
+    const reversedTimeline = [...filteredTimeline].reverse();
+
+    let manualNo = 1;
+    const columnNo = worksheet.getColumn(1).values;
+    for (let i = columnNo.length - 1; i >= 1; i--) {
+      if (typeof columnNo[i] === 'number') {
+        manualNo = (columnNo[i] as number) + 1;
+        break;
+      }
+    }
+
+    const latestStatusInfo = this.getLatestTimelineStatus(timeLineCreditProposal);
 
     reversedTimeline.forEach((timeline, timelineIndex) => {
-      const previousDate = timeline.fromDate ? new Date(timeline.fromDate) : null;
-      const adjustedNextDate = timeline.thruDate ? (timeline.thruDate === '9999-12-31' ? new Date() : new Date(timeline.thruDate)) : null;
-
-      const tat = previousDate && adjustedNextDate ? calculateWorkDays(previousDate, adjustedNextDate) : null;
-
       worksheet.addRow({
-        no: timelineIndex === 0 ? index + 1 : '',
+        no: timelineIndex === 0 ? manualNo : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
         proposalDate:
           timelineIndex === 0
@@ -655,38 +513,17 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
         loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
         proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
-        previousStatus: timeline.fromStatusDescription || '',
-        nextStatus: timeline.statusDescription || '',
-        previousDate: timeline.fromDate
-          ? `${String(new Date(timeline.fromDate).getDate()).padStart(2, '0')}-${String(
-              new Date(timeline.fromDate).getMonth() + 1
-            ).padStart(2, '0')}-${new Date(timeline.fromDate).getFullYear()}`
-          : '',
-        nextDate:
-          timeline.thruDate === '9999-12-31'
-            ? ''
-            : timeline.thruDate
-            ? `${String(new Date(timeline.thruDate).getDate()).padStart(2, '0')}-${String(
-                new Date(timeline.thruDate).getMonth() + 1
-              ).padStart(2, '0')}-${new Date(timeline.thruDate).getFullYear()}`
-            : '',
+        timelineStatus: timeline.statusDescription || '',
+        dateOfTime: this._formatDate(timeline.createdDate) || '',
         pic: timeline.personName || '',
         note: timeline.note || '',
         status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
-        tatPipelineProcess: timelineIndex === 0 ? this._tatPipelineProcess(timeLineCreditProposal) : '',
-        tatReviewProcess: timelineIndex === 0 ? this._tatReviewProcess(timeLineCreditProposal) : '',
-        tatPendingAcceptance: timelineIndex === 0 ? this._tatPendingAcceptance(timeLineCreditProposal) : '',
-        tatAppealPipelineProcess: timelineIndex === 0 ? this._tatAppealPipelineProcess(timeLineCreditProposal) : '',
-        tatAppealReviewProcess: timelineIndex === 0 ? this._tatAppealReviewProcess(timeLineCreditProposal) : '',
-        tatAppealPendingAcceptance: timelineIndex === 0 ? this._tatAppealPendingAcceptance(timeLineCreditProposal) : '',
-        tatSigned: timelineIndex === 0 ? this._tatSigned(timeLineCreditProposal) : '',
-        tat,
+        dateOfCurrentStatus: this._formatDate(latestStatusInfo.createdDate) || '',
       });
     });
 
-    if (timeLineCreditProposal.timeLineCreditProposal.length > 0) {
-      const endRow = startRow + timeLineCreditProposal.timeLineCreditProposal.length - 1;
-
+    if (filteredTimeline.length > 0) {
+      const endRow = startRow + filteredTimeline.length - 1;
       worksheet.mergeCells(`A${startRow}:A${endRow}`);
       worksheet.mergeCells(`B${startRow}:B${endRow}`);
       worksheet.mergeCells(`C${startRow}:C${endRow}`);
@@ -700,20 +537,14 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       worksheet.mergeCells(`K${startRow}:K${endRow}`);
       worksheet.mergeCells(`L${startRow}:L${endRow}`);
       worksheet.mergeCells(`M${startRow}:M${endRow}`);
-      worksheet.mergeCells(`T${startRow}:T${endRow}`);
-      worksheet.mergeCells(`U${startRow}:U${endRow}`);
-      worksheet.mergeCells(`V${startRow}:V${endRow}`);
-      worksheet.mergeCells(`W${startRow}:W${endRow}`);
-      worksheet.mergeCells(`X${startRow}:X${endRow}`);
-      worksheet.mergeCells(`Y${startRow}:Y${endRow}`);
-      worksheet.mergeCells(`Z${startRow}:Z${endRow}`);
-      worksheet.mergeCells(`AA${startRow}:AA${endRow}`);
+      worksheet.mergeCells(`R${startRow}:R${endRow}`);
+      worksheet.mergeCells(`S${startRow}:S${endRow}`);
     }
   }
 
   private _applyStyles(): void {
     super.applyStyles('FFFFA500');
-    const columnsToBeWraped = ['previousStatus', 'nextStatus', 'previousDate', 'nextDate'];
+
     const topAlignedColumns = [
       'no',
       'proposalNumber',
@@ -729,21 +560,9 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       'loanCommApproval',
       'proposalType',
       'status',
-      'tatPipelineProcess',
-      'tatReviewProcess',
-      'tatPendingAcceptance',
-      'tatAppealPipelineProcess',
-      'tatAppealReviewProcess',
-      'tatAppealPendingAcceptance',
-      'tatSigned',
+      'dateOfTime',
+      'timelineStatus',
     ];
-    columnsToBeWraped.forEach(column => {
-      this.worksheet.getColumn(column).alignment = {
-        vertical: 'top',
-        horizontal: 'center',
-        wrapText: true,
-      };
-    });
 
     topAlignedColumns.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
@@ -752,5 +571,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         wrapText: true,
       };
     });
+  }
+
+  selectedApplications: string[] = [];
+
+  isSelected(applicationNumber: string): boolean {
+    return this.selectedApplications.includes(applicationNumber);
+  }
+
+  toggleSelection(applicationNumber: string, checked: boolean): void {
+    if (checked) {
+      this.selectedApplications.push(applicationNumber);
+    } else {
+      this.selectedApplications = this.selectedApplications.filter(app => app !== applicationNumber);
+    }
   }
 }

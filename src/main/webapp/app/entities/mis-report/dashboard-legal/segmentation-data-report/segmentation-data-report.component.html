@@ -1,0 +1,46 @@
+<div class="yearly-report-container">
+  <div class="form-section">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Credit</mat-label>
+      <mat-select [(ngModel)]="selectedCredit" (selectionChange)="onCreditSelected($event)">
+        <mat-option
+          *ngFor="
+            let option of [
+              {
+                key: 'All',
+                value: 'Credit Legal Department (HO + OR)'
+              },
+              {
+                key: 'R1',
+                value: 'Credit Legal Head Office (HO)'
+              },
+              {
+                key: 'R2',
+                value: 'Credit Legal Out Region (OR)'
+              }
+            ]
+          "
+          [value]="option.key"
+        >
+          {{ option.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Report Year</mat-label>
+      <input matInput [matDatepicker]="dp" placeholder="Select year" [formControl]="yearFormControl" />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp startView="multi-year" (yearSelected)="onYearSelected($event, dp)" panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button class="generate-btn" (click)="generate()">Generate</button>
+  </div>
+
+  <div class="chart-section">
+    <div class="chart-container">
+      <canvas #segmentChart></canvas>
+    </div>
+  </div>
+</div>

@@ -144,6 +144,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
 
         this.countMarketValue();
         this.countLiquidationValueIndication();
+        this.loadDataValuation();
       });
   }
   hideordisable() {
@@ -158,5 +159,15 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
     } else {
       return false;
     }
+  }
+  public loadDataValuation(): void {
+    this.collateralPropertyService.getValuationAndProperties(this.collateral, this.collateralAppraisal.id).subscribe(
+      (result: any[]) => {
+        this.collateralAppraisalService.valuationData = result;
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
   }
 }

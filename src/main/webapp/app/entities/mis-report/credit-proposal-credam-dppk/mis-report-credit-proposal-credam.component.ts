@@ -141,245 +141,193 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       { header: 'TBO', key: 'tbo', width: 10 },
     ];
   }
-
   protected processData(data: any[]): void {
-    const sortedProposals = data
-      .map(proposal => ({
-        ...proposal,
-        dppkInDate:
-          proposal.timeLineCreditProposal
-            .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-            .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
-            .map(timeline => timeline.fromDate)[0] || null,
-      }))
-      .sort((a, b) => new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime());
-    sortedProposals.forEach((proposal, index) => {
-      this._addProposalData(this.worksheet, proposal, index);
+    const sortedProposals = this._sortByDppkDate(data);
+
+    let noCounter = 1;
+    sortedProposals.forEach(proposal => {
+      noCounter = this._addProposalData(this.worksheet, proposal, noCounter);
     });
   }
-  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
-    const startRow = worksheet.rowCount + 1;
-    const latestReviewCheckerDate = timeLineData
-      .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
-    const reviewCheckerDate = latestReviewCheckerDate.length > 0 ? latestReviewCheckerDate[0].fromDate : '';
-    const latestDPPKFinalizeDate = timeLineData
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
-    const latestDPPKFinalizeDates = latestDPPKFinalizeDate.length > 0 ? latestDPPKFinalizeDate[0].fromDate : '';
-    function calculateDaysDifference(date1, date2) {
-      if (!date1 || !date2) {
-        return '';
-      }
-      const d1 = new Date(date1).getTime();
-      const d2 = new Date(date2).getTime();
-      const timeDifference = d1 - d2;
-      return Math.abs(Math.round(timeDifference / (1000 * 60 * 60 * 24))); // Konversi ke hari
-    }
-    // Hitung Tatdays
-    const tatDayss = calculateDaysDifference(reviewCheckerDate, latestDPPKFinalizeDates);
-    const latestDPPKFinalizeTime = timeLineData
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .sort((a, b) => {
-        const timeA = toMinutes(a.fromTime);
-        const timeB = toMinutes(b.fromTime);
-        return timeB - timeA;
+
+  private _sortByDppkDate(data: any[]) {
+    return data
+      .map(p => ({
+        ...p,
+        dppkInDate: this._getFirstDate(p.timeLineCreditProposal, 'DPPK Finalize'),
+      }))
+      .sort((a, b) => new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime());
+  }
+
+  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, noStart: number): number {
+    const timeline = proposal.timeLineCreditProposal || [];
+
+    const reviewCheckerDate = this._getFirstDate(timeline, 'Review Checker 2');
+    const dppkFinalizeDate = this._getFirstDate(timeline, 'DPPK Finalize');
+
+    const tatDays = this._calculateDaysDifference(reviewCheckerDate, dppkFinalizeDate);
+    const reviewCheckerTime = this._getFirstTime(timeline, 'Review Checker 2');
+    const dppkFinalizeTime = this._getFirstTime(timeline, 'DPPK Finalize');
+
+    const tatTime = this._buildTatTime(tatDays, reviewCheckerTime, dppkFinalizeTime);
+    const checkerOutData = this._getCheckerOutData(timeline);
+    const approvalOutData = this._getApprovalOutData(timeline);
+
+    let noCounter = noStart;
+
+    proposal.product
+      ?.filter(prod => prod.pengajuan !== 'Existing')
+      .forEach(prod => {
+        const row = this._buildRow(proposal, prod, noCounter, tatDays, tatTime, checkerOutData, approvalOutData, timeline);
+        worksheet.addRow(row);
+        noCounter++;
       });
-    const firstEntryTime = latestDPPKFinalizeTime.length > 0 ? latestDPPKFinalizeTime[0].fromTime.slice(0, 5) : null;
-    const latestReviewCheckersTime = timeLineData
-      .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .sort((a, b) => {
-        const timeA = toMinutes(a.fromTime);
-        const timeB = toMinutes(b.fromTime);
-        return timeB - timeA;
-      });
-    const latestReviewCheckerTime = latestReviewCheckersTime.length > 0 ? latestReviewCheckersTime[0].fromTime.slice(0, 5) : null;
-    // Fungsi untuk mengonversi waktu ke menit
-    function toMinutes(time) {
-      if (!time) {
-        return 0;
-      }
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours * 60 + minutes;
-    }
-    // Konversi "HH:mm" ke total menit
-    function timeStringToMinutes(timeString) {
-      if (!timeString) {
-        return 0;
-      }
-      const [hours, minutes] = timeString.split(':').map(Number);
-      return hours * 60 + minutes;
-    }
 
-    // Konversi total menit ke "HH:mm"
-    function minutesToTime(minutes) {
-      if (isNaN(minutes)) {
-        return '00:00';
-      }
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
-      return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
-    }
-    // Hardcoded jam 08:00 untuk referensi
-    const jam8Minutes = timeStringToMinutes('08:00');
-    // Konversi waktu dari data
-    const latestDPPKFinalizeTimeM = timeStringToMinutes(firstEntryTime);
-    const latestReviewCheckerTimeM = timeStringToMinutes(latestReviewCheckerTime);
-    // Hitung selisih waktu
-    const tatTime =
-      tatDayss === 0
-        ? {
-            timeDifference: latestReviewCheckerTimeM - latestDPPKFinalizeTimeM,
-            formattedDifference: `${latestReviewCheckerTime} - ${firstEntryTime}`,
-          }
-        : {
-            timeDifference: latestReviewCheckerTimeM - jam8Minutes,
-            formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)}`,
-          };
-    // Gabungkan hasil akhir
-    const formattedTatTime = `${minutesToTime(Math.abs(tatTime.timeDifference))}`;
-    const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
-    if (latestDPPKFinalize.length > 0) {
-      latestDPPKFinalize.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
-      });
-    }
-    const tglEfekFasArr = [];
-    const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
-    const startDateInLoanOps =
-      filteringStatusLoanOps.length > 0 ? filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate : '';
-    for (let i = 0; i < proposal.product.length; i++) {
-      const product = proposal.product[i];
+    return noCounter;
+  }
 
-      for (let z = 0; z < product.mainProduct.length; z++) {
-        const mainProduct = product.mainProduct[z];
+  private _buildTatTime(tatDays: number | string, reviewTime: string, finalizeTime: string): string {
+    const reviewMin = this._toMinutes(reviewTime);
+    const finalizeMin = this._toMinutes(finalizeTime);
+    const jam8 = this._toMinutes('08:00');
+    const diff = tatDays === 0 ? reviewMin - finalizeMin : reviewMin - jam8;
+    return this._minutesToTime(Math.abs(diff));
+  }
 
-        switch (product.pengajuan) {
-          case 'New':
-            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
-            break;
-
-          case 'Renewal':
-            tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
-            break;
-
-          case 'Renewal + Additional':
-          case 'Renewal + Decrease':
-            tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
-            break;
-
-          case 'Existing':
-            tglEfekFasArr.push(this._convertDate(product.firstDisbursementDate));
-            break;
-
-          case 'Additional / Top Up':
-            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
-            break;
-
-          default:
-            tglEfekFasArr.push(mainProduct.endPeriodRemark);
-            break;
-        }
-      }
-    }
-    const checkerOutData = [];
-    const approvalOutData = [];
-    const checker1Data = timeLineData
-      .filter(item => item.fromStatusDescription === 'Review Checker 1')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
-    const checker2Data = timeLineData
-      .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
-    const firstChecker1 = checker1Data.length ? checker1Data[0] : null;
-    const firstChecker2 = checker2Data.length ? checker2Data[0] : null;
-    if (firstChecker1 && firstChecker2) {
-      const checker1DateTime = new Date(`${firstChecker1.fromDate}T${firstChecker1.fromTime}`).getTime();
-      const checker2DateTime = new Date(`${firstChecker2.fromDate}T${firstChecker2.fromTime}`).getTime();
-      if (checker1DateTime < checker2DateTime) {
-        checkerOutData.push(firstChecker1);
-        approvalOutData.push(firstChecker2);
-        checkerOutData.push(...checker1Data.slice(1));
-        approvalOutData.push(...checker2Data.slice(1));
-      } else {
-        checkerOutData.push(firstChecker2);
-        approvalOutData.push(firstChecker1);
-        checkerOutData.push(...checker2Data.slice(1));
-        approvalOutData.push(...checker1Data.slice(1));
-      }
-    }
-    this.assignToDppk = proposal.dataAssignDppkFinalize;
-    worksheet.addRow({
-      no: index + 1 || '',
+  private _buildRow(
+    proposal: any,
+    prod: any,
+    no: number,
+    tatDays: number | string,
+    tatTime: string,
+    checkerOut: any[],
+    approvalOut: any[],
+    timeline: any[]
+  ): Record<string, any> {
+    return {
+      no,
       proposalNumber: proposal.proposalNumber || '',
       dppkNumber: proposal.dppkNumber || '',
-      picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : latestDPPKFinalize.personName || '',
+      picCredam: this._getTimelineName(timeline, 'DPPK Finalize'),
       debtor: proposal.debtorName || '',
-      dppkInDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .sort((a, b) => a.fromDate - b.fromDate)
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      dppkInTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-      dppkOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Review')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      dppkOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Review')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-
+      dppkInDate: this._getTimelineDates(timeline, 'DPPK Finalize'),
+      dppkInTime: this._getTimelineTimes(timeline, 'DPPK Finalize'),
+      dppkOutDate: this._getTimelineDates(timeline, 'DPPK Review'),
+      dppkOutTime: this._getTimelineTimes(timeline, 'DPPK Review'),
       checkOutName: proposal.dataAssignToDPPKReviewOneName || '',
-      checkerOutDate: checkerOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
-      checkerOutTime: checkerOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
+      checkerOutDate: checkerOut.map(i => this._convertDate(i.fromDate)).join(',\n'),
+      checkerOutTime: checkerOut.map(i => this._convertTime(i.fromTime)).join(',\n'),
       approvalOutName: proposal.dataAssignToDPPKReviewTwoName || '',
-      approvalOutDate: approvalOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
-      approvalOutTime: approvalOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
-      tatDays: tatDayss?.toString() || '',
-      tatTime: formattedTatTime || '',
+      approvalOutDate: approvalOut.map(i => this._convertDate(i.fromDate)).join(',\n'),
+      approvalOutTime: approvalOut.map(i => this._convertTime(i.fromTime)).join(',\n'),
+      tatDays: tatDays?.toString() || '',
+      tatTime: tatTime || '',
       status: proposal.status || '',
-      transaksi: proposal.product.map(product => product.pengajuan).join(',\n') || '',
-      fasilitas: proposal.product.map(product => product.facility).join(',\n') || '',
-      ccy: proposal.product.map(product => product.currency).join(',\n') || '',
-      nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
-      tglEfektifFas: tglEfekFasArr.join(',\n') || '',
-      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
+      transaksi: prod.pengajuan || '',
+      fasilitas: prod.facility || '',
+      ccy: prod.currency || '',
+      nominal: prod.totalPlafond || '',
+      tglEfektifFas: prod.mainProduct.map(mp => this._getTglEfektif(mp, prod.pengajuan, proposal)).join(',\n'),
+      jenisJaminan: proposal.collateral.map(c => c.collateralCode).join(',\n'),
       segmentasi: proposal.regionalParentRM || '',
       branch: proposal.bookingBranchName || '',
-      rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
+      rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`,
       deviasi: this._getDeviation(proposal) || '',
       tbo: proposal.statusDocumentTbo || '',
-      keterangan:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .map(timeline => timeline.note || '')
-          .filter(note => note.trim() !== '')
-          .join(',\n') || '',
-    });
-    const rowEnd = worksheet.rowCount;
-    // Merge columns for the proposal details (first row only)
-    if (rowEnd > startRow) {
-      worksheet.mergeCells(`F${startRow}:F${rowEnd}`); // Merge 'customerStatus'
-      worksheet.mergeCells(`G${startRow}:G${rowEnd}`); // Merge 'cif'
-      worksheet.mergeCells(`AB${startRow}:AB${rowEnd}`); // Merge 'debtorName'
+      keterangan: this._getTimelineNotes(timeline, 'DPPK Finalize'),
+    };
+  }
+
+  private _getFirstDate(timeline: any[], status: string): string {
+    return (
+      timeline
+        ?.filter(t => t.statusDescription === status)
+        .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())[0]?.fromDate || ''
+    );
+  }
+
+  private _getFirstTime(timeline: any[], status: string): string {
+    return (
+      timeline
+        ?.filter(t => t.statusDescription === status)
+        .sort((a, b) => this._toMinutes(b.fromTime) - this._toMinutes(a.fromTime))[0]
+        ?.fromTime?.slice(0, 5) || ''
+    );
+  }
+
+  private _toMinutes(time: string): number {
+    if (!time) {
+      return 0;
     }
+    const [h, m] = time.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  private _minutesToTime(minutes: number): string {
+    if (isNaN(minutes)) {
+      return '00:00';
+    }
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+  }
+
+  private _calculateDaysDifference(date1: string, date2: string): number | string {
+    if (!date1 || !date2) {
+      return '';
+    }
+    const diff = new Date(date1).getTime() - new Date(date2).getTime();
+    return Math.abs(Math.round(diff / (1000 * 60 * 60 * 24)));
+  }
+
+  private _getTimelineDates(timeline: any[], status: string): string {
+    return timeline
+      .filter(item => item.statusDescription === status)
+      .map(item => this._convertDate(item.fromDate))
+      .filter(Boolean)
+      .join(',\n');
+  }
+
+  private _getTimelineTimes(timeline: any[], status: string): string {
+    return timeline
+      .filter(item => item.statusDescription === status)
+      .map(item => this._convertTime(item.fromTime))
+      .filter(Boolean)
+      .join(',\n');
+  }
+
+  private _getTimelineName(timeline: any[], status: string): string {
+    const entry = timeline
+      .filter(item => item.statusDescription === status)
+      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime())[0];
+    return entry?.personName || '';
+  }
+
+  private _getTimelineNotes(timeline: any[], status: string): string {
+    return timeline
+      .filter(item => item.statusDescription === status)
+      .map(item => item.note?.trim() || '')
+      .filter(note => note !== '')
+      .join(',\n');
+  }
+
+  private _getCheckerOutData(timeline: any[]): any[] {
+    return timeline
+      .filter(item => item.fromStatusDescription === 'Review Checker 1')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+  }
+
+  private _getApprovalOutData(timeline: any[]): any[] {
+    return timeline
+      .filter(item => item.fromStatusDescription === 'Review Checker 2')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
   }
 
   public generateMISReportCP() {
     const startDate1 = this.MisReportCPCredam.get('date1')?.value;
     const endDate2 = this.MisReportCPCredam.get('date2')?.value;
     const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
-
+    let params;
     if (!startDate1 && !endDate2 && !statuss) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
       this.misReportService.setLoading(false);
@@ -395,17 +343,29 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       return;
     }
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.MisReportCPCredam.get('date1')?.value,
-      endDate: this.MisReportCPCredam.get('date2')?.value,
-      status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      type: 'STATELOG',
-      userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
-      assignTo: this.assignToDppk,
-    };
-
+    if (this.MisReportCPCredam.get('userName')?.value || this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value)) {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
+        assignTo: 'dataAssignDppkFinalize',
+        businessKey: 'CREDITPROPOSAL',
+      };
+    } else {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: null,
+        assignTo: null,
+        businessKey: 'CREDITPROPOSAL',
+      };
+    }
     this.misReportService.getMisReportCPCredam(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
+      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Admin'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Select Parameters' });
         this._resetData();
@@ -484,5 +444,25 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       ('');
     }
     return time.slice(0, 5);
+  }
+  public clearDateRange(): void {
+    this.MisReportCPCredam.get('startDate')?.reset();
+    this.MisReportCPCredam.get('endDate')?.reset();
+  }
+  public dateRangeHasValue(): void {
+    return this.MisReportCPCredam.get('startDate')?.value && this.MisReportCPCredam.get('endDate')?.value;
+  }
+  _getTglEfektif(mainProduct, pengajuan, startDateInLoanOps) {
+    switch (pengajuan) {
+      case 'New':
+      case 'Additional / Top Up':
+        return this._convertDate(startDateInLoanOps);
+      case 'Renewal':
+      case 'Renewal + Additional':
+      case 'Renewal + Decrease':
+        return this._convertDate(mainProduct.maturityDate);
+      default:
+        return mainProduct.endPeriodRemark;
+    }
   }
 }

@@ -1,25 +1,25 @@
 <form [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
+  <div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+        <e-breadcrumb-item text="MIS Credit Proposal Business Support" url=""> </e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+  </div>
   <mat-card>
-    <div class="e-card-header-caption">
-      <ejs-breadcrumb cssClass="margin: 1rem;">
-        <e-breadcrumb-items>
-          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-          <e-breadcrumb-item text="MIS Credit Proposal Business Support" url=""> </e-breadcrumb-item>
-        </e-breadcrumb-items>
-      </ejs-breadcrumb>
-    </div>
-
     <mat-card-content>
-      <div class="row my-3">
-        <div class="col">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field
               class="w-100"
               appearance="outline"
               [class.disabled-control]="MISReportCP.get('date1')?.disabled && MISReportCP.get('date2')?.disabled"
+              [hideRequiredMarker]="true"
             >
               <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
+              <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
                 <input
                   matStartDate
                   formControlName="date1"
@@ -27,6 +27,7 @@
                   (focus)="onDateRangeFocus()"
                   (blur)="onDateRangeBlur()"
                   [class.disabled-control]="MISReportCP.get('date1')?.disabled"
+                  readonly
                 />
                 <input
                   matEndDate
@@ -34,10 +35,9 @@
                   [class.disabled-control]="MISReportCP.get('date2')?.disabled"
                   placeholder="End date"
                   (focus)="onDateRangeFocus()"
-                  (blur)="onDateRangeBlur()"
+                  readonly
                 />
               </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker> </mat-date-range-picker>
               <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
@@ -46,9 +46,14 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
-            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('status')?.disabled">
+            <mat-form-field
+              class="w-100"
+              appearance="outline"
+              [class.disabled-control]="MISReportCP.get('status')?.disabled"
+              [hideRequiredMarker]="true"
+            >
               <mat-label>Status</mat-label>
               <mat-select formControlName="status" multiple>
                 <li class="select-all" (click)="toggleSelectAll()">
@@ -61,8 +66,8 @@
         </div>
       </div>
       <!--  -->
-      <div class="row my-3">
-        <div class="col">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('regional')?.disabled">
               <mat-label>Regional</mat-label>
@@ -75,7 +80,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('customerType')?.disabled">
               <mat-label>Customer Status</mat-label>
@@ -100,6 +105,7 @@
             formControlName="query"
             (focus)="onSearchFocus()"
             (blur)="onSearchBlur()"
+            (keydown.enter)="doSearch()"
           />
           <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="MISReportCP.get('query')?.value">
             <mat-icon>search</mat-icon>

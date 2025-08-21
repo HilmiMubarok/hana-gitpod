@@ -219,15 +219,21 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
 
     return collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' && !excludedStatuses.includes(collateral.statusId);
   }
-
   // Add a single collateral-product relation and update the checklist
   private addCollateralRelation(product: any, collateral: any): void {
-    const relation = {
-      applicationProduct: product,
-      collateralId: collateral.id,
-      bindingValue: 0,
-    };
-    this.creditProposal.collateralProductRelations.push(relation);
+    const exists = this.creditProposal.collateralProductRelations.find(
+      rel => rel.applicationProduct.id === product.id && rel.collateralId === collateral.id
+    );
+
+    if (!exists) {
+      const relation = {
+        applicationProduct: product,
+        collateralId: collateral.id,
+        bindingValue: 0,
+      };
+      this.creditProposal.collateralProductRelations.push(relation);
+    }
+
     this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
     const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
       obj => obj.collateralId === collateral.id
@@ -245,6 +251,7 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
       this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
     }
   }
+
   private dataChecklis(collaterals: any[]): void {
     this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
     collaterals.forEach(collateral => {

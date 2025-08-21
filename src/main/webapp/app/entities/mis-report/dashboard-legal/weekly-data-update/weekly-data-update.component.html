@@ -1,0 +1,18 @@
+<div class="weekly-update-report-container">
+  <div class="form-section">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Credit</mat-label>
+      <mat-select [(ngModel)]="selectedCredit" (selectionChange)="onCreditSelected($event)">
+        <mat-option *ngFor="let option of creditOptions" [value]="option.key">
+          {{ option.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button class="generate-btn" (click)="generate()">Generate</button>
+  </div>
+
+  <div class="chart-section">
+    <canvas baseChart [data]="chartData" [type]="'pie'" [options]="chartOptions"> </canvas>
+  </div>
+</div>

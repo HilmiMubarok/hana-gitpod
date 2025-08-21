@@ -1,16 +1,16 @@
 <div class="row remove-row-scroll">
   <form [formGroup]="MISReportAppraisal" (ngSubmit)="generateMISReportAppraisalBsu()">
-    <div class="e-card">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <ejs-breadcrumb cssClass="margin: 1rem;">
-            <e-breadcrumb-items>
-              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-              <e-breadcrumb-item text="Appraisal Business Support" url=""> </e-breadcrumb-item>
-            </e-breadcrumb-items>
-          </ejs-breadcrumb>
-        </div>
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Appraisal Business Support" url=""> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
       </div>
+    </div>
+    <div class="e-card">
       <mat-card-content>
         <div class="row my-3">
           <div class="col">
@@ -29,6 +29,8 @@
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="MISReportAppraisal.get('date1')?.disabled"
+                    (focus)="picker.open()"
+                    readonly
                   />
                   <input
                     matEndDate
@@ -37,6 +39,8 @@
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="MISReportAppraisal.get('date2')?.disabled"
+                    (focus)="picker.open()"
+                    readonly
                   />
                 </mat-date-range-input>
 
@@ -106,6 +110,21 @@
             </div>
           </div>
         </div>
+        <div class="row my-3">
+          <div class="col-12 col-md-6">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportAppraisal.get('regional')?.disabled">
+                <mat-label>Regional</mat-label>
+                <mat-select formControlName="regional" multiple>
+                  <li class="select-all" (click)="toggleSelectAllRegional()">
+                    {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
 
         <div #formContainer>
           <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportAppraisal.get('query')?.disabled">
@@ -117,6 +136,7 @@
               formControlName="query"
               (focus)="onSearchFocus()"
               (blur)="onSearchBlur()"
+              (keydown.enter)="doSearch()"
             />
             <button
               matSuffix

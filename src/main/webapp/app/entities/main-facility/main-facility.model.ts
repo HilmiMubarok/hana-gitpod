@@ -8,13 +8,13 @@ export interface IMainFacility {
   mainPlafond?: number;
   outstanding?: number;
   availableLimit?: number;
-  maturityDate?: Date;
+  maturityDate?: Date | string;
   newMaturityDate?: string;
   totalPlafond?: number;
-  endPeriodDate?: Date;
+  endPeriodDate?: string | Date;
   kurs?: number;
   lastAgreementDate?: Date;
-  startPeriodDate?: Date;
+  startPeriodDate?: string | Date;
   categoryListDTO?: ICategoryList[];
   endPeriodRemark?: string;
 }
@@ -30,13 +30,13 @@ export class MainFacility implements IMainFacility {
     public mainPlafond?: number,
     public outstanding?: number,
     public availableLimit?: number,
-    public maturityDate?: Date,
+    public maturityDate?: Date | string,
     public newMaturityDate?: string,
     public totalPlafond?: number,
-    public endPeriodDate?: Date,
+    public endPeriodDate?: string | Date,
     public kurs?: number,
     public lastAgreementDate?: Date,
-    public startPeriodDate?: Date,
+    public startPeriodDate?: string | Date,
     public categoryListDTO?: ICategoryList[],
     public endPeriodRemark?: string
   ) {

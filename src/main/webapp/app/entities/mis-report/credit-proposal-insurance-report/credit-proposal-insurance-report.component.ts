@@ -5,7 +5,9 @@ import { MessageService } from 'primeng/api';
 import { MisReportService } from '../mis-report.service';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
-
+import { InternalService } from 'app/entities/internal/internal.service';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { map } from 'rxjs';
 @Component({
   selector: 'jhi-credit-proposal-insurance-report',
   templateUrl: './credit-proposal-insurance-report.component.html',
@@ -46,19 +48,19 @@ import * as ExcelJS from 'exceljs';
   ],
 })
 export class CreditProposalInsuranceReportComponent extends AbstractExcelMISReport implements OnInit {
-  public lovStatus = [];
+  public lovBusinessUnit = [];
   public lovUsername = [];
   public startDate: any;
   public endDate: any;
   public allSelected = false;
   public MISReportCPInsuranceReport: FormGroup;
-
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  private readonly parentIds = ['10000'];
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
     this.MISReportCPInsuranceReport = new FormGroup({
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      businessUnit: new FormControl(''),
       username: new FormControl(null),
     });
 
@@ -96,7 +98,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       { header: 'Branch Name', key: 'branchName', width: 25 },
       { header: 'Business Unit', key: 'businessUnit', width: 25 },
       { header: 'Open Date', key: 'openDate', width: 15 },
-      { header: 'Expiry Date', key: 'expiryDate', width: 15 },
+      { header: 'Expiry Date', key: 'expiryDate1', width: 15 },
       { header: 'Approval Number', key: 'approvalNumber', width: 20 },
       { header: 'Name', key: 'productName', width: 20 },
       { header: 'Plafond', key: 'plafond', width: 15 },
@@ -126,47 +128,53 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
   }
 
   ngOnInit(): void {
-    this.getStatusLOV('MIS_CREDIT_INSURANCE').subscribe({
-      next: res => (this.lovStatus = res),
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
-      },
-    });
     this.getUsernameLOV('INSURANCE_ADMIN').subscribe({
       next: res => (this.lovUsername = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
       },
     });
+
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName, parentId: internal.parentId }))
+        )
+      )
+      .subscribe({
+        next: data => (this.lovBusinessUnit = data),
+        error: err => {
+          console.error('Error Occurred when loading data:', err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        },
+      });
   }
 
   public toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
-      this.MISReportCPInsuranceReport.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+      this.MISReportCPInsuranceReport.get('businessUnit')?.setValue([...this.lovBusinessUnit.map(status => status.id)]);
     } else {
-      this.MISReportCPInsuranceReport.get('status')?.setValue('');
+      this.MISReportCPInsuranceReport.get('businessUnit')?.setValue('');
     }
   }
 
   private getFormValidationMessage(): string | null {
     const startDate = this.MISReportCPInsuranceReport.get('startDate');
     const endDate = this.MISReportCPInsuranceReport.get('endDate');
-    const status = this.MISReportCPInsuranceReport.get('status');
 
     const isDateRangeInvalid = startDate?.invalid || endDate?.invalid;
-    const isStatusInvalid = status?.invalid;
 
-    if (isDateRangeInvalid && !isStatusInvalid) {
+    if (isDateRangeInvalid) {
       return 'Please Select Date Range';
-    }
-
-    if (isStatusInvalid && !isDateRangeInvalid) {
-      return 'Please Select Status';
-    }
-
-    if (isDateRangeInvalid && isStatusInvalid) {
-      return 'Please Select Parameters';
     }
 
     return null;
@@ -186,13 +194,13 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     const params = {
       startDate: this.MISReportCPInsuranceReport.get('startDate')?.value,
       endDate: this.MISReportCPInsuranceReport.get('endDate')?.value,
-      status: this._convertStatusToString(this.MISReportCPInsuranceReport.get('status')?.value),
       userLogin: this.MISReportCPInsuranceReport.get('username')?.value,
-      type: 'STATELOG',
+      type: 'INSURANCE',
+      businessKey: 'INSURANCE_AGREEMENT',
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_CP_CREDIT_INSURANCE_REPORT'),
+      next: res => this._processGenerate(res.body, 'MIS_Insurance_Report'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -216,7 +224,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     }
 
     // Add data to worksheet
-    this.processData(data);
+    this.processData(this._filterCPBeforeGenerate(data));
 
     this._applyStyles();
     this.downloadFile(fileName);
@@ -224,9 +232,45 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
   }
 
   protected processData(data: any[]): void {
-    data.forEach((proposal, index) => {
+    data.forEach(proposal => {
       this._addData(this.worksheet, proposal);
     });
+  }
+
+  private _filterCPBeforeGenerate(data) {
+    const businessUnit = this.MISReportCPInsuranceReport.get('businessUnit')?.value;
+    let filteredData = data;
+    if (businessUnit && businessUnit.length > 0) {
+      filteredData = data.filter(cp => businessUnit.includes(String(cp.segmentIdRM)));
+    } else {
+      filteredData = data;
+    }
+
+    return filteredData
+      .map(item => {
+        const filteredCollateral = item.collateral
+          .map(collateralItem => {
+            const filteredInsurance = collateralItem.collateralInsurance.filter(
+              insurance =>
+                insurance.expDate >= this.MISReportCPInsuranceReport.get('startDate')?.value &&
+                insurance.expDate <= this.MISReportCPInsuranceReport.get('endDate')?.value
+            );
+            if (filteredInsurance.length > 0) {
+              return {
+                ...collateralItem,
+                collateralInsurance: filteredInsurance,
+              };
+            }
+            return null;
+          })
+          .filter(Boolean);
+
+        return {
+          ...item,
+          collateral: filteredCollateral,
+        };
+      })
+      .filter(item => item.collateral.length > 0);
   }
 
   private _addData(worksheet: ExcelJS.Worksheet, proposal: any): void {
@@ -242,10 +286,14 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         proposal.product
           .map(product => (product.firstDisbursementDate !== 'null' ? this._formatDateSLA(product.firstDisbursementDate) : ''))
           .join(',\n') || '',
-      expiryDate:
+      expiryDate1:
         proposal.product
-          .map(product => (product.mainProduct.maturityDate !== 'null' ? this._formatDateSLA(product.mainProduct.maturityDate) : ''))
+          .map(product => {
+            const maturityDate = product.mainProduct?.[0]?.maturityDate;
+            return maturityDate && maturityDate !== 'null' ? this._formatDateSLA(maturityDate) : '';
+          })
           .join(',\n') || '',
+
       approvalNumber: proposal.product.map(product => product.approvalNumber).join(',\n') || '',
       productName: proposal.product.map(product => product.productName).join(',\n') || '',
       plafond: proposal.subTotalPlafondEqToIDR || '',
@@ -260,7 +308,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
 
     const filteredCollateral = proposal.collateral.filter(
       collateral =>
-        ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) &&
+        ['Real Estate', 'Machine', 'Vehicle', 'Personal Property', 'Personal Property Machine'].includes(collateral.collateralType) &&
         collateral.collateralTypeInsurance === 'true' &&
         collateral.partyName === debtorName
     );
@@ -274,7 +322,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         collateralDetail: collateral.collateralCode || '',
         collateralCode: collateral.collateralProposePricing || '',
         certificateNumber: collateral.certificateAppraisal
-          ? collateral.certificateAppraisal.map(certificate => certificate.certificateNumber).join(',\n')
+          ? collateral.certificateAppraisal.map(certificate => certificate.certNumber).join(',\n')
           : '',
         location: collateral.collateralAddress || '',
         collateralOwner: collateral.collateralOwnerIDD || '',
@@ -292,7 +340,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             insuranceCode: insurance.insuranceTypeCode || '',
             insuranceName: insurance.insuranceTypeName || '',
             policyNumber: insurance.policyNo || '',
-            expiryDate: insurance.expiryDate ? this._formatDateSLA(insurance.expDate) : '',
+            expiryDate: insurance.expDate ? this._formatDateSLA(insurance.expDate) : '',
             insuranceCurrency: insurance.currency || '',
             insuranceAmount: insurance.insuranceAmount || '',
             brokerName: insurance.brokerCompany || '',
@@ -349,7 +397,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       'branchName',
       'businessUnit',
       'openDate',
-      'expiryDate',
+      'expiryDate1',
       'approvalNumber',
       'productName',
       'plafond',

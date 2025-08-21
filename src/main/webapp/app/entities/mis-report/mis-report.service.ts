@@ -1,13 +1,13 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class MisReportService {
-  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) { }
+  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   public loadingGenerateDocument: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public generateDocumentLabel: BehaviorSubject<string> = new BehaviorSubject<string>('Generate Document');
@@ -33,6 +33,14 @@ export class MisReportService {
     );
   }
 
+  public getMisYearlyReport(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-yearly/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
   public getMisReportCPFacility(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal-detail-facility/`,
@@ -53,15 +61,27 @@ export class MisReportService {
     });
   }
 
+  private readonly cache: Map<string, Observable<string[]>> = new Map<string, Observable<string[]>>();
+
   public getStatuses(appMenuId: string) {
     const params = new HttpParams().set('appMenuId', appMenuId).set('page', 0).set('sort', 'id,asc');
+    const key = `statuses-${appMenuId}`;
+    if (!this.cache[key]) {
+      this.cache[key] = this.http
+        .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+          params,
+          observe: 'response',
+        })
+        .pipe(
+          map(res => res.body),
+          shareReplay(1)
+        );
+      setTimeout(() => {
+        delete this.cache[key];
+      }, 6000);
+    }
 
-    return this.http
-      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
-        params,
-        observe: 'response',
-      })
-      .pipe(map(res => res.body));
+    return this.cache[key];
   }
 
   public getLovUsername(positionTypeId) {
@@ -85,7 +105,12 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR' && employee.statusId === 'ACTIVE'))
+        map(employees =>
+          employees.filter(
+            (employee: any) =>
+              employee.positionTypeId === 'SURVEYOR' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'
+          )
+        )
       );
   }
 
@@ -139,7 +164,12 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'CREDIT_ADMIN' && employee.statusId === 'ACTIVE'))
+        map(employees =>
+          employees.filter(
+            (employee: any) =>
+              employee.positionTypeId === 'CREDIT_ADMIN' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'
+          )
+        )
       );
   }
   public getLovUsernameLoanOps() {
@@ -152,12 +182,17 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE'))
+        map(employees =>
+          employees.filter(
+            (employee: any) =>
+              employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'
+          )
+        )
       );
   }
 
   public getPicLegalHO() {
-    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,desc')
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,desc');
 
     return this.http
       .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
@@ -166,7 +201,56 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE'))
+        map(employees =>
+          employees.filter(
+            (employee: any) =>
+              employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'
+          )
+        )
       );
+  }
+  public findMisReportByStatus(params): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/mis/find/by-status'), {
+      params,
+      observe: 'response',
+    });
+  }
+  public changeValuation(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(
+        MICROSERVICENAME.LOS
+      )}/api/cash-collateral-appraisals/attributes/valuation-by-appraisal-number`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
+  public getProposalTypes(): Observable<any[]> {
+    const params = new HttpParams().set('idParameterType', 'PROPOSAL_TYPE').set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    const endpoint = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/general-parameter/filterBy');
+
+    return this.http.get<any[]>(endpoint, { params });
+  }
+  public getMisSummaryApprovalRegional(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-sme/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+  public getMisSummaryApprovalLC(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-lc/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+  public getMisSummaryProductivityYearly(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-productivity-yearly/`,
+      params,
+      { observe: 'response' }
+    );
   }
 }

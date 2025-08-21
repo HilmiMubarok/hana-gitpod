@@ -5,6 +5,7 @@ import { IApplicationOption } from './application-option.model';
 import * as _moment from 'moment';
 
 import lodash from 'lodash';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-application-option-view-dialog',
@@ -29,16 +30,18 @@ export class ApplicationOptionViewDialogComponent implements OnInit {
     this.setDate(this.data);
   }
 
-  public setDate(value: any) {
-    const newData = value.applicationOption.value;
-    const dateNew = new Date(newData).toISOString().split('T')[0];
-    this.applicationOption.value = dateNew;
+  private setDate(data: any) {
+    const staticDate = moment(new Date(data)).format().substring(0, 19) + 'Z';
+    return staticDate;
   }
   // public updateDate(): void {
   //   this.applicationOption.value = this.moment(this.applicationOption.value)
   // }
 
   public save(): void {
+    if (this.applicationOption.dataType === 'date') {
+      this.applicationOption.value = this.setDate(this.applicationOption.value);
+    }
     this._dialog.close(this.applicationOption);
   }
 }

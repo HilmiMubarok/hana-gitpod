@@ -10,6 +10,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 import { Router } from '@angular/router';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-main-facility-dialog',
@@ -108,6 +109,12 @@ export class MainFacilityDialogComponent implements OnInit {
   }
 
   public save(): void {
+    if (this.mainFacility.startPeriodDate) {
+      this.mainFacility.startPeriodDate = this.setDate(this.mainFacility.startPeriodDate);
+    }
+    if (this.mainFacility.endPeriodDate) {
+      this.mainFacility.endPeriodDate = this.setDate(this.mainFacility.endPeriodDate);
+    }
     this._dialog.close(this.mainFacility);
   }
   // public cancel(): void {
@@ -129,5 +136,9 @@ export class MainFacilityDialogComponent implements OnInit {
         this._dialog.close();
       }
     });
+  }
+  private setDate(data: any) {
+    const staticDate = moment(new Date(data)).format().substring(0, 19) + 'Z';
+    return staticDate;
   }
 }

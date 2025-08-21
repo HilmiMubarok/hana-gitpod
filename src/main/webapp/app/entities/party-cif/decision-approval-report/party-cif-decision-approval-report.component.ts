@@ -225,6 +225,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
       .getLaDarCheckerNotif(this.id, {
         page: 0,
         size: 999,
+        sort: ['id,desc']
       })
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {

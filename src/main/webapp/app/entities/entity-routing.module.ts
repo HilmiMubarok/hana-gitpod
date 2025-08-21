@@ -653,6 +653,13 @@ import { RouterModule } from '@angular/router';
       {
         path: 'mis-cptimeline-report',
         loadChildren: () =>
+          import('./mis-report/credit-proposal-timeline-summary/mis-report-credit-proposal-timeline-summary.module').then(
+            m => m.MisCreditProposalTimelineSummaryModule
+          ),
+      },
+      {
+        path: 'mis-cpcrotimeline-report',
+        loadChildren: () =>
           import('./mis-report/credit-proposal-timeline/mis-report-credit-proposal-timeline.module').then(
             m => m.MisCreditProposalTimelineModule
           ),
@@ -723,7 +730,47 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'mis-cp-dashboard-credam',
-        loadChildren: () => import('./mis-report/dashboard-credam/dashboard-credam.module').then(m => m.DashboardCredamModule),
+        loadChildren: () =>
+          import('./mis-report/dashboard-credam-department/dashboard-main-credam-department.module').then(
+            m => m.MisDashboardCredamDepartmentModule
+          ),
+      },
+      {
+        path: 'mis-legaladmla-report',
+        loadChildren: () =>
+          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportLaporanAdminLegalModule),
+      },
+      {
+        path: 'check-validation',
+        loadChildren: () => import('./mis-report/mis-appraisal/mis-appraisal.module').then(m => m.MisAppraisalModule),
+      },
+      {
+        path: 'mis-cp-dashboard-legal',
+        loadChildren: () => import('./mis-report/dashboard-legal/dashboard-legal.module').then(m => m.DashboardLegalModule),
+      },
+      {
+        path: 'mis-croyearly-report',
+        loadChildren: () =>
+          import('./mis-report/mis-summary-approval-yearly/mis-summary-approval-yearly.module').then(m => m.MisSummaryApprovalYearlyModule),
+      },
+      {
+        path: 'mis-lglsummaryappr-report',
+        loadChildren: () =>
+          import('./mis-report/mis-summary-approval-regional-lc/mis-summary-approval-regional-lc.module').then(
+            m => m.MisReportSummaryApprovalRegionalLCModule
+          ),
+      },
+      {
+        path: 'mis-lglsummaryapprcompare-report',
+        loadChildren: () =>
+          import('./mis-report/summary-approval-compare/summary-approval-compare.module').then(m => m.SummaryApprovalCompareModule),
+      },
+      {
+        path: 'mis-crosummaryprod-report',
+        loadChildren: () =>
+          import('./mis-report/mis-summary-productivity-yearly/mis-summary-productivity-yearly.module').then(
+            m => m.MisSummaryProductivityYearlyModule
+          ),
       },
     ]),
   ],

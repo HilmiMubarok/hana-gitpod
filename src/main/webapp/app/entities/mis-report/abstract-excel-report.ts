@@ -136,7 +136,7 @@ export abstract class AbstractExcelMISReport {
     const buffer = await this.workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const date = new Date();
-    const outputName = `${fileName}_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+    const outputName = `${fileName}_${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}_${String(date.getHours()).padStart(2, '0')}-${String(date.getMinutes()).padStart(2, '0')}`;
     saveAs(blob, outputName);
   }
 
@@ -224,7 +224,7 @@ export abstract class AbstractExcelMISReport {
     return pengajuan;
   }
 
-  protected _gettotalPlafondProposed(proposal, currency: 'IDR' | 'USD') {
+  protected _gettotalPlafondProposed(proposal: any, currency: 'IDR' | 'USD'): string {
     // if proposal.previousHistory null
     if (proposal.previousHistory === null) {
       return '';
@@ -237,10 +237,23 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD || '';
+    const value = currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD;
+
+    if (!value || value === '0.00' || value === 'null' || value === '') {
+      return '';
+    }
+
+    const numberValue = parseFloat(value);
+
+    if (!isNaN(numberValue)) {
+      const fixedValue = numberValue.toFixed(2);
+      return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
+    }
+
+    return '';
   }
 
-  protected _getTotalPlafond(proposal, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment') {
+  protected _getTotalPlafond(proposal: any, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment'): string {
     // check if proposal.product is null
     if (proposal.product === null) {
       return '';
@@ -249,33 +262,34 @@ export abstract class AbstractExcelMISReport {
     const products = proposal.product;
     const installmentFacilities = ['WCI', 'IL'];
 
-    return products
-      .filter(product => product.currency === currency) // Filter by currency
+    const total = products
+      .filter(product => product.currency === currency)
       .filter(product => {
         if (facilityType === 'Cash') {
-          // For 'Cash', facility should NOT be 'WCI' or 'IL'
           return !installmentFacilities.includes(product.facility);
         } else if (facilityType === 'Installment') {
-          // For 'Installment', facility should ONLY be 'WCI' or 'IL'
           return installmentFacilities.includes(product.facility);
         }
-        return false; // In case an unsupported facilityType is passed
+        return false;
       })
-      .reduce((sum, product) => sum + parseFloat(product.totalPlafond), 0)
-      .toString();
+      .reduce((sum, product) => sum + parseFloat(product.totalPlafond), 0);
+
+    if (!total || total === 0 || total === '0.00' || total === 'null') {
+      return '';
+    }
+
+    const fixedValue = total.toFixed(2);
+    return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
   }
 
   protected _getRate(proposal: any, type: 'Proposed' | 'DAR Final'): string {
-    // Determine the products based on the type, either from previous history or current proposal
-    const products = type === 'Proposed' ? proposal.previousHistory?.product : proposal.product;
+    const products = type === 'Proposed' ? proposal.previousHistory?.[0]?.product : proposal.product;
 
-    // Return an '' if products is null or undefined
     if (!products) {
       return '';
     }
 
-    // Map over each product to extract proposed rates and join them with a newline separator
-    return products.map(({ rateProposed }) => rateProposed).join(',\n');
+    return products.map(({ rateProposed }) => (rateProposed && rateProposed !== 'null' ? rateProposed : '')).join(',\n');
   }
 
   protected _getDebiturGroup(proposal: any): string {
@@ -501,18 +515,44 @@ export abstract class AbstractExcelMISReport {
     return facility.totalPlafond.toString() || '';
   }
 
+  protected _getAdjustedMaturityDate(maturityDateStr, tenor, period) {
+    const maturityDate = new Date(maturityDateStr); // e.g. '2024-04-29'
+  
+    switch (period.toLowerCase()) {
+      case 'month':
+        maturityDate.setMonth(maturityDate.getMonth() - tenor);
+        break;
+      case 'year':
+        maturityDate.setFullYear(maturityDate.getFullYear() - tenor);
+        break;
+      case 'day':
+        maturityDate.setDate(maturityDate.getDate() - tenor);
+        break;
+      default:
+        throw new Error("Invalid period. Use 'Month', 'Year', or 'Day'.");
+    }
+  
+    return maturityDate.toISOString().split('T')[0]; // Returns 'YYYY-MM-DD'
+  }
+
   protected _getMaturityDate(proposal: any): string {
     const products = proposal.product;
 
-    // if products null
     if (products === null) {
       return '';
     }
 
-    // filter maturitydate
-    const filteredProducts = products.filter(product => product.maturityDate !== null && product.maturityDate !== 'null');
+    const filteredProducts = products.filter(p => p.maturityDate !== null && p.maturityDate !== 'null')
+    
+    filteredProducts.map(product => {
+      if(product.pengajuan === 'Renewal') {
+        const tenor = product.tenorFasilitas;
+        const period = product.periodType;
+        product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
+      }
+    });
 
-    return filteredProducts.map(product => product.maturityDate).join(',\n');
+    return filteredProducts.map(product => product.maturityDate).join(',\n')
   }
 
   protected _getFromDateBasedOnField(
@@ -561,12 +601,17 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getDaysToMaturityDate(proposal: any): string {
+
+    // TGL Maturity Date - Tanggal CRA
+    // Jika ada positif dan negatif, ambil negatif paling besar. e.g [1, -2, 3, -4] -> -4
+    // Jika full positif, ambil yang paling kecil. e.g [1, 2, 3, 4] -> 1
+    // Jika full negatif, ambil yang paling besar. e.g [-1, -2, -3, -4] -> -4
+
     const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis'], 'Default', false)
       .split(',')
       .pop();
     const jatuhTempo = this._getMaturityDate(proposal).split(',');
 
-    // subtract tanggalCRA - each jatuhTempo. output will be how many days between tanggalCRA and jatuhTempo in array
     if (!tanggalCRA || !jatuhTempo) {
       return '';
     }
@@ -575,14 +620,13 @@ export abstract class AbstractExcelMISReport {
     const maturityDates = jatuhTempo.map(date => new Date(date));
 
     const diffDays = maturityDates.map(date => {
-      const diffTime = Math.abs(craDate.getTime() - date.getTime());
+      const diffTime = Math.abs(date.getTime() - craDate.getTime());
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     });
 
-    // find the most approaching a positive value from diffDays
-    const minDiff = diffDays.filter(diff => diff >= 0);
-
-    return minDiff.length > 0 ? minDiff.reduce((a, b) => Math.max(a, b)).toString() : '';
+    const daysToMaturityDate = diffDays.length > 0 ? diffDays.reduce((a, b) => Math.min(a, b)).toString() : ''
+    
+    return daysToMaturityDate;
   }
 
   protected _getSlaLength(proposal: any): string {

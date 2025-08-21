@@ -70,6 +70,7 @@ import { CollateralAppraisalSummaryComponent } from './summary/collateral-apprai
 import { Subject, takeUntil } from 'rxjs';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { CollateralAppraisalValuationPropertyComponent } from './valuation/details/collateral-appraisal-valuation-property.component';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   providers: [
@@ -192,7 +193,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
+    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent,
+    public generalParameterService: GeneralParameterService
   ) {
     this.postalAddress = new PartyPostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -340,6 +342,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
+    this._getLovNegativeCollateral();
   }
 
   public timeLine() {
@@ -471,53 +474,78 @@ export class CollateralAppraisalMainComponent implements OnInit {
     }
   }
 
+  score: IScoreCard[];
+  private _getLovNegativeCollateral(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'NEGATIVE_COLLATERAL',
+        page: 0,
+        size: 999,
+        sort: ['id,asc'],
+      })
+      .subscribe(res => {
+        const dataScoreCard = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        this.score = [];
+        for (let i = 0; i < dataScoreCard.length; i++) {
+          const num = i + 1;
+          this.score.push({ id: num, criteria: dataScoreCard[i].value, value: 'no' });
+        }
+      });
+  }
+
   public addNewCriteria(data: IScoreCard[]): void {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+    if (this.surveyAppraisal.apprOfficer === 'Internal') {
+      copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.collateralAppraisalService.valuationData);
 
-    copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.collateralAppraisalService.valuationData);
+      let totalMarketValue = 0;
+      let totalMarketValueIMB = 0;
+      let totalMarketValueTataKota = 0;
+      let totalLiquidationValue = 0;
+      let totalLiquidationValueIMB = 0;
+      let totalLiquidationValueTataKota = 0;
 
-    let totalMarketValue = 0;
-    let totalMarketValueIMB = 0;
-    let totalMarketValueTataKota = 0;
-    let totalLiquidationValue = 0;
-    let totalLiquidationValueIMB = 0;
-    let totalLiquidationValueTataKota = 0;
+      if (this.collateralAppraisalService.valuationData && this.collateralAppraisalService.valuationData.length > 0) {
+        this.collateralAppraisalService.valuationData.forEach(item => {
+          if (item.marketValue) {
+            totalMarketValue += item.marketValue;
+          }
+          if (item.marketValueIMB) {
+            totalMarketValueIMB += item.marketValueIMB;
+          }
+          if (item.marketValueTataKota) {
+            totalMarketValueTataKota += item.marketValueTataKota;
+          }
+          if (item.liquidationValue) {
+            totalLiquidationValue += item.liquidationValue;
+          }
+          if (item.liquidationValueIMB) {
+            totalLiquidationValueIMB += item.liquidationValueIMB;
+          }
+          if (item.liquidationValueTataKota) {
+            totalLiquidationValueTataKota += item.liquidationValueTataKota;
+          }
+        });
 
-    if (this.collateralAppraisalService.valuationData && this.collateralAppraisalService.valuationData.length > 0) {
-      this.collateralAppraisalService.valuationData.forEach(item => {
-        if (item.marketValue) {
-          totalMarketValue += item.marketValue;
-        }
-        if (item.marketValueIMB) {
-          totalMarketValueIMB += item.marketValueIMB;
-        }
-        if (item.marketValueTataKota) {
-          totalMarketValueTataKota += item.marketValueTataKota;
-        }
-        if (item.liquidationValue) {
-          totalLiquidationValue += item.liquidationValue;
-        }
-        if (item.liquidationValueIMB) {
-          totalLiquidationValueIMB += item.liquidationValueIMB;
-        }
-        if (item.liquidationValueTataKota) {
-          totalLiquidationValueTataKota += item.liquidationValueTataKota;
-        }
-      });
-
-      copySurveyAppraisal.totalMarketValue = this.collateralPropertyService.roundHundred(totalMarketValue);
-      copySurveyAppraisal.totalMarketValueIMB = this.collateralPropertyService.roundHundred(totalMarketValueIMB);
-      copySurveyAppraisal.totalMarketValueTataKota = this.collateralPropertyService.roundHundred(totalMarketValueTataKota);
-      copySurveyAppraisal.totalLiquidationValue = this.collateralPropertyService.roundHundred(totalLiquidationValue);
-      copySurveyAppraisal.totalLiquidationValueIMB = this.collateralPropertyService.roundHundred(totalLiquidationValueIMB);
-      copySurveyAppraisal.totalLiquidationValueTataKota = this.collateralPropertyService.roundHundred(totalLiquidationValueTataKota);
+        copySurveyAppraisal.totalMarketValue = this.collateralPropertyService.roundHundred(totalMarketValue);
+        copySurveyAppraisal.totalMarketValueIMB = this.collateralPropertyService.roundHundred(totalMarketValueIMB);
+        copySurveyAppraisal.totalMarketValueTataKota = this.collateralPropertyService.roundHundred(totalMarketValueTataKota);
+        copySurveyAppraisal.totalLiquidationValue = this.collateralPropertyService.roundHundred(totalLiquidationValue);
+        copySurveyAppraisal.totalLiquidationValueIMB = this.collateralPropertyService.roundHundred(totalLiquidationValueIMB);
+        copySurveyAppraisal.totalLiquidationValueTataKota = this.collateralPropertyService.roundHundred(totalLiquidationValueTataKota);
+      }
     }
-
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+
+    if (typeof copySurveyAppraisal.attributes['scoreCard'] === 'object' || copySurveyAppraisal.attributes['scoreCard'] === '{}') {
+      copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.score);
+    }
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
       copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);

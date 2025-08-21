@@ -5,8 +5,8 @@
   padding-top: 20px;
   cursor: pointer;
 }
-.e-breadcrumb-text {
-  color: #597c97 !important;
+.e-breadcrumb-text .e-anchor-wrap {
+  color: black;
 }
 .e-breadcrumb-icon.e-icons.e-home {
   color: #597c97 !important;

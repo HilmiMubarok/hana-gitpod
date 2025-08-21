@@ -19,6 +19,9 @@ export interface IPosition {
   statusCode?: string;
   statusDescription?: string;
   idPosition?: number;
+  statusIdEmployee?: string;
+  statusCodeEmployee?: string;
+  statusDescriptionEmployee?: string;
 }
 
 export class Position implements IPosition {
@@ -40,6 +43,9 @@ export class Position implements IPosition {
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
-    public idPosition?: number
+    public idPosition?: number,
+    public statusIdEmployee?: string,
+    public statusCodeEmployee?: string,
+    public statusDescriptionEmployee?: string
   ) {}
 }

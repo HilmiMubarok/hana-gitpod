@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -7,12 +7,14 @@ import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../../abstract-excel-report';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpErrorResponse } from '@angular/common/http';
-import { start } from 'repl';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { map, switchMap, tap } from 'rxjs';
+import { InternalService } from 'app/entities/internal/internal.service';
 
 @Component({
   selector: 'jhi-mis-credit-legal-or',
   templateUrl: './mis-credit-legal-or.component.html',
-  styleUrls: ['../../mis-sla-credit-insurance/mis-sla-credit-insurance.css', '../../mis-report.css'],
+  styleUrls: ['../../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -41,51 +43,168 @@ import { start } from 'repl';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+      .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
     `,
   ],
 })
 export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements OnInit {
+  public originalLovBranch;
+  public menu = 'dateFromStatus';
   public lovStatus = [];
-  listOfValue = [];
-  misCreditLegalOr: FormGroup;
-  allSelected = false;
+  public lovUsername = [];
+  public lovRegional = [];
+  public lovBranch = [];
+  public lovProposalStatus = ['DONE', 'INCOMING', 'ON PROCESS', 'PENDING', 'CANCEL'];
+  public lovApplicationType = [
+    'New',
+    'Additional / Top Up',
+    'Renewal',
+    'Restructure',
+    'Others',
+    'Renewal + Additional',
+    'Renewal + Decrease',
+    'Decrease',
+    'Renewal + Others',
+    'Additional + Others',
+    'Decrease + Others',
+  ];
   public form: FormGroup;
+  public allSelected = false;
+  public allSelectedUsername = false;
+  public allSelectedRegional = false;
+  public allSelectedBranch = false;
+  public allSelectedSummary = false;
+  public allSelectedProposalStatus = false;
+  public searchResult = null;
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+  public loadingSearch = false;
+  private debounceTimer: any;
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  public skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+      status: '',
+    },
+  ];
+  public statusMap = {
+    done: ['DPPK Finalize', 'DPPK Review', 'Loan Ops Distribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'],
+    incoming: ['OL Assigned'],
+    onProcess: [
+      'OL Distribution',
+      'Legal Head Review',
+      'Legal Lead Review',
+      'Legal Team Lead Review',
+      'PK Finalize',
+      'PK Generated',
+      'Return To OL',
+      'PK Legal Lead Review',
+      'PK Team Lead Review',
+      'DPDL Finalize',
+      'DPDL Legal Head Review',
+      'DPDL Legal Lead Review',
+      'DPDL Team Lead Review',
+    ],
+    pending: ['Return To RM by Legal', 'Return To RM by PK', 'Return To RM(DPDL)'],
+    cancel: ['Cancel'],
+  };
+  public outRegions: string[] = [
+    '2101',
+    '2201',
+    '2501',
+    '5202',
+    '5101',
+    '5301',
+    '4201',
+    '6101',
+    '3101',
+    '3201',
+    '2401',
+    '4102',
+    '3102',
+    '4101',
+  ];
+  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
-  changeOption(event) {
-    console.log('test', event.value);
-  }
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
-
-    this.misCreditLegalOr = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      status: new FormControl(''),
-      type: new FormControl(''),
-      search: new FormControl(
-        '',
-        Validators.pattern(/^\d{5}\/\d{2}\/CP\/(Comm|CB|EB|GLO|SME)\/(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\/\d{4}$/)
-      ),
-      regional: new FormControl(null),
-      customerType: new FormControl(null),
-      query: new FormControl(''),
-    });
-    this.misCreditLegalOr.get('startDate')?.valueChanges.subscribe(date => {
-      if (moment.isMoment(date)) {
-        const formattedDate = date.format('YYYY-MM-DD');
-        this.misCreditLegalOr.get('startDate').setValue(formattedDate, { emitEvent: false });
-      }
-    });
-    this.misCreditLegalOr.get('endDate')?.valueChanges.subscribe(date => {
-      if (moment.isMoment(date)) {
-        const formattedDate = date.format('YYYY-MM-DD');
-        this.misCreditLegalOr.get('endDate').setValue(formattedDate, { emitEvent: false });
-      }
-    });
+    this._initializeForm();
+    this._handleFormChanges();
   }
 
-  public previousState(): void {
-    window.history.back();
+  onMenuChanged(): void {
+    this._initializeForm();
+    this._resetForms();
+  }
+
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedUsername = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedSummary = false;
+      this.allSelectedProposalStatus = false;
+    }
   }
 
   ngOnInit(): void {
@@ -95,115 +214,300 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
-  }
 
-  skeletonData = [
-    {
-      proposalNumber: '',
-      cif: '',
-      debtorName: '',
-      customerType: '',
-      proposalDate: '',
-      statusDescription: '',
-    },
-  ];
+    this.getUsernameLOV(' LEGALOFFICER_OUTREGION').subscribe({
+      next: res => (this.lovUsername = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get pic' });
+      },
+    });
 
-  toggleSelectAll(): void {
-    this.allSelected = !this.allSelected;
-    if (this.allSelected) {
-      this.misCreditLegalOr.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
-    } else {
-      this.misCreditLegalOr.get('status')?.setValue('');
-    }
-  }
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName, parentId: internal.parentId }))
+        ),
+        tap(filteredInternals => (this.lovRegional = filteredInternals)),
+        switchMap(internals =>
+          this.internalService
+            .queryFilterBy({
+              idInternalType: 'BRANCH',
+              size: 9999,
+              page: 0,
+            })
+            .pipe(
+              map(response => response.body),
+              map(branches =>
+                branches
+                  .filter(branch => internals.some(internal => this.outRegions.includes(String(branch.id))))
+                  .map(branch => ({ id: branch.id, name: branch.facilityName, parentId: branch.parentId }))
+              ),
+              tap(filteredBranches => {
+                this.originalLovBranch = filteredBranches;
+                this.lovBranch = filteredBranches;
+              })
+            )
+        )
+      )
+      .subscribe({
+        next: () => console.log('Successfully loaded data'),
+        error: err => {
+          console.error('Error Occurred when loading data:', err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        },
+      });
 
-  public searchResult = null;
-  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
-
-  convertStatusToString(status: Array<string>): string {
-    // if length is 0, return empty string
-    if (status.length === 0) {
-      return '';
-    }
-
-    return status.join(',');
-  }
-
-  dateRangeHasValue(): boolean {
-    return this.misCreditLegalOr.get('date1')?.value && this.misCreditLegalOr.get('date2')?.value;
-  }
-
-  public loadingSearch = false;
-  public pageSize = 10;
-  public currentPage = 0;
-  public totalItems = 0;
-  public pageSizeOptions: number[] = [5, 10, 25, 50];
-
-  private getLocStor(cookieName: string) {
-    let result = null;
-    const cookies: string[] = document.cookie.split(';');
-
-    cookies.forEach(o => {
-      const cookie: string[] = o.split('=');
-      const name: string = cookie[0].trim();
-      if (name === cookieName) {
-        result = cookie[1];
+    this.form.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
       }
     });
-
-    return result;
   }
 
-  public doSearch(pageEvent?: PageEvent): void {
-    this.loadingSearch = true;
-
-    if (pageEvent) {
-      this.currentPage = pageEvent.pageIndex;
-      this.pageSize = pageEvent.pageSize;
+  _handleRegionalChanges(regionalData) {
+    if (regionalData === null || regionalData === '') {
+      return;
     }
 
-    const predicate: object = {
-      page: this.currentPage,
-      query: this.misCreditLegalOr.get('query')?.value,
-      size: this.pageSize,
-      sort: ['id,desc'],
-      idPosition: this.getLocStor('POS'),
-    };
+    const copyBranches = [...this.originalLovBranch];
+    this.lovBranch = copyBranches.filter(branch => regionalData.some(region => region === branch.parentId));
+  }
 
-    predicate['target'] = 'MIS_LEGAL_CL_OR';
+  public toggleSelectAll(): void {
+    this.allSelected = !this.allSelected;
+    if (this.allSelected) {
+      this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+    } else {
+      this.form.get('status')?.setValue('');
+    }
+  }
 
-    this.misReportService.searchCP(predicate).subscribe({
-      next: res => {
-        this.searchResult = res.body || [];
-        const totalCount = res.headers.get('X-Total-Count');
-        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
-        this.loadingSearch = false;
-      },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+  public toggleSelectAllUsername(): void {
+    this.allSelectedUsername = !this.allSelectedUsername;
+    if (this.allSelectedUsername) {
+      this.form.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
+    } else {
+      this.form.get('username')?.setValue('');
+    }
+  }
+
+  public toggleSelectRegionalAll(): void {
+    this.allSelectedRegional = !this.allSelectedRegional;
+    if (this.allSelectedRegional) {
+      this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+    } else {
+      this.form.get('regional')?.setValue('');
+    }
+  }
+
+  public toggleSelectBranchAll(): void {
+    this.allSelectedBranch = !this.allSelectedBranch;
+    if (this.allSelectedBranch) {
+      this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
+    } else {
+      this.form.get('branch')?.setValue('');
+    }
+  }
+
+  public toggleSelectSummaryAll(): void {
+    this.allSelectedSummary = !this.allSelectedSummary;
+    if (this.allSelectedSummary) {
+      this.form.get('summary')?.setValue([...this.lovApplicationType.map(appType => appType)]);
+    } else {
+      this.form.get('summary')?.setValue('');
+    }
+  }
+
+  public toggleSelectProposalStatus(): void {
+    this.allSelectedProposalStatus = !this.allSelectedProposalStatus;
+    if (this.allSelectedProposalStatus) {
+      this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
+    } else {
+      this.form.get('proposalStatus')?.setValue(null);
+    }
+  }
+
+  public clearDateRange(): void {
+    this.form.get('startDate')?.reset();
+    this.form.get('endDate')?.reset();
+  }
+
+  onDateRangeFocus() {
+    this.form.get('query')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
+  }
+
+  onDateRangeBlur() {
+    this.checkFieldStatus();
+  }
+
+  checkFieldStatus() {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      const startDate = this.form.get('startDate')?.value;
+      const endDate = this.form.get('endDate')?.value;
+      const status = this.form.get('status')?.value;
+      const username = this.form.get('username')?.value;
+      const regional = this.form.get('regional')?.value;
+      const branch = this.form.get('branch')?.value;
+      const proposalStatus = this.form.get('proposalStatus')?.value;
+      const summary = this.form.get('summary')?.value;
+
+      if (
+        startDate ||
+        endDate ||
+        (status && status.length > 0) ||
+        (regional && regional.length > 0) ||
+        (username && username.length > 0) ||
+        (branch && branch.length > 0) ||
+        (summary && summary.length > 0) ||
+        (proposalStatus && proposalStatus.length > 0)
+      ) {
+        this.form.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+      } else {
+        this.form.get('query')?.enable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, false);
+      }
+    }, 50);
+  }
+
+  public dateRangeHasValue(): boolean {
+    return this.form.get('startDate')?.value && this.form.get('endDate')?.value;
+  }
+
+  private _initializeForm() {
+    this.form = new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      status: new FormControl(''),
+      username: new FormControl(''),
+      regional: new FormControl(''),
+      branch: new FormControl(''),
+      summary: new FormControl(''),
+      proposalStatus: new FormControl(''),
+      query: new FormControl(''),
     });
   }
 
-  clearSearch(): void {
-    this.misCreditLegalOr.get('query')?.reset();
-    // reset the searchResult
-    this.searchResult = null;
+  private _handleFormChanges(): void {
+    this.form.valueChanges.subscribe(changes => {
+      if (moment.isMoment(changes.startDate)) {
+        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
+      }
+
+      if (moment.isMoment(changes.endDate)) {
+        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
+      }
+
+      if (Array.isArray(changes.status)) {
+        if (changes.status.length === 0) {
+          this._updateFormControl('status', '');
+          this.allSelected = false;
+        } else if (changes.status.length === this.lovStatus.length) {
+          this.allSelected = true;
+        }
+      }
+
+      if (Array.isArray(changes.username)) {
+        if (changes.username.length === 0) {
+          this._updateFormControl('username', '');
+          this.allSelectedUsername = false;
+        } else if (changes.username.length === this.lovUsername.length) {
+          this.allSelectedUsername = true;
+        }
+      }
+
+      if (changes.regional !== undefined) {
+        this._handleRegionalChanges(changes.regional);
+      }
+    });
   }
 
-  clearDateRange(): void {
-    this.misCreditLegalOr.get('date1')?.reset();
-    this.misCreditLegalOr.get('date2')?.reset();
+  private _updateFormControl(field: string, value: any): void {
+    this.form.get(field)?.setValue(value, { emitEvent: false });
   }
 
   public generateMISCreditLegalOr(): void {
+    const query = this.form.get('query')?.value;
+
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      }
+    }
+
     this.misReportService.setLoading(true);
 
-    const params = {
-      startDate: this.misCreditLegalOr.get('startDate')?.value,
-      endDate: this.misCreditLegalOr.get('endDate')?.value,
-      // status: this._convertStatusToString(this.misCreditLegalOr.get('status')?.value),
-      status: 'CP_COMPLETE',
-      type: 'STATELOG',
-    };
+    let params;
+    if (this.form.get('query')?.value) {
+      params = {
+        query: this.form.get('query')?.value,
+      };
+    } else {
+      if (this.menu === 'dateFromStatus') {
+        params = {
+          startDate: this.form.get('startDate')?.value,
+          endDate: this.form.get('endDate')?.value,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          userLogin: this.form.get('username')?.value ? this._convertStatusToString(this.form.get('username')?.value) : null,
+          type: 'STATELOG',
+        };
+      } else {
+        params = {
+          startDate: null,
+          endDate: null,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          userLogin: this.form.get('username')?.value ? this._convertStatusToString(this.form.get('username')?.value) : null,
+          type: null,
+        };
+      }
+    }
 
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_LEGAL_CL_OR'),
@@ -220,28 +524,84 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _processGenerate(data, fileName) {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
-
-    // this._setUpColumns(worksheet);
     this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
-      this.applyStyles('ffffe49c');
+      this.applyStyles();
       this.downloadFile(fileName);
       return;
     }
 
     // Add data to worksheet
     this.processData(data);
+
+    this._applyStyles();
     this._setAutoWidthForAllColumns();
     this._setAutoHeightForAllRows();
-    this._applyStyles(worksheet);
     this.downloadFile(fileName);
+    this._resetData();
   }
 
-  get columns(): any[] {
+  private _applyStyles(): void {
+    super.applyStyles('D3E9FF');
+    this.columns.forEach(column => {
+      const col = this.worksheet.getColumn(column.key);
+      col.alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
+      };
+
+      const columnValue = this.worksheet.getColumn(column.key);
+
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
+      });
+
+      columnValue.values = newValue;
+    });
+  }
+
+  protected processData(data: any[]): void {
+    const cp = this._filterCPBeforeGenerate(data);
+    cp.forEach((proposal, index) => {
+      this._addProposalData(this.worksheet, proposal, index);
+    });
+  }
+
+  _filterCPBeforeGenerate(data) {
+    data.forEach(proposal => {
+      proposal.statusProposal = this._getStatusData(proposal);
+    });
+
+    const segmentation = this.form.get('regional')?.value;
+    const branch = this.form.get('branch')?.value;
+    const search = this.form.get('query')?.value;
+    const statusProposal = this.form.get('proposalStatus')?.value;
+
+    let cp = data.filter(proposal => proposal.internalRegion === 'R2');
+
+    if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
+      }
+
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
+
+      if (statusProposal && statusProposal.length > 0) {
+        cp = cp.filter(proposal => statusProposal.includes(proposal.statusProposal));
+      }
+    }
+
+    return cp;
+  }
+  get columns() {
     return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Debtor Name', key: 'debtorName' },
@@ -266,119 +626,19 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       { header: 'Weekly Process Update', key: 'weeklyProcessUpdate' },
       { header: 'Reason', key: 'reason' },
       { header: 'Compliance Review >25M', key: 'complianceReview' },
-      { header: 'Tanggal Compliance Review', key: 'tanggalCompliance' },
+      { header: 'Tanggal Compliance Review', key: 'tanggalComplianceReview' },
     ];
   }
 
-  private _getPicTimeLine(timeLineCreditProposal: any): string {
-    if (!Array.isArray(timeLineCreditProposal)) {
-      return '';
-    }
-
-    return timeLineCreditProposal
-      .filter(item => item.fromStatusDescription === 'DPPK Finalize' && item.personName)
-      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
-      .map(item => item.personName)
-      .join(',\n');
-  }
-
-  // private _getPicTimeLine(timeLineCreditProposal: any): string {
-  //   if (!Array.isArray(timeLineCreditProposal)) {
-  //     return '';
-  //   }
-
-  //   return timeLineCreditProposal
-  //     .filter(item => item.fromStatusDescription === 'DPPK Finalize' && item.personName)
-  //     .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
-  //     .map(item => item.personName)
-  //     .join('\n');
-  // }
-
-  private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
-    const data = timeLine.filter(timeline => timeline.statusDescription === status);
-    data.sort((a, b) => b.id - a.id);
-    const date = data[0].fromDate;
-
-    if (param === 'Date') {
-      return this.formatDateID(date).getDay();
-    } else if (param === 'Month') {
-      return this.formatDateID(date).getMonth();
-    } else if (param === 'Year') {
-      return this.formatDateID(date).getYear();
-    } else {
-      return '';
-    }
-  }
-
-  private _getTanggalComplianceReview(proposal) {
-    if (proposal.isCompliance === 'Yes') {
-      const date = proposal.timeLineCreditProposal
-        .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
-        .map(timeline => timeline.fromDate);
-      return this.formatDateID(date).getFullDate();
-    } else {
-      return '';
-    }
-  }
-
-  private _getStatusData(proposal: any): string {
-    const statusMap = {
-      done: ['DPPK Finalize', 'DPPK Review', 'Loan Ops Ditribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'],
-      pending: [
-        'OL Distribution',
-        'OL Finalize',
-        'OL Assigned',
-        'Legal Head Review',
-        'Legal Lead Review',
-        'Legal Team Lead Review',
-        'PK Finalize',
-        'PK Generated',
-        'Return To OL',
-        'PK Legal Lead Review',
-        'PK Team Lead Review',
-        'DPDL Finalize',
-        'DPDL Legal Head Review',
-        'DPDL Legal Lead Review',
-        'DPDL Team Lead Review',
-      ],
-      cancel: ['Cancel'],
-    };
-
-    const status = proposal.status;
-
-    if (statusMap.done.includes(status)) {
-      return 'DONE';
-    }
-
-    if (statusMap.pending.includes(status)) {
-      return 'PENDING';
-    }
-
-    if (statusMap.cancel.includes(status)) {
-      return 'CANCEL';
-    }
-
-    return '';
-  }
-
-  private _getTanggalJatuhTempo(product) {
-    const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional Renewal'];
-
-    if (allowedTypes.includes(product.pengajuan)) {
-      return this.formatDateID(product.mainProduct[0].maturityDate).getFullDate();
-    } else {
-      return '';
-    }
-  }
-
-  protected processData(data: any[]): void {
-    data.forEach((proposal, index) => {
-      this._addProposalData(this.worksheet, proposal, index);
-    });
-  }
-
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
-    const filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
+    const summary = this.form.get('summary')?.value;
+    const search = this.form.get('query')?.value;
+    let filteredProduct;
+    if (summary && (search === '' || search === null)) {
+      filteredProduct = proposal.product.filter(prod => summary.includes(prod.pengajuan));
+    } else {
+      filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
+    }
 
     filteredProduct.forEach(product => {
       const row = {
@@ -386,8 +646,8 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         debtorName: proposal.debtorName,
         branch: proposal.branchNameRM,
         rm: proposal.rmFirstName + ' ' + proposal.rmLastName,
-        pic: proposal.dataAssignToLegalOfficerName,
-        picTimeline: this._getPicTimeLine(proposal.timeLineCreditProposal),
+        pic: this._getPic(proposal.timeLineCreditProposal),
+        picTimeline: this._getPicTimeline(proposal.timeLineCreditProposal),
         summary: product.pengajuan,
         tanggalJatuhTempo: this._getTanggalJatuhTempo(product),
         segmentation: proposal.regionalName,
@@ -405,31 +665,210 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         weeklyProcessUpdate: proposal.status,
         reason: '',
         complianceReview: proposal.isCompliance,
-        tanggalCompliance: this._getTanggalComplianceReview(proposal),
+        tanggalComplianceReview: this._getTanggalComplianceReview(proposal),
       };
 
       worksheet.addRow(row);
     });
   }
 
-  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    super.applyStyles('D3E9FF');
+  // ==== Form Search Section ==== //
+  public onSearchBlur() {
+    const searchValue = this.form.get('query')?.value;
+    if (!searchValue) {
+      this.form.get('startDate')?.enable();
+      this.form.get('endDate')?.enable();
+      this.form.get('status')?.enable();
+      this.form.get('username')?.enable();
+      this.form.get('regional')?.enable();
+      this.form.get('branch')?.enable();
+      this.form.get('proposalStatus')?.enable();
+      this.form.get('summary')?.enable();
 
-    this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center' };
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
+    }
+  }
+
+  public onSearchFocus() {
+    this.form.get('startDate')?.disable();
+    this.form.get('endDate')?.disable();
+    this.form.get('status')?.disable();
+    this.form.get('username')?.disable();
+    this.form.get('regional')?.disable();
+    this.form.get('branch')?.disable();
+    this.form.get('proposalStatus')?.disable();
+    this.form.get('summary')?.disable();
+
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
+  }
+
+  public clearSearch(): void {
+    this.form.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
+    this.searchResult = null;
+  }
+
+  public doSearch(pageEvent?: PageEvent): void {
+    this.loadingSearch = true;
+
+    if (pageEvent) {
+      this.currentPage = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+    }
+
+    const queryValue = this.form.get('query')?.value;
+
+    const predicate: object = {
+      page: this.currentPage,
+      query: queryValue,
+      size: this.pageSize,
+      sort: ['id,desc'],
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'credit_proposal_status';
+
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body || [];
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
+    });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  private _getPicTimeline(timeLineCreditProposal) {
+    return timeLineCreditProposal
+      .filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize')
+      .map(timeline => timeline.personName)
+      .join(',\n');
+  }
+
+  private _getPic(timeLineCreditProposal) {
+    return timeLineCreditProposal
+      .filter(timeline => timeline.fromStatusDescription === 'OL Assigned')
+      .map(timeline => timeline.personName)
+      .join(',\n');
+  }
+
+  private _getTanggalJatuhTempo(product) {
+    const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
+
+    if (allowedTypes.includes(product.pengajuan)) {
+      const mainProd = product.mainProduct?.[0];
+      if (mainProd?.maturityDate) {
+        return this.formatDateID(mainProd.maturityDate).getFullDate();
+      }
+    }
+
+    return '';
+  }
+
+  private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
+    const data = timeLine?.filter(timeline => timeline.statusDescription === status);
+    if (!data) {
+      return '';
+    }
+
+    data.sort((a, b) => b.id - a.id);
+    const firstData = data[0];
+    const date = firstData?.fromDate;
+
+    if (param === 'Date') {
+      return this.formatDateID(date).getDay();
+    } else if (param === 'Month') {
+      return this.formatDateID(date).getMonth();
+    } else if (param === 'Year') {
+      return this.formatDateID(date).getYear();
+    } else {
+      return '';
+    }
+  }
+
+  private _getTanggalComplianceReview(proposal) {
+    if (proposal.isCompliance === 'Yes') {
+      const date: string[] = proposal.timeLineCreditProposal
+        .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
+        .map(timeline => timeline.fromDate);
+      const dateString = date[0];
+      if (dateString === null || dateString === 'null' || dateString === undefined || !dateString || dateString.length === 0) {
+        return '';
+      }
+      return this.formatDateID(dateString).getFullDate();
+    } else {
+      return '';
+    }
+  }
+
+  private _getStatusData(proposal: any): string {
+    const status = proposal.status;
+    const timelineCP = proposal.timeLineCreditProposal;
+
+    if (this.statusMap.done.includes(status)) {
+      return 'DONE';
+    }
+
+    if (this.statusMap.incoming.includes(status)) {
+      return 'INCOMING';
+    }
+
+    if (this.statusMap.onProcess.includes(status)) {
+      return 'ON PROCESS';
+    }
+
+    if (this.statusMap.pending.includes(status)) {
+      return 'PENDING';
+    }
+
+    if (this.statusMap.cancel.includes(status)) {
+      const data = timelineCP?.find(timeline => timeline.statusDescription === 'DAR Checker' || timeline.statusDescription === 'DAR Notif');
+
+      if (!data) {
+        return '';
       }
 
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-      });
-    });
+      const createdDate = data?.fromDate;
+
+      if (createdDate === null) {
+        return '';
+      }
+
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      if (createdDate > threeMonthsAgo) {
+        return 'CANCEL';
+      } else {
+        return 'PENDING';
+      }
+    }
+
+    return '';
   }
 }

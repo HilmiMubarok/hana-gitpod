@@ -541,7 +541,7 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         route: 'mis-cpcollateral-report',
       },
       {
-        name: 'Credit Proposal Timeline',
+        name: 'Credit Proposal Timeline Summary',
         iconname: 'minus',
         route: 'mis-cptimeline-report',
       },
@@ -559,6 +559,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         name: 'Credit Proposal',
         iconname: 'minus',
         route: 'mis-creditproposal-report',
+      },
+      {
+        name: 'Legal Administration Report',
+        iconname: 'minus',
+        route: 'mis-legaladmla-report',
       },
     ],
   },

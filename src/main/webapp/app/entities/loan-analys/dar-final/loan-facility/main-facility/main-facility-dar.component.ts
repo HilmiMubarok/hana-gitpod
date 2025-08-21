@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IMainFacility } from 'app/entities/main-facility/main-facility.model';
 import { MainFacilityDialogDarComponent } from './main-facility-dialog-dar.component';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-main-facility-dar',
@@ -73,7 +74,19 @@ export class MainFacilityDarComponent implements OnInit, OnChanges {
       },
     });
     dialogRef.afterClosed().subscribe((data: IMainFacility) => {
-      console.log(data);
+      if (data.newMaturityDate) {
+        data.newMaturityDate = this.setDate(data.newMaturityDate);
+      }
+      if (data.startPeriodDate) {
+        data.startPeriodDate = this.setDate(data.startPeriodDate);
+      }
+      if (data.endPeriodDate) {
+        data.endPeriodDate = this.setDate(data.endPeriodDate);
+      }
     });
+  }
+  private setDate(data: any) {
+    const staticDate = moment(new Date(data)).format().substring(0, 19) + 'Z';
+    return staticDate;
   }
 }

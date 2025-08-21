@@ -1,22 +1,21 @@
 <form [formGroup]="MisReportCPDeviation" (ngSubmit)="generateMISCreditDeviation()">
+  <div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+        <e-breadcrumb-item text="MIS Credit Proposal Deviation" url=""> </e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+  </div>
   <mat-card>
-    <div class="e-card-header-caption">
-      <ejs-breadcrumb cssClass="margin: 1rem;">
-        <e-breadcrumb-items>
-          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-          <e-breadcrumb-item text="MIS Credit Proposal Deviation" url=""> </e-breadcrumb-item>
-        </e-breadcrumb-items>
-      </ejs-breadcrumb>
-    </div>
-
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
           <mat-form-field class="w-100" appearance="outline" [ngClass]="{ 'mat-form-field-disabled': isDisabled }">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
+              <input matStartDate formControlName="date1" placeholder="Start date" [readonly]="true" (focus)="picker.open()" />
+              <input matEndDate formControlName="date2" placeholder="End date" [readonly]="true" (focus)="picker.open()" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -54,7 +53,7 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline" [ngClass]="{ 'mat-form-field-disabled': isDisabled }">
             <mat-label>Customer Status</mat-label>
-            <mat-select formControlName="customerType" multiple>
+            <mat-select formControlName="customerStatus" multiple>
               <li class="select-all" (click)="toggleSelectAllCustomerType()">
                 {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
               </li>
@@ -72,6 +71,7 @@
           formControlName="query"
           (focus)="onSearchFocus()"
           (blur)="onSearchBlur()"
+          (keydown.enter)="doSearch()"
         />
         <button
           matSuffix

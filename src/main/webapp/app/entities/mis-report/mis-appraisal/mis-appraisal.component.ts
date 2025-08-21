@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-mis-appraisal',
@@ -56,7 +57,7 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
   allSelectedAppraisalType = false;
   MISReportAppraisal: FormGroup;
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, private router: Router) {
     super(misReportService);
 
     this.MISReportAppraisal = new FormGroup({
@@ -415,5 +416,8 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
       this.misReportService.setLoading(false);
       this.misReportService.generateDocumentLabel.next('Generate Document');
     });
+  }
+  openDialogCheckValuation(): void {
+    this.router.navigate(['./mis-appraisal-report/check-valuation']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,9 @@ import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpErrorResponse } from '@angular/common/http';
+import { map } from 'rxjs';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { InternalService } from 'app/entities/internal/internal.service';
 
 @Component({
   selector: 'jhi-mis-appraisal-bsu',
@@ -44,11 +47,13 @@ import { HttpErrorResponse } from '@angular/common/http';
     `,
   ],
 })
-export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
+export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatusAppraisal = [];
+  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   public lovBranch = [];
   public lovAppraisalType: string[] = ['Internal', 'External'];
   public lovGeo = [];
+  public lovRegional = [];
   data = '';
   date1: any;
   date2: any;
@@ -56,6 +61,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   allSelectedAppraisal = false;
   allSelectedBranch = false;
   allSelectedAppraisalType = false;
+  allSelectedRegional = false;
   MISReportAppraisal: FormGroup;
 
   displayedColumns: string[] = ['appraisalNumber', 'cif', 'debtorName', 'appraisalType', 'appraisalDate', 'statusDescription'];
@@ -66,7 +72,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     console.log('test', event.value);
   }
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
     this.MISReportAppraisal = new FormGroup({
@@ -76,6 +82,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       statusAppraisal: new FormControl(''),
       branch: new FormControl(null),
       appraisalType: new FormControl(null),
+      regional: new FormControl(null),
       query: new FormControl(''),
     });
 
@@ -99,12 +106,6 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       }
     });
 
-    // this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
-    //   if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
-    //     this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
-    //   }
-    // });
-
     this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(branch => {
       if (branch && typeof branch === 'object' && Array.isArray(branch) && branch.length === 0) {
         this.MISReportAppraisal.get('branch')?.setValue(null);
@@ -121,6 +122,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.MISReportAppraisal.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.MISReportAppraisal.get('statusAppraisal')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.MISReportAppraisal.get('regional')?.valueChanges.subscribe(() => this.checkFieldStatus());
 
     this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(() => {
       this.checkFieldStatus();
@@ -133,6 +135,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.getStatusesAppraisal();
     this.getBoundaries();
     this.getBranch();
+    this.getRegional();
+  }
+
+  ngOnInit(): void {
+    this.MISReportAppraisal.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   checkFieldStatus() {
@@ -141,8 +152,16 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     const status = this.MISReportAppraisal.get('statusAppraisal')?.value;
     const branch = this.MISReportAppraisal.get('branch')?.value;
     const appraisalType = this.MISReportAppraisal.get('appraisalType')?.value;
+    const regional = this.MISReportAppraisal.get('regional')?.value;
 
-    if (date1 || date2 || (status && status.length > 0) || (branch && branch.length > 0) || (appraisalType && appraisalType.length > 0)) {
+    if (
+      date1 ||
+      date2 ||
+      (status && status.length > 0) ||
+      (branch && branch.length > 0) ||
+      (appraisalType && appraisalType.length > 0) ||
+      (regional && regional.length > 0)
+    ) {
       this.MISReportAppraisal.get('query')?.disable();
       this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
@@ -174,6 +193,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('statusAppraisal')?.disable();
     this.MISReportAppraisal.get('branch')?.disable();
     this.MISReportAppraisal.get('appraisalType')?.disable();
+    this.MISReportAppraisal.get('regional')?.disable();
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
@@ -185,6 +205,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.MISReportAppraisal.get('statusAppraisal')?.enable();
       this.MISReportAppraisal.get('branch')?.enable();
       this.MISReportAppraisal.get('appraisalType')?.enable();
+      this.MISReportAppraisal.get('regional')?.enable();
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
@@ -207,9 +228,8 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('date2')?.reset();
   }
 
-  clearSearch(): void {
-    this.MISReportAppraisal.get('query')?.reset();
-    // reset the searchResult
+  public clearSearch(): void {
+    this.MISReportAppraisal.get('query')?.setValue('', { emitEvent: false });
     this.searchResult = null;
   }
 
@@ -243,9 +263,11 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.pageSize = pageEvent.pageSize;
     }
 
+    const query = this.MISReportAppraisal.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.MISReportAppraisal.get('query')?.value,
+      query,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -255,14 +277,23 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
 
     this.misReportService.searchAppraisalBSU(predicate).subscribe({
       next: res => {
-        console.log('res', res.body);
-
         this.searchResult = res.body || [];
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportAppraisal.get('query')?.setValue(query, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportAppraisal.get('query')?.setValue(query, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -306,6 +337,27 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
   }
 
+  getRegional() {
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName }))
+        )
+      )
+      .subscribe({
+        next: internals => (this.lovRegional = internals),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+      });
+  }
+
   getBoundaries() {
     this.misReportService.getGeoBoundaries().subscribe({
       next: res => {
@@ -334,6 +386,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
     } else {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+    }
+  }
+
+  toggleSelectAllRegional(): void {
+    this.allSelectedRegional = !this.allSelectedRegional;
+    if (this.allSelectedRegional) {
+      this.MISReportAppraisal.get('regional')?.setValue([...this.lovRegional.map(regional => regional.id)]);
+    } else {
+      this.MISReportAppraisal.get('regional')?.setValue(null);
     }
   }
 
@@ -711,6 +772,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     return '';
   }
 
+  public getTypeOfApplication(jenisPermohonan: any): string {
+    return Array.isArray(jenisPermohonan) ? jenisPermohonan.join('\n') : '';
+  }
+
+  public getCertificateNumbers(row: any): string {
+    const certificates = row?.collateral?.[0]?.landCertificates;
+    return Array.isArray(certificates) && certificates.length > 0 ? certificates.map(cert => cert?.certNumber || '').join('\n') : '';
+  }
+
   private _processGenerate(data, outputName: string): void {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
@@ -720,6 +790,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Appraisal Number', key: 'appraisalNumber', width: 17 },
       { header: 'Segment', key: 'segment', width: 25 },
+      { header: 'Regional', key: 'regional', width: 25 },
       { header: 'Branch', key: 'branch', width: 22 },
       { header: 'Marketing', key: 'marketing', width: 30 },
       { header: 'Customer Name', key: 'customerName', width: 30 },
@@ -766,11 +837,17 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       { header: 'Status', key: 'status', width: 25 },
     ];
 
-    const sortedData = data.sort((a, b) => {
+    let sortedData;
+    sortedData = data.sort((a, b) => {
       const dateA = new Date(a.appraisalDate).getTime();
       const dateB = new Date(b.appraisalDate).getTime();
       return dateA - dateB;
     });
+
+    const regionalIds = this.MISReportAppraisal.get('regional')?.value;
+    if (regionalIds?.length > 0) {
+      sortedData = sortedData.filter(row => regionalIds.includes(row.regionalDebiturId));
+    }
 
     sortedData.forEach((row, index) => {
       const visitedTimeline = row.timeLine
@@ -802,6 +879,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         no: index + 1 || '',
         appraisalNumber: row.appraisalNumber || '',
         segment: row.segmentRMName || '',
+        regional: row.regionalDebiturName || '',
         branch: row.branch || '',
         marketing: row.marketing || '',
         customerName: row.customerName || '',
@@ -809,7 +887,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         collateralId: row.collateral?.[0]?.id || '', // Gunakan optional chaining
         collateralType: row.collateral?.[0]?.collateralType || '',
         collateral: row.collateral?.[0]?.collateral || '',
-        certificateNumber: row.collateral?.[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
+        certificateNumber: this.getCertificateNumbers(row),
         propertyUsage: row.collateral?.[0]?.propertyUsage || '',
         marketAbility:
           row.marketAbility === 'baik' ? 'Good' : row.marketAbility === 'cukup' ? 'Fair' : row.marketAbility === 'kurang' ? 'Minus' : '',
@@ -835,7 +913,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         city: row.collateral?.[0]?.city || '',
         provinceName: row.collateral?.[0]?.provinceName || '',
         appraisalType: row.appraisalType || '',
-        typeOfApplication: row.jenisPermohonan.join('\n') || '',
+        typeOfApplication: this.getTypeOfApplication(row.jenisPermohonan),
         plafond: row.plafond || '',
         creditMaturityDate: row.tglJatemKredit || '',
         appraiser: row.appraiser || '',
@@ -909,6 +987,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     worksheet.getColumn('buildingAreaBasedOnPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
     worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
     worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+    worksheet.getColumn('certificateNumber').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
 
     const timelineColumnIndex = worksheet.columns.findIndex(column => column.header === 'Timeline') + 1;
     if (timelineColumnIndex > 0) {
