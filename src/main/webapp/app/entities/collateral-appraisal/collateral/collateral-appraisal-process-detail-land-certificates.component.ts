@@ -60,6 +60,15 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     console.log(this.collateralAppraisal);
     this.checkLogin();
     this.hiddenTombol();
+
+    if (this.collateral.publicFacilities === null || this.collateral.truncatedArea === null) {
+      if (this.collateral.publicFacilities === null) {
+        this.collateral.publicFacilities = 0;
+      }
+      if (this.collateral.truncatedArea === null) {
+        this.collateral.truncatedArea = 0;
+      }
+    }
   }
 
   public cekData() {
