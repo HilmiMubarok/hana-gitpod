@@ -48,7 +48,7 @@ export class CollateralPropertyResultListComponent implements OnInit {
 
   getDataResult() {
     this.collateralApprraisalService
-      .cashQueryFilterBy({ idCollateral: this.collateral.id, idStatus: STATUS.COMPLETE, size: 9999, page: 0, sort: ['desc'] })
+      .cashQueryFilterBy({ idCollateral: this.collateral.id, idStatus: STATUS.COMPLETE, size: 9999, page: 0, sort: ['id,desc'] })
       .subscribe(res => {
         // Pergantian Endpoint Dari BE PHASE 2
         if (res.body.length > 0) {
