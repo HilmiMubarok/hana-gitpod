@@ -1,0 +1,58 @@
+<div [formGroup]="form">
+  <div class="row">
+    <div class="col-12 col-md-6 mb-1">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Start Month & Year</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="monthYearStart" placeholder="Select Start" readonly />
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker
+          #startPicker
+          startView="multi-year"
+          (monthSelected)="onMonthYearStartSelected($event, startPicker)"
+          panelClass="month-picker"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6 mb-1">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>End Month & Year</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="monthYearEnd" placeholder="Select End" readonly />
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker
+          #endPicker
+          startView="multi-year"
+          (monthSelected)="onMonthYearEndSelected($event, endPicker)"
+          panelClass="month-picker"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 mb-1">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Approval Fasilitas</mat-label>
+        <mat-select formControlName="approvalFasilitas" multiple>
+          <li class="select-all" (click)="toggleSelectApprovalFasilitas()">
+            {{ allSelectedApprovalFasilitas ? 'Deselect All' : 'Select All' }}
+          </li>
+          <mat-option *ngFor="let item of lovApprovalFasilitas" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-6 mb-1">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Customer Status</mat-label>
+        <mat-select formControlName="customerStatus">
+          <mat-option *ngFor="let item of lovCustomerStatus" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
