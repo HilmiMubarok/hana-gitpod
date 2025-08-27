@@ -671,6 +671,38 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     return approvalTLDates.join('\n');
   }
 
+  private _getGuarantorList(proposal): string {
+    if (!proposal || !proposal.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const filtered = proposal.collateral.filter(c => {
+      const type = (c.collateralType || '').toLowerCase().trim();
+      return type.includes('corporate') || type.includes('personal guarantee');
+    });
+
+    const guarantors = filtered.map(c => c.collateralProperty?.name || '').filter(name => name && name.trim() !== '');
+
+    return guarantors.join(',\n');
+  }
+
+  private _getCreditRatingGuarantorList(proposal): string {
+    if (!proposal || !proposal.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const filtered = proposal.collateral.filter(c => {
+      const type = (c.collateralType || '').toLowerCase().trim();
+      return type.includes('corporate') || type.includes('personal guarantee');
+    });
+
+    const guarantors = filtered
+      .map(c => c.collateralProperty?.creditRating || '')
+      .filter(creditRating => creditRating && creditRating.trim() !== '');
+
+    return guarantors.join(',\n');
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
@@ -761,8 +793,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       reviewerName: proposal.dataAssignToCROName || '',
       status: proposal.status || '',
       summaryOfReviewerRecommendation: proposal.approvalStatus || '',
-      guarantor: '',
-      creditRatingGuarantor: '',
+      guarantor: this._getGuarantorList(proposal),
+      creditRatingGuarantor: this._getCreditRatingGuarantorList(proposal),
     });
   }
 
