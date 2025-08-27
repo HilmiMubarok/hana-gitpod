@@ -748,7 +748,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         isActive: true,
       })
       .subscribe(res => {
-        this.groupCollaterals = res.body;
+        this.groupCollaterals = res.body.filter(data => data.statusId !== 'CANCEL');
         if (this.creditProposal) {
           this.checkIndividualCol(this.creditProposal);
         }
