@@ -1229,7 +1229,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Insurance Type</mat-label>
-                    <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType" [disabled]="field">
+                    <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType" disabled>
                       <mat-option value=" ">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of insuranceTypes" [value]="item.code">
                         {{ item.value }}
@@ -1252,14 +1252,7 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Insurance Amount</mat-label>
-                    <input
-                      currencyMask
-                      matInput
-                      type="text"
-                      [(ngModel)]="insurance.insuranceAmount"
-                      [options]="logoIdr"
-                      [disabled]="field"
-                    />
+                    <input currencyMask matInput type="text" [(ngModel)]="insurance.insuranceAmount" [options]="logoIdr" disabled />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
@@ -1277,9 +1270,9 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Rank</mat-label>
-                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" [disabled]="field">
+                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" disabled>
                       <mat-option value=" ">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                      <mat-option *ngFor="let item of lovRank" [value]="item.code" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -1300,9 +1293,9 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Cross Collateral Status</mat-label>
-                    <mat-select [(ngModel)]="collateral.paripasuStatus" [disabled]="field">
+                    <mat-select [(ngModel)]="collateral.paripasuStatus" disabled>
                       <mat-option value=" ">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
+                      <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -1407,9 +1400,9 @@
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Collateral Status</mat-label>
-                  <mat-select name="staus" [(ngModel)]="collateral.statusId" [disabled]="field">
+                  <mat-select name="staus" [(ngModel)]="collateral.statusId" disabled>
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key">
+                    <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key" disabled>
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
@@ -1428,9 +1421,9 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Binding Type</mat-label>
-                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="field">
+                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
                       <mat-option value="">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code">
+                      <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -1449,7 +1442,7 @@
               <div class="form-group" *ngIf="parentSource === 'dec-offering' && this.parentPath === 'finalize'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Informasi Tambahan</mat-label>
-                  <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field"></textarea>
+                  <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" disabled></textarea>
                 </mat-form-field>
               </div>
               <div class="fontsebled row" *ngIf="parentSource === 'dec-offering' && this.parentPath !== 'finalize'">
@@ -1465,7 +1458,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>REMARKS</mat-label>
-            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']" [disabled]="field"></textarea>
+            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']" disabled></textarea>
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
