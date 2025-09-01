@@ -564,7 +564,7 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
 
         sortedSegments.forEach(lc => {
           const result = this._getConditionFromItem(lc, cond); // Ambil data langsung dari lc
-
+          console.log(result, 'result');
           worksheet.getCell(row, colIndex).value = result.noa || '';
           worksheet.getCell(row, colIndex + 1).value = result.amountIDR || '';
           worksheet.getCell(row, colIndex + 2).value = result.amountUSD || '';
@@ -603,7 +603,7 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     let cancelNOA = 0;
     const amountType = this.form.get('amount')?.value;
     const conditionTypes = lc.conditionType || [];
-    console.log(amountType, 'amountType');
+    console.log(lc, 'lc');
     for (const cond of conditionTypes) {
       const condName = (cond.conditionName || '').trim();
       const noaVal = parseInt(cond.noa || '0', 10);
@@ -666,6 +666,23 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
                     amountIDR += parseInt(curr.amount || '0', 10);
                   } else if (curr.currency === 'USD') {
                     amountUSD += parseInt(curr.amount || '0', 10);
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (condition === 'Total') {
+          if (['Approved', 'Reject', 'Cancel'].includes(condName)) {
+            for (const prod of cond.product) {
+              for (const amount of prod.summaryAmount || []) {
+                if (amount.amountType === amountType) {
+                  for (const curr of amount.currencyAmount || []) {
+                    if (curr.currency === 'IDR') {
+                      amountIDR += parseInt(curr.amount || '0', 10);
+                    } else if (curr.currency === 'USD') {
+                      amountUSD += parseInt(curr.amount || '0', 10);
+                    }
                   }
                 }
               }
