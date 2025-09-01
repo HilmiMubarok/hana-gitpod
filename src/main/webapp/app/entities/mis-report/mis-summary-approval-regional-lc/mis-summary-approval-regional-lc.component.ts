@@ -672,23 +672,6 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
             }
           }
         }
-        if (condition === 'Total') {
-          if (['Approved', 'Reject', 'Cancel'].includes(condName)) {
-            for (const prod of cond.product) {
-              for (const amount of prod.summaryAmount || []) {
-                if (amount.amountType === amountType) {
-                  for (const curr of amount.currencyAmount || []) {
-                    if (curr.currency === 'IDR') {
-                      amountIDR += parseInt(curr.amount || '0', 10);
-                    } else if (curr.currency === 'USD') {
-                      amountUSD += parseInt(curr.amount || '0', 10);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
 
