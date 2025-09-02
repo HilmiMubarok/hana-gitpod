@@ -89,6 +89,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
+  public lovApprovalLc = [];
   listOfValue = [];
   misCpTimeline: FormGroup;
   allSelected = false;
@@ -106,6 +107,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      approvalLC: new FormControl(''),
       search: new FormControl(
         '',
         Validators.pattern(/^\d{5}\/\d{2}\/CP\/(Comm|CB|EB|GLO|SME)\/(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\/\d{4}$/)
@@ -128,6 +130,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.misCpTimeline.get('approvalLC')?.valueChanges.subscribe(() => this.checkFieldStatus());
   }
 
   ngOnInit(): void {
@@ -135,6 +138,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+      },
+    });
+
+    this.misReportService.getApprovalLc('LOS_REL').subscribe({
+      next: res => {
+        this.lovApprovalLc = res;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Approval Lc',
+        });
       },
     });
 
@@ -149,8 +165,9 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const date1 = this.misCpTimeline.get('date1')?.value;
     const date2 = this.misCpTimeline.get('date2')?.value;
     const status = this.misCpTimeline.get('status')?.value;
+    const approvalLC = this.misCpTimeline.get('approvalLC')?.value;
 
-    if (date1 || date2 || (status && status.length > 0)) {
+    if (date1 || date2 || (status && status.length > 0) || (approvalLC && approvalLC.length > 0)) {
       this.misCpTimeline.get('query')?.disable();
       this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
@@ -163,6 +180,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.disable();
     this.misCpTimeline.get('date2')?.disable();
     this.misCpTimeline.get('status')?.disable();
+    this.misCpTimeline.get('approvalLC')?.disable();
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
@@ -172,6 +190,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.misCpTimeline.get('date1')?.enable();
       this.misCpTimeline.get('date2')?.enable();
       this.misCpTimeline.get('status')?.enable();
+      this.misCpTimeline.get('approvalLC')?.enable();
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
@@ -203,6 +222,15 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.misCpTimeline.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
       this.misCpTimeline.get('status')?.setValue('');
+    }
+  }
+
+  toggleSelectAllApprovalLc(): void {
+    this.allSelected = !this.allSelected;
+    if (this.allSelected) {
+      this.misCpTimeline.get('approvalLC')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
+    } else {
+      this.misCpTimeline.get('approvalLC')?.setValue('');
     }
   }
 
@@ -460,26 +488,62 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     };
   }
 
+  // loadTimelineData(): void {
+  //   this.service.getApprovalLc('LOS_REL').subscribe((data: any) => {
+  //     // patch semua data biasa
+  //     this.misCpTimeline.patchValue({
+  //       customerType: data.customerType,
+  //       query: data.query,
+  //       // ...
+  //     });
+
+  //     // 🔑 khusus ApprovalLC → mapping DB description ke statusId
+  //     if (data.approvalLc) {
+  //       // bisa single string atau array dari DB
+  //       const dbApprovalLc = Array.isArray(data.approvalLc) ? data.approvalLc : [data.approvalLc];
+
+  //       const mappedValues = this.lovApprovalLc
+  //         .filter(opt => dbApprovalLc.includes(opt.description)) // cari match via description
+  //         .map(opt => opt.statusId); // ambil statusId buat value form
+
+  //       this.misCpTimeline.get('approvalLC')?.setValue(mappedValues);
+  //     }
+  //   });
+  // }
+
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal: any, index: number): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
     const customerType = this.misCpTimeline.get('customerType')?.value;
     const search = this.misCpTimeline.get('query')?.value;
+    const selectedApprovalLc = this.misCpTimeline.get('approvalLC')?.value;
 
-    let filteredTimeline;
-    if (!customerType || customerType.length === 0 || (search && search !== '')) {
+    let filteredTimeline: any[];
+
+    if (selectedApprovalLc && selectedApprovalLc.length > 0) {
+      const normalizedSelected = selectedApprovalLc.map((val: string) => val.replace(/_/g, ' ').toUpperCase());
+      const approvalLcValue = (timeLineCreditProposal.approvalLc || '').toUpperCase();
+      if (normalizedSelected.includes(approvalLcValue)) {
+        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+      } else {
+        filteredTimeline = [];
+      }
+    } else {
       filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+    }
+
+    if (!customerType || customerType.length === 0 || (search && search !== '')) {
+      filteredTimeline = [...filteredTimeline];
     } else {
       const customerStatus = timeLineCreditProposal.customerStatus || '';
       if (customerType.includes(customerStatus)) {
-        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+        filteredTimeline = [...filteredTimeline];
       } else {
         filteredTimeline = [];
       }
     }
 
     const reversedTimeline = [...filteredTimeline].reverse();
-
     let manualNo = 1;
     const columnNo = worksheet.getColumn(1).values;
     for (let i = columnNo.length - 1; i >= 1; i--) {
@@ -511,7 +575,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
         cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
         debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
-        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
+        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc || '' : '',
         proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
         timelineStatus: timeline.statusDescription || '',
         dateOfTime: this._formatDate(timeline.createdDate) || '',
