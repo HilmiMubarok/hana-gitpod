@@ -56,10 +56,10 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     const year = yearControl ? moment(yearControl).year().toString() : null;
     const startMonthYearly = this.misYearlyReports.get('monthYearStart')?.value;
     const endMonthYearly = this.misYearlyReports.get('monthYearEnd')?.value;
-    const approvalFasilitas = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
-    const customerStatus = this.misYearlyReports.get('customerStatus')?.value;
+    const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
+    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
     if (this.menu === 'monthly') {
-      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value || !approvalFasilitas) {
+      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value || !approvalFasilitass) {
         this.messageService.add({
           severity: 'error',
           summary: 'Warning',
@@ -76,7 +76,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitas) {
+      if (!approvalFasilitass) {
         this.messageService.add({
           severity: 'error',
           summary: 'Warning',
@@ -85,7 +85,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         return;
       }
     } else {
-      if (!year || !approvalFasilitas) {
+      if (!year || !approvalFasilitass) {
         this.messageService.add({
           severity: 'error',
           summary: 'Warning',
@@ -102,7 +102,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitas) {
+      if (!approvalFasilitass) {
         this.messageService.add({
           severity: 'error',
           summary: 'Warning',
@@ -114,15 +114,15 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     if (this.menu === 'yearly') {
       params = {
         year,
-        customerStatus: customerStatus,
-        approvalFasilitas: approvalFasilitas,
+        customerStatus: customerStatuss,
+        approvalFasilitas: approvalFasilitass,
       };
     } else {
       params = {
         startMonth: this.formatMonthYear(startMonthYearly),
         endMonth: this.formatMonthYear(endMonthYearly),
-        categoryName: approvalFasilitas,
-        customerStatus: customerStatus,
+        categoryName: approvalFasilitass,
+        customerStatus: customerStatuss,
       };
     }
     if (this.menu === 'monthly') {
