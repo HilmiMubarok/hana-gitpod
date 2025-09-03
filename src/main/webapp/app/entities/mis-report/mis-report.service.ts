@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay, tap } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { createRequestOption } from 'app/core/request/request-util';
 
@@ -76,6 +76,38 @@ export class MisReportService {
           map(res => res.body),
           shareReplay(1)
         );
+      setTimeout(() => {
+        delete this.cache[key];
+      }, 6000);
+    }
+
+    return this.cache[key];
+  }
+
+  public getApprovalLc(idParent: string) {
+    const params = new HttpParams().set('idParent', idParent).set('page', 0).set('size', 99999);
+
+    const key = `statuses-${idParent}`;
+    if (!this.cache[key]) {
+      this.cache[key] = this.http
+        .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/relation-types') + '/filterBy', {
+          params,
+          observe: 'response',
+        })
+        .pipe(
+          map(res => {
+            const allowedParentIds = ['SME', 'BTB', 'COMMERCIAL', 'CORPORATE', 'GLOBALBS'];
+            return (res.body || [])
+              .filter((item: any) => allowedParentIds.includes(item.parentId))
+              .map((item: any) => ({
+                ...item,
+                statusId: item.id,
+                description: item.description,
+              }));
+          }),
+          shareReplay(1)
+        );
+
       setTimeout(() => {
         delete this.cache[key];
       }, 6000);
