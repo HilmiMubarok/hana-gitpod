@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -6,11 +6,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { GetSlaLengthService } from './services/get-sla-length.service';
+import { SLAReviewerService } from './services/sla-reviewer.service'
+import { HttpErrorResponse } from '@angular/common/http';
+import { SelectionModel } from '@angular/cdk/collections';
+import { handleBlur, handleFocus, setupQueryControlBehavior } from './services/utils';
 
 @Component({
   selector: 'jhi-mis-cpslareviewer-report',
   templateUrl: './mis-cpslareviewer-report.component.html',
-  styleUrls: ['../credit-proposal/mis-report-credit-proposal.css', '../mis-report.css'],
+  styleUrls: ['../credit-proposal/mis-report-credit-proposal.css', '../mis-report.css', '../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -39,25 +43,204 @@ import { GetSlaLengthService } from './services/get-sla-length.service';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      .department-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        height: 74px;
+        margin-bottom: 24px;
+      }
+
+      .department-name {
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5bafaa;
+      }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+      .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
     `,
   ],
 })
 export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
+  public lovReviewerName = [];
+  public lovApprovalLC = [];
+  public allSelectedReviewerName = false;
+  public allSelectedApprovalLC = false;
   public startDate: any;
   public endDate: any;
   public allSelected = false;
   public MISReportSLA: FormGroup;
+  public selection = new SelectionModel<any>(true, []);
+  public loadingSearch = false;
+  public searchResult;
+  private debounceTimer: any;
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status', 'action'];
+  public skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+      status: '',
+      action: '',
+    },
+  ];
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService, public slaLengthService: GetSlaLengthService) {
+  constructor(
+    public misReportService: MisReportService,
+    public messageService: MessageService,
+    public slaLengthService: GetSlaLengthService,
+    public slaReviewerService: SLAReviewerService
+  ) {
     super(misReportService);
+    this._initializeForm();
+    this._handleFormChanges();
+  }
 
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+
+  selectAll() {
+    if (this.selection.selected.length > 0) {
+      this.selection.clear();
+    } else {
+      this.selection.select(...this.searchResult);
+    }
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
+  processSelectedItems() {
+    const selectedData = this.selection.selected;
+    if (!selectedData || selectedData.length === 0) {
+      return [];
+    }
+    const selectedIds = selectedData.map((item: any) => item.id);
+    return selectedIds;
+  }
+
+  _initializeForm() {
     this.MISReportSLA = new FormGroup({
       startDate: new FormControl(''),
       endDate: new FormControl(''),
+      reviewerName: new FormControl(''),
       status: new FormControl(''),
+      approvalLC: new FormControl(''),
+      query: new FormControl(''),
     });
+  }
 
+  onFocus() {
+    this.MISReportSLA.get('query')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
+  }
+
+  onBlur() {
+    this.checkFieldStatus();
+  }
+
+  onControlFocus(controlName: string) {
+    handleFocus(this.MISReportSLA, controlName);
+  }
+
+  onControlBlur() {
+    handleBlur(this.MISReportSLA);
+  }
+
+  checkFieldStatus() {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      const startDate = this.MISReportSLA.get('startDate')?.value;
+      const endDate = this.MISReportSLA.get('endDate')?.value;
+      const status = this.MISReportSLA.get('status')?.value;
+      const reviewerName = this.MISReportSLA.get('reviewerName')?.value;
+      const approvalLC = this.MISReportSLA.get('approvalLC')?.value;
+      const query = this.MISReportSLA.get('query')?.value;
+
+      if (
+        startDate ||
+        endDate ||
+        (status && status.length > 0) ||
+        (reviewerName && reviewerName.length > 0) ||
+        (approvalLC && approvalLC.length > 0) ||
+        (query && query.length > 0)
+      ) {
+        this.MISReportSLA.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+      } else {
+        this.MISReportSLA.get('query')?.enable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, false);
+      }
+    }, 50);
+  }
+
+  _handleFormChanges() {
     this.MISReportSLA.get('startDate')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
@@ -71,6 +254,58 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         this.MISReportSLA.get('endDate')?.setValue(formattedDate, { emitEvent: false });
       }
     });
+
+    this.MISReportSLA.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
+
+    this.MISReportSLA.valueChanges.subscribe(changes => {
+      if (Array.isArray(changes.status)) {
+        if (changes.status.length === 0) {
+          this._updateFormControl('status', '');
+          this.allSelected = false;
+        } else if (changes.status.length === this.lovStatus.length) {
+          this.allSelected = true;
+        }
+      }
+
+      if (Array.isArray(changes.reviewerName)) {
+        if (changes.reviewerName.length === 0) {
+          this._updateFormControl('reviewerName', '');
+          this.allSelectedReviewerName = false;
+        } else if (changes.reviewerName.length === this.lovReviewerName.length) {
+          this.allSelectedReviewerName = true;
+        }
+      }
+
+      if (Array.isArray(changes.approvalLC)) {
+        if (changes.approvalLC.length === 0) {
+          this._updateFormControl('approvalLC', '');
+          this.allSelectedApprovalLC = false;
+        } else if (changes.approvalLC.length === this.lovApprovalLC.length) {
+          this.allSelectedApprovalLC = true;
+        }
+      }
+    });
+  }
+
+  private _updateFormControl(field: string, value: any): void {
+    this.MISReportSLA.get(field)?.setValue(value, { emitEvent: false });
+  }
+
+  clearDateRange() {
+    this.MISReportSLA.get('startDate')?.reset();
+    this.MISReportSLA.get('endDate')?.reset();
+  }
+
+  setAllSelectedSearch() {
+    this.selection.select(...this.searchResult);
+  }
+
+  dateRangeHasValue() {
+    return this.MISReportSLA.get('startDate')?.value && this.MISReportSLA.get('endDate')?.value;
   }
 
   get columns(): any[] {
@@ -147,6 +382,28 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+
+    this.slaReviewerService.getReviewerName().subscribe({
+      next: res => {
+        this.lovReviewerName = res
+          .sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName))
+          .filter((item: any) => item.employeeEmail !== 'supercash@localhost');
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Reviewer Name' });
+      },
+    });
+
+    this.slaReviewerService.getApprovalLc().subscribe({
+      next: res => {
+        this.lovApprovalLC = res;
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Approval LC' });
+      },
+    });
+
+    setupQueryControlBehavior(this.MISReportSLA);
   }
 
   public toggleSelectAll(): void {
@@ -158,15 +415,120 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
   }
 
+  public toggleSelectAllReviewerName(): void {
+    this.allSelectedReviewerName = !this.allSelectedReviewerName;
+    if (this.allSelectedReviewerName) {
+      this.MISReportSLA.get('reviewerName')?.setValue([...this.lovReviewerName.map(reviewer => reviewer.partyId)]);
+    } else {
+      this.MISReportSLA.get('reviewerName')?.setValue('');
+    }
+  }
+
+  public toggleSelectAllApprovalLC(): void {
+    this.allSelectedApprovalLC = !this.allSelectedApprovalLC;
+    if (this.allSelectedApprovalLC) {
+      this.MISReportSLA.get('approvalLC')?.setValue([...this.lovApprovalLC.map(approval => approval.id)]);
+    } else {
+      this.MISReportSLA.get('approvalLC')?.setValue('');
+    }
+  }
+
+  public onSearchFocus() {
+    this.MISReportSLA.get('startDate')?.disable();
+    this.MISReportSLA.get('endDate')?.disable();
+    this.MISReportSLA.get('status')?.disable();
+    this.MISReportSLA.get('reviewerName')?.disable();
+    this.MISReportSLA.get('approvalLC')?.disable();
+
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
+  }
+
+  public onSearchBlur() {
+    const searchValue = this.MISReportSLA.get('query')?.value;
+    if (!searchValue) {
+      this.MISReportSLA.get('startDate')?.enable();
+      this.MISReportSLA.get('endDate')?.enable();
+      this.MISReportSLA.get('status')?.enable();
+      this.MISReportSLA.get('reviewerName')?.enable();
+      this.MISReportSLA.get('approvalLC')?.enable();
+
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
+    }
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  doSearch() {
+    this.selection.clear();
+    this.loadingSearch = true;
+    const queryValue = this.MISReportSLA.get('query')?.value;
+
+    const predicate: object = {
+      page: 0,
+      query: queryValue,
+      size: 9999,
+      sort: ['id,desc'],
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'credit_proposal_status';
+
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body || [];
+        this.setAllSelectedSearch();
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.MISReportSLA.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.MISReportSLA.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
+    });
+  }
+
+  public clearSearch(): void {
+    this.MISReportSLA.get('query')?.reset();
+    this.searchResult = null;
+    this.selection.clear();
+  }
+
   public generateMISReportSLA() {
     this.misReportService.setLoading(true);
 
-    const params = {
-      startDate: this.MISReportSLA.get('startDate')?.value,
-      endDate: this.MISReportSLA.get('endDate')?.value,
-      status: this._convertStatusToString(this.MISReportSLA.get('status')?.value),
-      type: 'STATELOG',
-    };
+    let params;
+    if (this.MISReportSLA.get('query')?.value) {
+      params = {
+        query: this.MISReportSLA.get('query')?.value,
+      };
+    } else {
+      params = {
+        startDate: this.MISReportSLA.get('startDate')?.value,
+        endDate: this.MISReportSLA.get('endDate')?.value,
+        status: this._convertStatusToString(this.MISReportSLA.get('status')?.value),
+        type: 'STATELOG',
+      };
+    }
 
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_SLA_Reviewer'),
@@ -201,8 +563,23 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     this._resetData();
   }
 
+  private filterData(data) {
+    const reviewerNames = this._convertStatusToString(this.MISReportSLA.get('reviewerName')?.value).split(',');
+    const approvalLC = this._convertStatusToString(this.MISReportSLA.get('approvalLC')?.value)
+      .split(',')
+      .map(approval => approval.replace(/_/g, ' '));
+    const selectedIds = this.processSelectedItems();
+
+    if (selectedIds.length > 0) {
+      return data.filter(proposal => selectedIds.includes(proposal.id));
+    } else {
+      return data.filter(proposal => approvalLC.includes(proposal.approvalLc) && reviewerNames.includes(proposal.dataAssignToCROId));
+    }
+  }
+
   protected processData(data: any[]): void {
-    data.forEach((proposal, index) => {
+    const filteredData = this.filterData(data);
+    filteredData.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
   }
@@ -300,8 +677,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         dateOfApproveToLA: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis']) || '',
         dateOfAssignmentAll: this.getDateOfAssignment(proposal),
         dateReturnToBranch: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)']) || '',
-        proposalBackToCRO:
-          this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)']) || '',
+        proposalBackToCRO: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)']) || '',
         proposalCheckByChecker: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
         dateReturnToReviewer: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Checker', 'Assignment']) || '',
         loanApprovalLoanCommDate:
@@ -590,7 +966,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private getMaturityDate(product) {
-
     if (!product) {
       return '';
     }
@@ -623,8 +998,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (!isUSD) {
       return '';
     }
-    
+
     return proposal.exchangeRateUsdIdr;
   }
-
 }
