@@ -299,7 +299,7 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
         endDate: this.form.get('endDate')?.value,
         regional: this._convertStatusToString(this.form.get('regional')?.value || null),
         proposalType: this.form.get('proposalStatus')?.value || null,
-        amountType: this._convertStatusToString(this.form.get('amount')?.value || null),
+        amountType: this.form.get('amount')?.value,
       };
     } else {
       params = {
@@ -466,23 +466,38 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
         let totalAmountUSD = 0;
 
         relatedLcItems.forEach(item => {
-          let result = { noa: '', amountIDR: '', amountUSD: '' };
-          result = this._getConditionFromItem(item, cond);
+          const result = this._getConditionFromItem(item, cond);
           worksheet.getCell(row, colIndex).value = result.noa || '';
           worksheet.getCell(row, colIndex + 1).value = result.amountIDR || '';
           worksheet.getCell(row, colIndex + 2).value = result.amountUSD || '';
 
-          totalNOA += parseInt(result.noa || '0', 10);
-          totalAmountIDR += parseInt(result.amountIDR || '0', 10);
-          totalAmountUSD += parseInt(result.amountUSD || '0', 10);
-
+          // Hanya jumlahkan kalau bukan kondisi %
+          if (!cond.includes('%')) {
+            totalNOA += parseInt(result.noa || '0', 10);
+            totalAmountIDR += parseInt(result.amountIDR || '0', 10);
+            totalAmountUSD += parseInt(result.amountUSD || '0', 10);
+          }
           colIndex += 3;
+          if (cond === '% Total Approve' || cond === '% Total Reject' || cond === '% Total Cancel') {
+            let sumPercent = 0;
+            for (let c = 2; c < colIndex; c += 3) {
+              const val = worksheet.getCell(row, c).value;
+              if (typeof val === 'string' && val.includes('%')) {
+                sumPercent += parseFloat(val.replace('%', '')) || 0;
+              }
+            }
+            if (sumPercent > 100) {
+              sumPercent = 100;
+            }
+            worksheet.getCell(row, colIndex).value = sumPercent.toFixed(2) + '%';
+            worksheet.getCell(row, colIndex + 1).value = '0';
+            worksheet.getCell(row, colIndex + 2).value = '0';
+          } else {
+            worksheet.getCell(row, colIndex).value = totalNOA;
+            worksheet.getCell(row, colIndex + 1).value = totalAmountIDR;
+            worksheet.getCell(row, colIndex + 2).value = totalAmountUSD;
+          }
         });
-
-        worksheet.getCell(row, colIndex).value = totalNOA;
-        worksheet.getCell(row, colIndex + 1).value = totalAmountIDR;
-        worksheet.getCell(row, colIndex + 2).value = totalAmountUSD;
-
         colIndex += 3;
       });
     });
@@ -581,9 +596,9 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
           // ==== Kolom TOTAL ====
           if (cond === '% Total Approve' || cond === '% Total Reject' || cond === '% Total Cancel') {
             // Ambil nilai persen dari fungsi _getConditionFromItem (sudah return %)
-            worksheet.getCell(row, colIndex).value = result.noa; // isinya sudah dalam bentuk "25%" misalnya
-            worksheet.getCell(row, colIndex + 1).value = '-';
-            worksheet.getCell(row, colIndex + 2).value = '-';
+            worksheet.getCell(row, colIndex).value = result.noa || 0; // isinya sudah dalam bentuk "25%" misalnya
+            worksheet.getCell(row, colIndex + 1).value = result.amountIDR || 0;
+            worksheet.getCell(row, colIndex + 2).value = result.amountUSD || 0;
           } else {
             worksheet.getCell(row, colIndex).value = totalNOA;
             worksheet.getCell(row, colIndex + 1).value = totalAmountIDR;
@@ -613,7 +628,6 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     let cancelNOA = 0;
     const amountType = this.form.get('amount')?.value;
     const conditionTypes = lc.conditionType || [];
-    console.log(lc, 'lc');
     for (const cond of conditionTypes) {
       const condName = (cond.conditionName || '').trim();
       const noaVal = parseInt(cond.noa || '0', 10);
@@ -712,15 +726,6 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
       noaResult = noa.toFixed(2).replace(/\.00$/, '');
     }
 
-    if (!lc) {
-      if (condition === '% Total Approve') {
-        noaResult = totalNOA > 0 ? ((approvedNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-      } else if (condition === '% Total Reject') {
-        noaResult = totalNOA > 0 ? ((rejectNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-      } else if (condition === '% Total Cancel') {
-        noaResult = totalNOA > 0 ? ((cancelNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-      }
-    }
     return {
       noa: noaResult || '0',
       amountIDR: amountIDR.toString() || '0',
