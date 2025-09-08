@@ -635,7 +635,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         proposalNumber: '', // TBC
         program: proposal.program || '',
         branchs: proposal.bookingBranchName || '',
-        regional: proposal.regionalParentRM || '',
+        regional: this.getRegionalParentRM(proposal.regionalParentRM),
         headName: proposal.headName || '',
         bm: proposal.bm || '',
         rm: proposal.rmFirstName && proposal.rmLastName ? proposal.rmFirstName + ' ' + proposal.rmLastName : '',
@@ -1004,5 +1004,43 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     return proposal.exchangeRateUsdIdr;
+  }
+
+  private getRegionalParentRM(regionalParentRM) {
+    if (!regionalParentRM) {
+      return '';
+    }
+
+    if (regionalParentRM.startsWith('SME ')) {
+      return regionalParentRM.substring(4);
+    }
+
+    if (regionalParentRM === 'Corporate Banking') {
+      return 'CP';
+    }
+
+    if (regionalParentRM === 'Industry Coverage') {
+      return 'IC';
+    }
+
+    if (regionalParentRM === 'Commercial Banking') {
+      return 'CM';
+    }
+
+    if (regionalParentRM === 'SME Plus') {
+      return 'SM';
+    }
+
+    if (regionalParentRM.startsWith('Global Marketing ')) {
+      return regionalParentRM.substring(17);
+    }
+
+    if (regionalParentRM === 'Enterprise Banking') {
+      return 'EB';
+    }
+
+    if (regionalParentRM === 'Mortgage/KPR') {
+      return 'M';
+    }
   }
 }
