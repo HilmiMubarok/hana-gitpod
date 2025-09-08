@@ -6,7 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { GetSlaLengthService } from './services/get-sla-length.service';
-import { SLAReviewerService } from './services/sla-reviewer.service'
+import { SLAReviewerService } from './services/sla-reviewer.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectionModel } from '@angular/cdk/collections';
 import { handleBlur, handleFocus, setupQueryControlBehavior } from './services/utils';
@@ -573,7 +573,11 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (selectedIds.length > 0) {
       return data.filter(proposal => selectedIds.includes(proposal.id));
     } else {
-      return data.filter(proposal => approvalLC.includes(proposal.approvalLc) && reviewerNames.includes(proposal.dataAssignToCROId));
+      if ((reviewerNames.length === 1 && reviewerNames[0] === '') && (approvalLC.length === 1 && approvalLC[0] === '')) {
+        return data;
+      } else {
+        return data.filter(proposal => approvalLC.includes(proposal.approvalLc) && reviewerNames.includes(proposal.dataAssignToCROId));
+      }
     }
   }
 
@@ -970,7 +974,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       return '';
     }
 
-    if (product.maturityDate) {
+    if (!product.maturityDate) {
       return '';
     }
 
