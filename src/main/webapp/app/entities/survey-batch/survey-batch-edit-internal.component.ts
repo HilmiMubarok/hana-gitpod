@@ -893,13 +893,22 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     if (!lodash.has(data.attributes, 'marketbility')) {
       data.attributes['marketbility'] = '';
     }
-    if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
+    if (data.attributes === undefined || data.attributes === null) {
       data.attributes['scoreCard'] = new ScoreCard();
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = new ScoreCard();
-      } else {
-        data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
+      } else if (typeof data.attributes['scoreCard'] === 'string') {
+        const scoreCardString = data.attributes['scoreCard'].trim();
+        if (scoreCardString === '' || scoreCardString === 'null' || scoreCardString === 'undefined') {
+          data.attributes['scoreCard'] = new ScoreCard();
+        } else {
+          try {
+            data.attributes['scoreCard'] = JSON.parse(scoreCardString);
+          } catch (error) {
+            data.attributes['scoreCard'] = new ScoreCard();
+          }
+        }
       }
     }
     return data;
