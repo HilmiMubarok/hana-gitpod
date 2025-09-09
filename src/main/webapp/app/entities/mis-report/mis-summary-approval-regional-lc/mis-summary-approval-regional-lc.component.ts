@@ -399,23 +399,30 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
 
     let col = 2; // Kolom B karena kolom A dipakai untuk "Conditions"
 
+    let startCol = 2; // misal mulai dari kolom 2
+
     sources.forEach(src => {
+      let col = startCol;
+
       const segmentName = src.segmentName;
       const lcList = src.lcType[0] || [];
       const relatedLcItems = this.lovApprovalLC.filter(item => item.parentID === lcList.lcParentId);
       const totalCols = relatedLcItems.length * 3;
+
+      // +3 lagi untuk kolom TOTAL
+      const segmentSpan = totalCols + 3;
+
       // Row 1: Segment name
-      worksheet.mergeCells(1, col, 1, col + totalCols + 2);
+      worksheet.mergeCells(1, col, 1, col + segmentSpan - 1);
       worksheet.getCell(1, col).value = segmentName;
       worksheet.getCell(1, col).alignment = { vertical: 'middle', horizontal: 'center' };
 
-      // Row 2: LC item description
+      // Row 2 & 3: LC item
       relatedLcItems.forEach(item => {
         worksheet.mergeCells(2, col, 2, col + 2);
         worksheet.getCell(2, col).value = item.name;
         worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
 
-        // Row 3: NOA, Amount IDR, Amount USD
         worksheet.getCell(3, col).value = 'NOA';
         worksheet.getCell(3, col + 1).value = 'Amount (IDR)';
         worksheet.getCell(3, col + 2).value = 'Amount (USD)';
@@ -426,6 +433,8 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
 
         col += 3;
       });
+
+      // Row 2 & 3: TOTAL
       worksheet.mergeCells(2, col, 2, col + 2);
       worksheet.getCell(2, col).value = 'TOTAL';
       worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
@@ -437,6 +446,9 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
       [worksheet.getCell(3, col), worksheet.getCell(3, col + 1), worksheet.getCell(3, col + 2)].forEach(cell => {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
+
+      // 🔑 update startCol supaya segment berikutnya tidak nabrak merge
+      startCol += segmentSpan;
     });
 
     // Styling
