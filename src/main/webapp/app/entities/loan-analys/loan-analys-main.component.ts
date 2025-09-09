@@ -1197,7 +1197,9 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
-    this.loadSummaryCollateral();
+    if (this.dataCollateral.length > 0) {
+      this.loadSummaryCollateral();
+    }
   }
   private checkIsDoc() {
     for (let i = 0; i < this.dataFileDar.length; i++) {
@@ -2012,15 +2014,26 @@ export class LoanAnalysMainComponent implements OnInit {
 
     return returnVal;
   }
-  private loadSummaryCollateral(): void {
+  private async loadSummaryCollateral(): Promise<void> {
     const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+    const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
+
+    this.dataCollateral = lodash.filter(res.body, o => {
+      return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+    });
+
+    // tunggu semua findCollateralPropertySummary selesai
+    const allSummaries = await Promise.all(this.dataCollateral.map(c => this.findCollateralPropertySummary(c.partyId)));
+
+    // gabungkan hasil ke collateralPropertiesSummary
+    this.collateralPropertiesSummary = allSummaries.flat();
+  }
+  public findCollateralPropertySummary(partyId: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe({
+        next: res => resolve(res.body),
+        error: err => reject(err),
       });
-      for (let i = 0; i < this.dataCollateral.length; i++) {
-        this.findCollateralPropertySummary(this.dataCollateral[i].partyId);
-      }
     });
   }
   private saveUpdate(status: string, source: string): void {
@@ -2141,11 +2154,15 @@ export class LoanAnalysMainComponent implements OnInit {
       // Perform the pre-save and update credit proposal
       const preSaveData = this.preSave(status);
       const res = await this.creditProposalService.update(preSaveData).toPromise();
+
       // Update credit proposal fields with response data
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      // Update coverage
+
+      await this.loadSummaryCollateral();
+
+      // Update coverage dengan data collateralPropertiesSummary yang sudah ada
       await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
 
       // Save the update with the given status and source
@@ -2695,11 +2712,6 @@ export class LoanAnalysMainComponent implements OnInit {
   public findCollateralProperty(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
-    });
-  }
-  public findCollateralPropertySummary(partyId: string): void {
-    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
-      this.collateralPropertiesSummary = [...this.collateralPropertiesSummary, ...res.body];
     });
   }
 
