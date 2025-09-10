@@ -6,8 +6,7 @@ import { map } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import { BehaviorSubject } from 'rxjs';
-import { TableData } from './summary-approval-compare.helper';
+import { processConditions, TableData } from './summary-approval-compare.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +70,10 @@ export class SummaryApprovalService {
     return ['Approved', 'Reject', 'Cancel'];
   }
 
+  public getDebtorStatus() {
+    return ['New', 'Additional', 'Renewal', 'Restructure', 'Decrease', 'Other'];
+  }
+
   public validateForm(formData: FormGroup, formIndex: '1' | '2') {
     const startDate = formData.get('startDate')?.value;
     const endDate = formData.get('endDate')?.value;
@@ -106,6 +109,7 @@ export class SummaryApprovalService {
     const lc = this._convertStatusToString(formData.get('lc')?.value);
     const amountType = formData.get('amountType')?.value;
     const condition = this._convertStatusToString(formData.get('condition')?.value);
+    const debtorStatus = this._convertStatusToString(formData.get('debtorStatus')?.value);
 
     const payload = {
       startDate,
@@ -115,6 +119,7 @@ export class SummaryApprovalService {
       ...(menuType === 'Approval LC' && { lc: lc !== '' ? lc : null }),
       amountType,
       condition,
+      debtorStatus,
     };
 
     return payload;
@@ -156,8 +161,30 @@ export class SummaryApprovalService {
     return numValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  createTableInWorksheet(worksheet: ExcelJS.Worksheet, tableData: TableData, startFromRow = 1): void {
+  createTableInWorksheet(worksheet: ExcelJS.Worksheet, tableData: TableData, startFromRow = 1, conditions: string, debtorStatus: string): void {
     const { title: mainTitle, groups, reportData } = tableData;
+
+    const conditionsArray = conditions.split(',');
+    const debtorStatusArray = debtorStatus.split(',');
+
+    const conditionsDebtorStatusArray = conditionsArray.map((condition: string) => {
+      const conditionLower = condition.toLocaleLowerCase();
+
+      if (conditionLower === 'cancel') {
+        return [conditionLower];
+      } else {
+        return debtorStatusArray.map((status: string) => `${conditionLower}_${status.toLocaleLowerCase()}`);
+      }
+    });
+
+    const flattenConditionsDebtorStatusArray = conditionsDebtorStatusArray.flat();
+
+    const filteredReportData = Object.keys(reportData)
+      .filter(key => flattenConditionsDebtorStatusArray.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = reportData[key];
+        return obj;
+      }, {});
 
     const totalColumns = 1 + groups.length * 3 + 3;
 
@@ -228,141 +255,7 @@ export class SummaryApprovalService {
       });
     }
 
-    const conditionRows = [
-      {
-        parent: 'Approved',
-        label: '',
-        key: 'approved_parent',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: 'Approved',
-        label: '- New',
-        key: 'approved_new',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Approved',
-        label: '- Additional',
-        key: 'approved_additional',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Approved',
-        label: '- Renewal',
-        key: 'approved_renewal',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Approved',
-        label: '- Restructure',
-        key: 'approved_restructure',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Approved',
-        label: '- Decrease',
-        key: 'approved_decrease',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Approved',
-        label: '- Other',
-        key: 'approved_other',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '',
-        key: 'reject_parent',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: 'Reject',
-        label: '- New',
-        key: 'reject_new',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '- Additional',
-        key: 'reject_additional',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '- Renewal',
-        key: 'reject_renewal',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '- Restructure',
-        key: 'reject_restructure',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '- Decrease',
-        key: 'reject_decrease',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Reject',
-        label: '- Other',
-        key: 'reject_other',
-        isParent: false,
-        isSubItem: true,
-      },
-      {
-        parent: 'Cancel',
-        label: '',
-        key: 'cancel',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: 'Total',
-        label: '',
-        key: 'total',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: '% Total Approved',
-        label: '',
-        key: 'percent_approved',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: '% Total Reject',
-        label: '',
-        key: 'percent_reject',
-        isParent: true,
-        isSubItem: false,
-      },
-      {
-        parent: '% Total Cancel',
-        label: '',
-        key: 'percent_cancel',
-        isParent: true,
-        isSubItem: false,
-      },
-    ];
+    const conditionRows = processConditions(conditions, debtorStatus);
 
     const groupKeys = groups.map((group: string) =>
       group
@@ -397,7 +290,7 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           approvedKeys.forEach(key => {
-            const data = reportData[key]?.[groupKey] || {};
+            const data = filteredReportData[key]?.[groupKey] || {};
             totalNOA += data.noa || 0;
             totalIDR += data.idr || 0;
             totalUSD += data.usd || 0;
@@ -411,7 +304,7 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           rejectKeys.forEach(key => {
-            const data = reportData[key]?.[groupKey] || {};
+            const data = filteredReportData[key]?.[groupKey] || {};
             totalNOA += data.noa || 0;
             totalIDR += data.idr || 0;
             totalUSD += data.usd || 0;
@@ -419,10 +312,10 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
         } else if (isPercentageRow) {
-          const data = reportData[condition.key]?.[groupKey] || {};
+          const data = filteredReportData[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '', '', '');
         } else {
-          const data = reportData[condition.key]?.[groupKey] || {};
+          const data = filteredReportData[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '', data.idr ? this.formatNumber(data.idr) : '', data.usd ? this.formatNumber(data.usd) : '');
         }
       });
@@ -441,7 +334,7 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         approvedKeys.forEach(key => {
-          const data = reportData[key]?.total || {};
+          const data = filteredReportData[key]?.total || {};
           totalNOA += data.noa || 0;
           totalIDR += data.idr || 0;
           totalUSD += data.usd || 0;
@@ -455,7 +348,7 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         rejectKeys.forEach(key => {
-          const data = reportData[key]?.total || {};
+          const data = filteredReportData[key]?.total || {};
           totalNOA += data.noa || 0;
           totalIDR += data.idr || 0;
           totalUSD += data.usd || 0;
@@ -463,10 +356,10 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
       } else if (isPercentageRow) {
-        const totalData = reportData[condition.key]?.total || {};
+        const totalData = filteredReportData[condition.key]?.total || {};
         rowData.push(totalData.noa || '', '', '');
       } else {
-        const totalData = reportData[condition.key]?.total || {};
+        const totalData = filteredReportData[condition.key]?.total || {};
         rowData.push(
           totalData.noa || '',
           totalData.idr ? this.formatNumber(totalData.idr) : '',
