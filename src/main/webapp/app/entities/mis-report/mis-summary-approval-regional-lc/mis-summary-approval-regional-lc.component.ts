@@ -402,8 +402,6 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     let startCol = 2; // misal mulai dari kolom 2
 
     sources.forEach(src => {
-      let col = startCol;
-
       const segmentName = src.segmentName;
       const lcList = src.lcType[0] || [];
       const relatedLcItems = this.lovApprovalLC.filter(item => item.parentID === lcList.lcParentId);
