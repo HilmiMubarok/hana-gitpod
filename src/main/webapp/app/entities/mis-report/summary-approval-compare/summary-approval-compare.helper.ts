@@ -70,9 +70,6 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
 
     // Process each segment
     lcData.segments.forEach((segment: any, segmentIndex: number) => {
-      console.log('Segment: ', segment);
-      console.log('Segment Index: ', segmentIndex);
-
       const segmentKey = `sme${segmentIndex + 1}`;
 
       //   if conditionType undefined
@@ -260,7 +257,6 @@ const normalizeDataFormat = (data: any): any => {
     const hasListLC = data.segment.some((segment: any) => segment.lcType && segment.lcType.some((lc: any) => lc.listLC));
 
     if (hasListLC) {
-      console.log('🔄 Converting segment structure with listLC...');
 
       const normalizedSegments = data.segment.map((segment: any) => {
         const flattenedLcTypes: any[] = [];
@@ -299,7 +295,6 @@ const normalizeDataFormat = (data: any): any => {
   }
 
   if (data.lcType && Array.isArray(data.lcType)) {
-
     const allSegments = new Map<string, any>();
 
     data.lcType.forEach((lc: any) => {
@@ -357,4 +352,212 @@ const normalizeDataFormat = (data: any): any => {
   }
 
   return data;
+};
+
+export const processConditions = (conditions: string, debtorStatus: string) => {
+  const allConditions = [
+    {
+      parent: 'Approved',
+      label: '',
+      key: 'approved_parent',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: 'Approved',
+      label: '- New',
+      key: 'approved_new',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Approved',
+      label: '- Additional',
+      key: 'approved_additional',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Approved',
+      label: '- Renewal',
+      key: 'approved_renewal',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Approved',
+      label: '- Restructure',
+      key: 'approved_restructure',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Approved',
+      label: '- Decrease',
+      key: 'approved_decrease',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Approved',
+      label: '- Other',
+      key: 'approved_other',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '',
+      key: 'reject_parent',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: 'Reject',
+      label: '- New',
+      key: 'reject_new',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '- Additional',
+      key: 'reject_additional',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '- Renewal',
+      key: 'reject_renewal',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '- Restructure',
+      key: 'reject_restructure',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '- Decrease',
+      key: 'reject_decrease',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Reject',
+      label: '- Other',
+      key: 'reject_other',
+      isParent: false,
+      isSubItem: true,
+    },
+    {
+      parent: 'Cancel',
+      label: '',
+      key: 'cancel',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: 'Total',
+      label: '',
+      key: 'total',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: '% Total Approved',
+      label: '',
+      key: 'percent_approved',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: '% Total Reject',
+      label: '',
+      key: 'percent_reject',
+      isParent: true,
+      isSubItem: false,
+    },
+    {
+      parent: '% Total Cancel',
+      label: '',
+      key: 'percent_cancel',
+      isParent: true,
+      isSubItem: false,
+    },
+  ];
+
+  const excludeParents = ['Total', '% Total Approved', '% Total Reject', '% Total Cancel'];
+
+  if (conditions.length === 0 && debtorStatus.length === 0) {
+    return allConditions;
+  }
+
+  const mapped = allConditions.map(item => {
+    if (excludeParents.includes(item.parent)) {
+      return item;
+    }
+
+    if (!conditions.includes(item.parent)) {
+      return { ...item, label: '' };
+    }
+
+    if (item.isSubItem) {
+      const cleanLabel = item.label.replace(/^- /, '');
+      if (!debtorStatus.includes(cleanLabel)) {
+        return { ...item, label: '' };
+      }
+    }
+
+    return item;
+  });
+
+  const grouped = [];
+  let currentParent = null;
+  let buffer = [];
+
+  mapped.forEach(item => {
+    if (item.isParent) {
+      if (buffer.length > 0) {
+        grouped.push(
+          ...buffer.sort((a, b) => {
+            if (a.label === '' && b.label !== '') {
+              return 1;
+            }
+            if (a.label !== '' && b.label === '') {
+              return -1;
+            }
+            return 0;
+          })
+        );
+        buffer = [];
+      }
+      grouped.push(item);
+      currentParent = item.parent;
+    } else {
+      buffer.push(item);
+    }
+  });
+
+  if (buffer.length > 0) {
+    grouped.push(
+      ...buffer.sort((a, b) => {
+        if (a.label === '' && b.label !== '') {
+          return 1;
+        }
+        if (a.label !== '' && b.label === '') {
+          return -1;
+        }
+        return 0;
+      })
+    );
+  }
+
+  const filteredGrouped = grouped.filter(item => item.label !== '' || excludeParents.includes(item.parent) || item.isParent);
+
+  return filteredGrouped;
 };

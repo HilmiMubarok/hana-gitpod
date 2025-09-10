@@ -107,7 +107,17 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-12 col-md-6"></div>
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Debtor Status</mat-label>
+                            <mat-select multiple formControlName="debtorStatus">
+                                <li class="select-all" (click)="toggleSelectAllDebtorStatus(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedDebtorStatus ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovDebtorStatus" [value]="item">{{ item }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>
