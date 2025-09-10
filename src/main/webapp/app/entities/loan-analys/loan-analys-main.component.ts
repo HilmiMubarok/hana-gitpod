@@ -1753,17 +1753,18 @@ export class LoanAnalysMainComponent implements OnInit {
     this.parentSubject.next('red-clicked');
   }
 
-  private refractorSaveForIsAllowSave(statusPreSave: string): void {
+  private refractorSaveForIsAllowSave(statusPreSave: string, source: string): void {
+    source = this.saveState;
     this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
       this.creditProposal.notes = res.body.notes;
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      this.saveCoverageAndUpdate(statusPreSave, source);
       this.loanAnalysOpinionComponent.refresh();
-
       // if (this.loanAnalysOpinionComponent) {
       // this.loanAnalysOpinionComponent.refresh();
       // }
 
-      this.saveApplicationRole(this.saveState);
+      // this.saveApplicationRole(source);
     });
   }
 
@@ -1813,7 +1814,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   setIsAllowSave(status: boolean) {
     const statusPreSave = status ? 'complete' : 'not-complete';
-
+    const source = this.saveState;
     const tempRouter = this.router.url.split('/')[1];
 
     const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
@@ -1822,7 +1823,7 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       if (this.saveState === 'default') {
         if (statusPreSave === 'complete') {
-          this.refractorSaveForIsAllowSave(statusPreSave);
+          this.refractorSaveForIsAllowSave(statusPreSave, source);
         } else {
           this.messageService.add({
             severity: 'info',
@@ -1848,7 +1849,7 @@ export class LoanAnalysMainComponent implements OnInit {
                 detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
               });
             } else {
-              this.refractorSaveForIsAllowSave(statusPreSave);
+              this.refractorSaveForIsAllowSave(statusPreSave, source);
             }
           }
         } else if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval') {
@@ -1863,7 +1864,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                 });
               } else {
-                this.refractorSaveForIsAllowSave(statusPreSave);
+                this.refractorSaveForIsAllowSave(statusPreSave, source);
               }
             } else if (laDataSelf.length > 1) {
               laDataSelf.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -1878,7 +1879,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                 });
               } else {
-                this.refractorSaveForIsAllowSave(statusPreSave);
+                this.refractorSaveForIsAllowSave(statusPreSave, source);
               }
             } else if (laDataSelf.length === 0) {
               this.messageService.add({
@@ -1895,7 +1896,7 @@ export class LoanAnalysMainComponent implements OnInit {
             });
           }
         } else {
-          this.refractorSaveForIsAllowSave(statusPreSave);
+          this.refractorSaveForIsAllowSave(statusPreSave, source);
         }
       }
     }

@@ -402,7 +402,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.conditionFileWord = file;
   }
 
-  setIsAllowSave(status: boolean) {
+  setIsAllowSave(status: boolean, source: string) {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
@@ -410,6 +410,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
           this.creditProposal.notes = res.body.notes;
           this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.saveCoverageAndUpdate(statusPreSave, source);
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
