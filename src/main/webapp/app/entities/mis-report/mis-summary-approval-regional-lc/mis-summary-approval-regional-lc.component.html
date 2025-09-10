@@ -59,7 +59,10 @@
             <div #formContainer>
               <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('regional')?.disabled">
                 <mat-label>Regional</mat-label>
-                <mat-select formControlName="regional">
+                <mat-select formControlName="regional" multiple>
+                  <li class="select-all" (click)="toggleSelectRegionalAll()">
+                    {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                  </li>
                   <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }} </mat-option>
                 </mat-select>
               </mat-form-field>
