@@ -1147,9 +1147,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     const applicationNumber = this.creditProposal.id;
     const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
 
-    this.dataCollateral = lodash.filter(res.body, o => {
-      return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
-    });
+    this.dataCollateral = lodash.filter(res.body, o => o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE);
 
     // tunggu semua findCollateralPropertySummary selesai
     const allSummaries = await Promise.all(this.dataCollateral.map(c => this.findCollateralPropertySummary(c.partyId)));
