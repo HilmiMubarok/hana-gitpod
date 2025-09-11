@@ -1,40 +1,160 @@
-<form [formGroup]="misCp" (ngSubmit)="generateMISCP()">
-  <div class="e-card-header-caption">
-    <ejs-breadcrumb cssClass="margin: 1rem;">
-      <e-breadcrumb-items>
-        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-        <e-breadcrumb-item text="Credit Proposal" url=""> </e-breadcrumb-item>
-      </e-breadcrumb-items>
-    </ejs-breadcrumb>
-  </div>
-  <mat-card>
-    <mat-card-content>
-      <div class="row my-3">
-        <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
-        </div>
+<div class="e-card-header-caption">
+  <ejs-breadcrumb cssClass="margin: 1rem;">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+      <e-breadcrumb-item text="MIS Credit Proposal" url=""> </e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb>
+</div>
 
-        <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
-              <li class="select-all" (click)="toggleSelectAll()">
-                {{ allSelected ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+<div class="department-header" style="margin-bottom: 20px">
+  <div class="department-name h4">Credit Review Department</div>
+</div>
+
+<div class="row my-3">
+  <mat-button-toggle-group name="menu" [(ngModel)]="menu" (ngModelChange)="onMenuChanged()">
+    <mat-button-toggle value="dateFromStatus">Date From Status</mat-button-toggle>
+    <mat-button-toggle value="proposalDate">Proposal Date</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<form [formGroup]="misCp" (ngSubmit)="generateMISCP()">
+  <mat-card>
+    <!-- date from status -->
+    <mat-card-content>
+      <div [hidden]="menu === 'proposalDate'">
+        <div class="row my-3">
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="date1" placeholder="Start date" />
+                <input matEndDate formControlName="date2" placeholder="End date" />
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAll()">
+                  {{ allSelected ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-        <div class="col"></div>
+        <div class="row my-3">
+          <div class="col">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Approval LC</mat-label>
+                <mat-select formControlName="approvalLC" (selectionChange)="changeOption($event)" multiple>
+                  <li class="select-all" (click)="toggleSelectAllApprovalLc()">
+                    {{ allSelectedApprovalLc ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovApprovalLc" [value]="item.statusId">
+                    {{ item.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Prpoposal Type</mat-label>
+                <mat-select formControlName="proposalType" multiple>
+                  <li class="select-all" (click)="toggleSelectAllProposalType()">
+                    {{ allSelectedProposalType ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovProposalType" [value]="item.code">{{ item.code }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Status Memo</mat-label>
+                <mat-select formControlName="statusMemo" multiple>
+                  <li class="select-all" (click)="toggleSelectStatusMemo()">
+                    {{ allSelectedStatusMemo ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovstatusMemo" [value]="item">{{ item }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col"></div>
+        </div>
+      </div>
+
+      <!-- proposal date -->
+
+      <div [hidden]="menu === 'dateFromStatus'">
+        <div class="row my-3">
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Proposal Status</mat-label>
+              <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAll()">
+                  {{ allSelected ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Approval LC</mat-label>
+              <mat-select formControlName="approvalLC" (selectionChange)="changeOption($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAllApprovalLc()">
+                  {{ allSelected ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovApprovalLc" [value]="item.statusId">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Prpoposal Type</mat-label>
+                <mat-select formControlName="proposalType" multiple>
+                  <li class="select-all" (click)="toggleSelectAllProposalType()">
+                    {{ allSelectedProposalType ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovProposalType" [value]="item.code">{{ item.code }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Status Memo</mat-label>
+                <mat-select formControlName="statusMemo" multiple>
+                  <li class="select-all" (click)="toggleSelectStatusMemo()">
+                    {{ allSelectedStatusMemo ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovstatusMemo" [value]="item">{{ item }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
