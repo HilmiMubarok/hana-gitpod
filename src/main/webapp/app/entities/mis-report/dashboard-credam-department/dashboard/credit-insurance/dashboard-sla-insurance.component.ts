@@ -408,7 +408,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
       this.processChartData();
     });
 
-    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => {
+    this.dashboardService.getBarChartData(date, 'by-insurance').subscribe(res => {
       const data = [...res].reverse();
       this.chartUserData = data;
     });
