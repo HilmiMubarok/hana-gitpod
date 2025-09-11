@@ -504,7 +504,11 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.loadSummaryCollateral();
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      this.loadSummaryCollateral().then(() => {
+        this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+      });
+    }
     // this.cpGroub();
   }
 
@@ -703,20 +707,26 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
   }
-  private loadSummaryCollateral(): void {
+  private async loadSummaryCollateral(): Promise<void> {
     const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
-      });
-      for (let i = 0; i < this.dataCollateral.length; i++) {
-        this.findCollateralPropertySummary(this.dataCollateral[i].partyId);
-      }
+    const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
+
+    this.dataCollateral = lodash.filter(res.body, function (o) {
+      return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
     });
+
+    // tunggu semua findCollateralPropertySummary selesai
+    const allSummaries = await Promise.all(this.dataCollateral.map(c => this.findCollateralPropertySummary(c.partyId)));
+
+    // gabungkan hasil ke collateralPropertiesSummary
+    this.collateralPropertiesSummary = allSummaries.flat();
   }
-  public findCollateralPropertySummary(partyId: string): void {
-    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
-      this.collateralPropertiesSummary = [...this.collateralPropertiesSummary, ...res.body];
+  public findCollateralPropertySummary(partyId: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe({
+        next: res => resolve(res.body),
+        error: err => reject(err),
+      });
     });
   }
   private saveUpdate(status: string, source: string): void {

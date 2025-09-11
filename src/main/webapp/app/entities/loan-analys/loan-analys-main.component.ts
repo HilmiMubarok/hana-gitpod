@@ -1197,8 +1197,10 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
-    if (this.dataCollateral.length > 0) {
-      this.loadSummaryCollateral();
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      this.loadSummaryCollateral().then(() => {
+        this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+      });
     }
   }
   private checkIsDoc() {
@@ -2019,7 +2021,7 @@ export class LoanAnalysMainComponent implements OnInit {
     const applicationNumber = this.creditProposal.id;
     const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
 
-    this.dataCollateral = lodash.filter(res.body, o => {
+    this.dataCollateral = lodash.filter(res.body, function (o) {
       return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
     });
 
@@ -2181,9 +2183,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
-
       const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
-
       const lcaData = this.creditProposal.notes.filter(note => note.type === 'loan_committee');
       if (source === 'default') {
         if (this.loanAnalysOpinionComponent) {
@@ -2267,6 +2267,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
+    this.saveCoverageAndUpdate('complete-not-visit', source);
   }
 
   // public onSave(source: string): void {

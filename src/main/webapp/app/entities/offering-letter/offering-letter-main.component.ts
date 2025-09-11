@@ -46,6 +46,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ViewportScroller } from '@angular/common';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { UpdateCoverageSummary } from '../credit-proposal/update-coverage-function';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -92,6 +94,9 @@ export class OfferingLetterMainComponent implements OnInit {
   public dataBuilding: any = [];
   public dataLand: any = [];
   private menuId = '';
+  dataCollateral: ICollateral[];
+  collateralPropertiesSummary: any[];
+  creditProposalStartState: ICreditProposal;
 
   @Input('item')
   get item() {
@@ -121,9 +126,11 @@ export class OfferingLetterMainComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    private updateCoverage: UpdateCoverageSummary
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -313,6 +320,11 @@ export class OfferingLetterMainComponent implements OnInit {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      this.loadSummaryCollateral().then(() => {
+        this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+      });
     }
   }
 
@@ -831,6 +843,28 @@ export class OfferingLetterMainComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+  private async loadSummaryCollateral(): Promise<void> {
+    const applicationNumber = this.creditProposal.id;
+    const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
+
+    this.dataCollateral = lodash.filter(res.body, function (o) {
+      return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+    });
+
+    // tunggu semua findCollateralPropertySummary selesai
+    const allSummaries = await Promise.all(this.dataCollateral.map(c => this.findCollateralPropertySummary(c.partyId)));
+
+    // gabungkan hasil ke collateralPropertiesSummary
+    this.collateralPropertiesSummary = allSummaries.flat();
+  }
+  public findCollateralPropertySummary(partyId: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe({
+        next: res => resolve(res.body),
+        error: err => reject(err),
+      });
+    });
   }
 }
 interface IObj {
