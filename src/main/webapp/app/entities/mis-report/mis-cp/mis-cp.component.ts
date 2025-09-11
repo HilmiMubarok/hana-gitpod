@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
@@ -10,7 +10,7 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 @Component({
   selector: 'jhi-mis-credit-proposal',
   templateUrl: './mis-cp.component.html',
-  styleUrls: ['./mis-cp.css', '../mis-report.css'],
+  styleUrls: ['../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -39,14 +39,86 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+      .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      .department-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        height: 74px;
+        margin-bottom: 3px;
+        margin-top: 25px;
+      }
+
+      .department-name {
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5bafaa;
+      }
     `,
   ],
 })
 export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
+  public lovApprovalLc = [];
+  public lovDebtorStatus = [];
+  public lovstatusMemo = ['Yes', 'No'];
+  public lovProposalType;
+  public menu = 'dateFromStatus';
+  public form: FormGroup;
+  showDateRange = false;
   listOfValue = [];
   misCp: FormGroup;
   allSelected = false;
+  allSelectedApprovalLc = false;
+  allSelectedProposalType = false;
+  allSelectedDebtorStatus = false;
+  dateTypes: string[] = ['Proposal Date', 'Date From Status'];
+
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -54,10 +126,16 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
 
+    this._initializeForm();
+
     this.misCp = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      approvalLC: new FormControl(''),
+      proposalType: new FormControl(''),
+      debtorStatus: new FormControl(''),
+      statusMemo: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -73,8 +151,50 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     });
   }
 
+  toggleSelectAllApprovalLc(): void {
+    this.allSelectedApprovalLc = !this.allSelectedApprovalLc;
+    if (this.allSelectedApprovalLc) {
+      this.misCp.get('approvalLC')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
+    } else {
+      this.misCp.get('approvalLC')?.setValue('');
+    }
+  }
+
+  toggleSelectAllProposalType(): void {
+    this.allSelectedProposalType = !this.allSelectedProposalType;
+    if (this.allSelectedProposalType) {
+      this.misCp.get('proposalType')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
+    } else {
+      this.misCp.get('proposalType')?.setValue('');
+    }
+  }
+
+  toggleSelectAllDebtorStatus(): void {
+    this.allSelectedDebtorStatus = !this.allSelectedDebtorStatus;
+    if (this.allSelectedDebtorStatus) {
+      this.misCp.get('debtorStatus')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
+    } else {
+      this.misCp.get('debtorStatus')?.setValue('');
+    }
+  }
+
   public previousState(): void {
     window.history.back();
+  }
+
+  onMenuChanged(): void {
+    this._resetForms();
+  }
+
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedProposalType = false;
+      this.allSelectedApprovalLc = false;
+      this.allSelectedDebtorStatus = false;
+      this.allSelectedProposalType = false;
+    }
   }
 
   ngOnInit(): void {
@@ -84,6 +204,22 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+
+    this.misReportService.getApprovalLc('LOS_REL').subscribe({
+      next: res => {
+        this.lovApprovalLc = res;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Approval Lc',
+        });
+      },
+    });
+
+    this._getProposalTypes();
+    this.misCp.get('type')?.setValue('Proposal Date');
   }
 
   toggleSelectAll(): void {
@@ -92,6 +228,30 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       this.misCp.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
       this.misCp.get('status')?.setValue('');
+    }
+  }
+
+  private _getProposalTypes(): void {
+    this.misReportService.getProposalTypes().subscribe({
+      next: res => {
+        this.lovProposalType = res.map(item => ({
+          code: item.value,
+          description: item.statusDescription,
+        }));
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Proposal Types' });
+      },
+    });
+  }
+
+  allSelectedStatusMemo = false;
+  public toggleSelectStatusMemo(): void {
+    this.allSelectedStatusMemo = !this.allSelectedStatusMemo;
+    if (this.allSelectedStatusMemo) {
+      this.misCp.get('statusMemo')?.setValue([...this.lovstatusMemo]);
+    } else {
+      this.misCp.get('statusMemo')?.setValue(null);
     }
   }
 
@@ -116,17 +276,80 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     this.misCp.get('date2')?.reset();
   }
 
-  generateMISCP() {
+  private _initializeForm() {
+    this.form = new FormGroup({
+      date1: new FormControl(null),
+      date2: new FormControl(null),
+      status: new FormControl(null),
+      approvalLC: new FormControl(null),
+      debtorStatus: new FormControl(null),
+      statusMemo: new FormControl(null),
+      proposalType: new FormControl(null),
+    });
+  }
+
+  public generateMISCP(): void {
+    this.rowCounter = 0;
+    if (this.menu === 'dateFromStatus') {
+      if ((!this.misCp.get('date1')?.value || !this.misCp.get('date2')?.value) && !this.misCp.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
+
+      if (!this.misCp.get('date1')?.value || !this.misCp.get('date2')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Date Range.',
+        });
+        return;
+      }
+
+      if (!this.misCp.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Status.',
+        });
+        return;
+      }
+    } else if (this.menu === 'proposalDate') {
+      if (!this.misCp.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Status.',
+        });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.misCp.get('date1')?.value,
-      endDate: this.misCp.get('date2')?.value,
-      status: this._convertStatusToString(this.misCp.get('status')?.value),
-      type: null,
-    };
+
+    let params;
+
+    if (this.menu === 'dateFromStatus') {
+      params = {
+        startDate: this.misCp.get('date1')?.value,
+        endDate: this.misCp.get('date2')?.value,
+        status: this._convertStatusToString(this.misCp.get('status')?.value),
+        type: 'STATELOG',
+      };
+    } else {
+      params = {
+        startDate: null,
+        endDate: null,
+        status: this._convertStatusToString(this.misCp.get('status')?.value),
+        type: null,
+      };
+    }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_CREDIT_PROPOSAL'),
+      next: res => this._processGenerate(res.body, 'MIS_CL_Task_HO'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -316,17 +539,52 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     return num.toFixed(2);
   }
 
-  // ini bergantung dari jumlah si facilitynya
+  private rowCounter = 0;
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     const repeatCount = proposal.product?.length || 1;
     const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
+    // 🔹 Tambahin logic filter Approval LC
+    const selectedApprovalLc = this.misCp.get('approvalLC')?.value;
+    const approvalLcValue = proposal.approvalLc || '';
+
+    if (selectedApprovalLc && selectedApprovalLc.length > 0) {
+      const normalizedSelected = selectedApprovalLc.map((val: string) => val.replace(/_/g, ' ').toUpperCase());
+      const approvalLcUpper = (approvalLcValue || '').toUpperCase();
+      if (!normalizedSelected.includes(approvalLcUpper)) {
+        return;
+      }
+    }
+
+    const selectedProposalType = this.misCp.get('proposalType')?.value;
+    const proposalTypeValue = proposal.proposalType || '';
+
+    if (selectedProposalType && selectedProposalType.length > 0) {
+      const normalizedSelected = selectedProposalType.map((val: string) => val.toUpperCase());
+      const proposalTypeUpper = (proposalTypeValue || '').toUpperCase();
+      if (!normalizedSelected.includes(proposalTypeUpper)) {
+        return;
+      }
+    }
+
+    // 🔹 Filter Status Memo
+    const selectedStatusMemo = this.misCp.get('statusMemo')?.value;
+    const memoValue = (this.getMemo(proposal) || '').toString();
+
+    if (selectedStatusMemo && selectedStatusMemo.length > 0) {
+      const normalizedSelected = selectedStatusMemo.map((val: string) => val.toUpperCase());
+      const memoUpper = memoValue.toUpperCase();
+      if (!normalizedSelected.includes(memoUpper)) {
+        return;
+      }
+    }
+
     for (let i = 0; i < repeatCount; i++) {
       const product = proposal.product?.[i] || {};
 
       const row = worksheet.addRow({
-        no: i === 0 ? index + 1 : '',
+        no: i === 0 ? ++this.rowCounter : '',
         dateOfApprovalToLA: this.getDateOfApprovalToLA(proposal),
         dateOfAssignment: this.getDateOfAssignment(proposal),
         segment: proposal.segmentParentRM || '',
@@ -348,7 +606,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         divHead: proposal.dhName || '',
         rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
         debtorName: proposal.debtorName || '',
-        loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
+        loanCommApproval: approvalLcValue || '',
         lineOfBusiness: proposal.lineOfBusiness || '',
         scorecard: this.getScoreCardAndCreditRating(proposal, 'scorecard'),
         creditRating: this.getScoreCardAndCreditRating(proposal, 'creditRating'),
