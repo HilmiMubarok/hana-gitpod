@@ -349,7 +349,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_CL_Task_HO'),
+      next: res => this._processGenerate(res.body, 'MIS_CREDIT_PROPOSAL'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
