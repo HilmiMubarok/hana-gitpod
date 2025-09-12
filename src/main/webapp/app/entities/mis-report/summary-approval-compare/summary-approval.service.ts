@@ -186,6 +186,9 @@ export class SummaryApprovalService {
         return obj;
       }, {});
 
+    // Add all reportData for parent calculations (approved_parent, reject_parent, total, percentages)
+    const allReportData = { ...reportData, ...filteredReportData };
+    
     const totalColumns = 1 + groups.length * 3 + 3;
 
     worksheet.mergeCells(startFromRow, 1, startFromRow + 2, 1);
@@ -290,7 +293,7 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           approvedKeys.forEach(key => {
-            const data = filteredReportData[key]?.[groupKey] || {};
+            const data = allReportData[key]?.[groupKey] || {};
             totalNOA += data.noa || 0;
             totalIDR += data.idr || 0;
             totalUSD += data.usd || 0;
@@ -304,7 +307,7 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           rejectKeys.forEach(key => {
-            const data = filteredReportData[key]?.[groupKey] || {};
+            const data = allReportData[key]?.[groupKey] || {};
             totalNOA += data.noa || 0;
             totalIDR += data.idr || 0;
             totalUSD += data.usd || 0;
@@ -312,11 +315,11 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
         } else if (isPercentageRow) {
-          const data = filteredReportData[condition.key]?.[groupKey] || {};
-          rowData.push(data.noa || '', '', '');
+          const data = allReportData[condition.key]?.[groupKey] || {};
+          rowData.push(data.noa || '0', '0', '0');
         } else {
-          const data = filteredReportData[condition.key]?.[groupKey] || {};
-          rowData.push(data.noa || '', data.idr ? this.formatNumber(data.idr) : '', data.usd ? this.formatNumber(data.usd) : '');
+          const data = allReportData[condition.key]?.[groupKey] || {};
+          rowData.push(data.noa || '0', data.idr ? this.formatNumber(data.idr) : '0', data.usd ? this.formatNumber(data.usd) : '0');
         }
       });
 
@@ -334,7 +337,7 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         approvedKeys.forEach(key => {
-          const data = filteredReportData[key]?.total || {};
+          const data = allReportData[key]?.total || {};
           totalNOA += data.noa || 0;
           totalIDR += data.idr || 0;
           totalUSD += data.usd || 0;
@@ -348,7 +351,7 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         rejectKeys.forEach(key => {
-          const data = filteredReportData[key]?.total || {};
+          const data = allReportData[key]?.total || {};
           totalNOA += data.noa || 0;
           totalIDR += data.idr || 0;
           totalUSD += data.usd || 0;
@@ -356,14 +359,14 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
       } else if (isPercentageRow) {
-        const totalData = filteredReportData[condition.key]?.total || {};
-        rowData.push(totalData.noa || '', '', '');
+        const totalData = allReportData[condition.key]?.total || {};
+        rowData.push(totalData.noa || '0', '0', '0');
       } else {
-        const totalData = filteredReportData[condition.key]?.total || {};
+        const totalData = allReportData[condition.key]?.total || {};
         rowData.push(
-          totalData.noa || '',
-          totalData.idr ? this.formatNumber(totalData.idr) : '',
-          totalData.usd ? this.formatNumber(totalData.usd) : ''
+          totalData.noa || '0',
+          totalData.idr ? this.formatNumber(totalData.idr) : '0',
+          totalData.usd ? this.formatNumber(totalData.usd) : '0'
         );
       }
 
