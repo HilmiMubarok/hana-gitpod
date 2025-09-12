@@ -164,18 +164,28 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
     let grandTotalUSD = 0;
 
     // Sum all approved, reject, and cancel
-    Object.keys(reportData).forEach(key => {
-      if (key !== 'total' && !key.startsWith('percent_')) {
-        grandTotalNOA += reportData[key].total.noa;
-        grandTotalIDR += reportData[key].total.idr;
-        grandTotalUSD += reportData[key].total.usd;
+    const categoriesToSum = [
+      'approved_new', 'approved_additional', 'approved_renewal', 
+      'approved_restructure', 'approved_decrease', 'approved_other',
+      'reject_new', 'reject_additional', 'reject_renewal', 
+      'reject_restructure', 'reject_decrease', 'reject_other',
+      'cancel'
+    ];
+
+    categoriesToSum.forEach(key => {
+      if (reportData[key]) {
+        grandTotalNOA += reportData[key].total.noa || 0;
+        grandTotalIDR += reportData[key].total.idr || 0;
+        grandTotalUSD += reportData[key].total.usd || 0;
 
         // Update segment totals
         groups.forEach((_: string, index: number) => {
           const segmentKey = `sme${index + 1}`;
-          reportData.total[segmentKey].noa += reportData[key][segmentKey].noa;
-          reportData.total[segmentKey].idr += reportData[key][segmentKey].idr;
-          reportData.total[segmentKey].usd += reportData[key][segmentKey].usd;
+          if (reportData[key][segmentKey]) {
+            reportData.total[segmentKey].noa += reportData[key][segmentKey].noa || 0;
+            reportData.total[segmentKey].idr += reportData[key][segmentKey].idr || 0;
+            reportData.total[segmentKey].usd += reportData[key][segmentKey].usd || 0;
+          }
         });
       }
     });
