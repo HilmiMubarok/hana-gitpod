@@ -429,7 +429,7 @@ export class MisDashboardCredamComponent implements OnInit {
       const staffNeeds = this.staffNeeds(applicationType);
       const existing = this.staffcredams;
       const totalStaffNeeds = totalStaffNeedss;
-      const shortOver = totalStaffNeedss - this.staffcredams;
+      const shortOver = this.staffcredams - totalStaffNeedss;
 
       return {
         applicationType,
