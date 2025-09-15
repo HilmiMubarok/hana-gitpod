@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { PageEvent } from '@angular/material/paginator';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline',
@@ -90,6 +91,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   public lovApprovalLc = [];
+  public selection = new SelectionModel<any>(true, []);
   listOfValue = [];
   misCpTimeline: FormGroup;
   allSelected = false;
@@ -428,18 +430,63 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.downloadFile(fileName);
   }
 
+  private _getTimelineFilters(): {
+    customerType: any[];
+    query: string;
+    approvalLC: string[];
+    skipFilters: boolean;
+  } {
+    const hasSelection = this.selectedApplications.length > 0;
+
+    return {
+      customerType: hasSelection ? [] : this.misCpTimeline.get('customerType')?.value || [],
+      query: this.misCpTimeline.get('query')?.value || '',
+      approvalLC: hasSelection ? [] : this.misCpTimeline.get('approvalLC')?.value || [],
+      skipFilters: hasSelection,
+    };
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
   protected processData(data: any[]): void {
-    const selectedData =
-      this.selectedApplications.length > 0 ? data.filter(item => this.selectedApplications.includes(item.proposalNumber)) : data;
+    const filters = this._getTimelineFilters();
+
+    const selectedIds = this.selection.selected.map(item => item.id);
+
+    let selectedData = selectedIds.length > 0 ? data.filter(item => selectedIds.includes(item.id)) : data;
+
+    if (selectedIds.length === 0 && !filters.skipFilters) {
+      if (filters.approvalLC.length > 0) {
+        const normalizedSelected = filters.approvalLC.map((val: string) => val.replace(/_/g, ' ').toUpperCase());
+        selectedData = selectedData.filter(item => normalizedSelected.includes((item.approvalLc || '').toUpperCase()));
+      }
+
+      if (filters.customerType.length > 0) {
+        selectedData = selectedData.filter(item => filters.customerType.includes(item.customerStatus || ''));
+      }
+    }
+
+    if (filters.query && filters.query.trim() !== '') {
+      const keyword = filters.query.toLowerCase();
+      selectedData = selectedData.filter(
+        item => (item.proposalNumber || '').toLowerCase().includes(keyword) || (item.debtorName || '').toLowerCase().includes(keyword)
+      );
+    }
 
     selectedData.sort((a, b) => {
       const dateA = new Date(a.proposalDate);
       const dateB = new Date(b.proposalDate);
-
       if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
         return 0;
       }
-
       return dateA.getTime() - dateB.getTime();
     });
 
@@ -477,7 +524,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const timeLineCreditProposal = data.timeLineCreditProposal;
 
     if (!Array.isArray(timeLineCreditProposal)) {
-      return { status: '', createdDate: '' }; // Mengembalikan nilai default jika bukan array
+      return { status: '', createdDate: '' };
     }
 
     const latestStatus = timeLineCreditProposal.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())[0];
@@ -488,62 +535,11 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     };
   }
 
-  // loadTimelineData(): void {
-  //   this.service.getApprovalLc('LOS_REL').subscribe((data: any) => {
-  //     // patch semua data biasa
-  //     this.misCpTimeline.patchValue({
-  //       customerType: data.customerType,
-  //       query: data.query,
-  //       // ...
-  //     });
-
-  //     // 🔑 khusus ApprovalLC → mapping DB description ke statusId
-  //     if (data.approvalLc) {
-  //       // bisa single string atau array dari DB
-  //       const dbApprovalLc = Array.isArray(data.approvalLc) ? data.approvalLc : [data.approvalLc];
-
-  //       const mappedValues = this.lovApprovalLc
-  //         .filter(opt => dbApprovalLc.includes(opt.description)) // cari match via description
-  //         .map(opt => opt.statusId); // ambil statusId buat value form
-
-  //       this.misCpTimeline.get('approvalLC')?.setValue(mappedValues);
-  //     }
-  //   });
-  // }
-
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal: any, index: number): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
-    const customerType = this.misCpTimeline.get('customerType')?.value;
-    const search = this.misCpTimeline.get('query')?.value;
-    const selectedApprovalLc = this.misCpTimeline.get('approvalLC')?.value;
+    const reversedTimeline = [...(timeLineCreditProposal.timeLineCreditProposal || [])].reverse();
 
-    let filteredTimeline: any[];
-
-    if (selectedApprovalLc && selectedApprovalLc.length > 0) {
-      const normalizedSelected = selectedApprovalLc.map((val: string) => val.replace(/_/g, ' ').toUpperCase());
-      const approvalLcValue = (timeLineCreditProposal.approvalLc || '').toUpperCase();
-      if (normalizedSelected.includes(approvalLcValue)) {
-        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
-      } else {
-        filteredTimeline = [];
-      }
-    } else {
-      filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
-    }
-
-    if (!customerType || customerType.length === 0 || (search && search !== '')) {
-      filteredTimeline = [...filteredTimeline];
-    } else {
-      const customerStatus = timeLineCreditProposal.customerStatus || '';
-      if (customerType.includes(customerStatus)) {
-        filteredTimeline = [...filteredTimeline];
-      } else {
-        filteredTimeline = [];
-      }
-    }
-
-    const reversedTimeline = [...filteredTimeline].reverse();
     let manualNo = 1;
     const columnNo = worksheet.getColumn(1).values;
     for (let i = columnNo.length - 1; i >= 1; i--) {
@@ -560,12 +556,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         no: timelineIndex === 0 ? manualNo : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
         proposalDate:
-          timelineIndex === 0
-            ? timeLineCreditProposal.proposalDate
-              ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-                  new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
-                ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
-              : ''
+          timelineIndex === 0 && timeLineCreditProposal.proposalDate
+            ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+                new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
+              ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
             : '',
         segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
         branchs: timelineIndex === 0 ? timeLineCreditProposal.bookingBranchName || '' : '',
@@ -586,8 +580,8 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       });
     });
 
-    if (filteredTimeline.length > 0) {
-      const endRow = startRow + filteredTimeline.length - 1;
+    if (reversedTimeline.length > 0) {
+      const endRow = startRow + reversedTimeline.length - 1;
       worksheet.mergeCells(`A${startRow}:A${endRow}`);
       worksheet.mergeCells(`B${startRow}:B${endRow}`);
       worksheet.mergeCells(`C${startRow}:C${endRow}`);
