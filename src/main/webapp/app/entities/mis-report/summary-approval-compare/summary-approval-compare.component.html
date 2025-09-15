@@ -16,7 +16,12 @@
     <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[1], title: 'Data 2' }"></ng-container>
 
     <div class="text-center">
-        <button mat-raised-button id="generate-btn" class="confirm-button-no" (click)="generate()">Generate</button>
+        <button mat-raised-button id="generate-btn" class="confirm-button-no" (click)="generate()"
+            [disabled]="loadingGenerate"
+            [class.loading]="loadingGenerate">
+            <span *ngIf="!loadingGenerate">Generate Document</span>
+            <span *ngIf="loadingGenerate">Generating Document...</span>
+        </button>
     </div>
 </div>
 
@@ -111,7 +116,8 @@
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Debtor Status</mat-label>
                             <mat-select multiple formControlName="debtorStatus">
-                                <li class="select-all" (click)="toggleSelectAllDebtorStatus(config === formConfigs[0] ? 0 : 1)">
+                                <li class="select-all"
+                                    (click)="toggleSelectAllDebtorStatus(config === formConfigs[0] ? 0 : 1)">
                                     {{ config.allSelectedDebtorStatus ? 'Deselect All' : 'Select All' }}
                                 </li>
                                 <mat-option *ngFor="let item of lovDebtorStatus" [value]="item">{{ item }}</mat-option>
