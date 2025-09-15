@@ -321,7 +321,9 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   }
 
   public generate() {
+    this.loadingGenerate = true;
     if (this._getValidationMessages().length > 0) {
+      this.loadingGenerate = false;
       return;
     }
 
@@ -334,6 +336,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     if (!data1 || !data2) {
       this._setAutoWidthForAllColumns();
       this.downloadFile('MIS_SUMMARY_APPROVAL_COMPARE');
+      this.loadingGenerate = false;
       return;
     }
 
@@ -349,6 +352,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
 
     this.downloadFile('Summary_Approval_Compare_');
     this._resetData();
+    this.loadingGenerate = false;
   }
 
   protected processData(data): void {

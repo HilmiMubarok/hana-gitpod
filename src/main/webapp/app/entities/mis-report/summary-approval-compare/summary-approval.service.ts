@@ -186,8 +186,44 @@ export class SummaryApprovalService {
         return obj;
       }, {});
 
-    // Add all reportData for parent calculations (approved_parent, reject_parent, total, percentages)
-    const allReportData = { ...reportData, ...filteredReportData };
+    // Create filtered report data that includes calculated totals based on selected categories
+    const allReportData = { ...reportData };
+    
+    // Recalculate total row based on filtered data only
+    const totalRow = { ...reportData.total };
+    
+    // Reset totals to 0
+    totalRow.total = { noa: 0, idr: 0, usd: 0 };
+    groups.forEach((_: string, index: number) => {
+      const segmentKey = `sme${index + 1}`;
+      totalRow[segmentKey] = { noa: 0, idr: 0, usd: 0 };
+    });
+    
+    // Sum only selected categories for total row
+    flattenConditionsDebtorStatusArray.forEach(key => {
+      if (reportData[key]) {
+        // Add to grand total
+        totalRow.total.noa += reportData[key].total.noa || 0;
+        totalRow.total.idr += reportData[key].total.idr || 0;
+        totalRow.total.usd += reportData[key].total.usd || 0;
+        
+        // Add to segment totals
+        groups.forEach((_: string, index: number) => {
+          const segmentKey = `sme${index + 1}`;
+          if (reportData[key][segmentKey]) {
+            totalRow[segmentKey].noa += reportData[key][segmentKey].noa || 0;
+            totalRow[segmentKey].idr += reportData[key][segmentKey].idr || 0;
+            totalRow[segmentKey].usd += reportData[key][segmentKey].usd || 0;
+          }
+        });
+      }
+    });
+    
+    // Update allReportData with recalculated totals
+    allReportData.total = totalRow;
+    
+    // Merge filtered data
+    Object.assign(allReportData, filteredReportData);
     
     const totalColumns = 1 + groups.length * 3 + 3;
 
@@ -293,10 +329,13 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           approvedKeys.forEach(key => {
-            const data = allReportData[key]?.[groupKey] || {};
-            totalNOA += data.noa || 0;
-            totalIDR += data.idr || 0;
-            totalUSD += data.usd || 0;
+            // Only include data if this specific approved category is in the filtered data
+            if (filteredReportData[key]) {
+              const data = filteredReportData[key]?.[groupKey] || {};
+              totalNOA += data.noa || 0;
+              totalIDR += data.idr || 0;
+              totalUSD += data.usd || 0;
+            }
           });
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
@@ -307,10 +346,13 @@ export class SummaryApprovalService {
             totalUSD = 0;
 
           rejectKeys.forEach(key => {
-            const data = allReportData[key]?.[groupKey] || {};
-            totalNOA += data.noa || 0;
-            totalIDR += data.idr || 0;
-            totalUSD += data.usd || 0;
+            // Only include data if this specific reject category is in the filtered data
+            if (filteredReportData[key]) {
+              const data = filteredReportData[key]?.[groupKey] || {};
+              totalNOA += data.noa || 0;
+              totalIDR += data.idr || 0;
+              totalUSD += data.usd || 0;
+            }
           });
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
@@ -318,7 +360,10 @@ export class SummaryApprovalService {
           const data = allReportData[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '0', '0', '0');
         } else {
-          const data = allReportData[condition.key]?.[groupKey] || {};
+          // For 'total' row, use allReportData which has recalculated totals
+          // For other individual categories, use filteredReportData
+          const dataSource = condition.key === 'total' ? allReportData : filteredReportData;
+          const data = dataSource[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '0', data.idr ? this.formatNumber(data.idr) : '0', data.usd ? this.formatNumber(data.usd) : '0');
         }
       });
@@ -337,10 +382,13 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         approvedKeys.forEach(key => {
-          const data = allReportData[key]?.total || {};
-          totalNOA += data.noa || 0;
-          totalIDR += data.idr || 0;
-          totalUSD += data.usd || 0;
+          // Only include data if this specific approved category is in the filtered data
+          if (filteredReportData[key]) {
+            const data = filteredReportData[key]?.total || {};
+            totalNOA += data.noa || 0;
+            totalIDR += data.idr || 0;
+            totalUSD += data.usd || 0;
+          }
         });
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
@@ -351,10 +399,13 @@ export class SummaryApprovalService {
           totalUSD = 0;
 
         rejectKeys.forEach(key => {
-          const data = allReportData[key]?.total || {};
-          totalNOA += data.noa || 0;
-          totalIDR += data.idr || 0;
-          totalUSD += data.usd || 0;
+          // Only include data if this specific reject category is in the filtered data
+          if (filteredReportData[key]) {
+            const data = filteredReportData[key]?.total || {};
+            totalNOA += data.noa || 0;
+            totalIDR += data.idr || 0;
+            totalUSD += data.usd || 0;
+          }
         });
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
@@ -362,7 +413,10 @@ export class SummaryApprovalService {
         const totalData = allReportData[condition.key]?.total || {};
         rowData.push(totalData.noa || '0', '0', '0');
       } else {
-        const totalData = allReportData[condition.key]?.total || {};
+        // For 'total' row, use allReportData which has recalculated totals
+        // For other individual categories, use filteredReportData
+        const dataSource = condition.key === 'total' ? allReportData : filteredReportData;
+        const totalData = dataSource[condition.key]?.total || {};
         rowData.push(
           totalData.noa || '0',
           totalData.idr ? this.formatNumber(totalData.idr) : '0',
