@@ -77,7 +77,7 @@ export class MisCpSlaloanopsProductivityService {
     const totalStaffNeeds = rows.reduce((acc, row) => acc + row.staffNeeds, 0);
     rows.forEach(row => {
       row.totalStaffNeeds = totalStaffNeeds;
-      const shortOver = row.totalStaffNeeds - row.existing;
+      const shortOver = row.existing - row.totalStaffNeeds;
       row.shortOver = shortOver;
     });
     this.processedRows$.next(rows);
