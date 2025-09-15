@@ -443,12 +443,12 @@ export class MisDashboardCredamComponent implements OnInit {
       };
     });
 
-    const total = this.totalStaffNeeds(processed).toFixed(2);
+    // const total = this.totalStaffNeeds(processed).toFixed(2);
 
     this.dataSource = this.calculateRowSpan(
       processed.map(row => ({
         ...row,
-        totalStaffNeeds: total,
+        totalStaffNeeds: row.totalStaffNeeds,
         existing: row.existing,
         shortOver: row.shortOver,
       }))
