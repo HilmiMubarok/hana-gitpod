@@ -39,7 +39,7 @@
 
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Status</mat-label>
+              <mat-label>Proposal Status</mat-label>
               <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
                 <li class="select-all" (click)="toggleSelectAll()">
                   {{ allSelected ? 'Deselect All' : 'Select All' }}
@@ -118,7 +118,7 @@
               <mat-label>Approval LC</mat-label>
               <mat-select formControlName="approvalLC" (selectionChange)="changeOption($event)" multiple>
                 <li class="select-all" (click)="toggleSelectAllApprovalLc()">
-                  {{ allSelected ? 'Deselect All' : 'Select All' }}
+                  {{ allSelectedApprovalLc ? 'Deselect All' : 'Select All' }}
                 </li>
                 <mat-option *ngFor="let item of lovApprovalLc" [value]="item.statusId">
                   {{ item.description }}
