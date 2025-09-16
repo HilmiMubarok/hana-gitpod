@@ -541,6 +541,47 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
   private rowCounter = 0;
 
+  public getRegionalShortName(regional: string): string {
+    if (!regional) {
+      return '';
+    }
+    const reg = regional.trim().toUpperCase();
+
+    if (reg.startsWith('SME ')) {
+      return reg.replace('SME', '').trim();
+    }
+
+    if (reg === 'SME PLUS') {
+      return 'SM';
+    }
+
+    if (reg.startsWith('GLOBAL MARKETING')) {
+      return reg.replace(/GLOBAL MARKETING\s*/i, 'K').trim();
+    }
+
+    if (reg === 'CORPORATE BANKING') {
+      return 'CP';
+    }
+
+    if (reg === 'INDUSTRY COVERAGE') {
+      return 'IC';
+    }
+
+    if (reg === 'COMMERCIAL BANKING') {
+      return 'CM';
+    }
+
+    if (reg === 'ENTERPRISE BANKING') {
+      return 'EB';
+    }
+
+    if (reg === 'MORTGAGE/KPR' || reg === 'MORTGAGE / KPR') {
+      return 'M';
+    }
+
+    return regional;
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     const repeatCount = proposal.product?.length || 1;
     const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
@@ -599,7 +640,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         darNumberOfAppeal: this.getDarNumberOfAppeal(proposal),
         program: proposal.program || '',
         branchs: proposal.bookingBranchName || '',
-        regional: proposal.regionalParentRM || '',
+        regional: this.getRegionalShortName(proposal.regionalParentRM) || '',
         headName: proposal.headName || '',
         bm: proposal.bm || '',
         depHead: proposal.deptHeadName || '',
