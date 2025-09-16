@@ -13,6 +13,7 @@ import { SegmentationDataReportComponent } from './segmentation-data-report/segm
 import { DpdlDataComponent } from './dpdl-data/dpdl-data.component';
 import { CreditNominalDataComponent } from './credit-nominal-data/credit-nominal-data.component';
 import { StatusAkadComponent } from './status-akad/status-akad-report.component';
+import { StatusCreditComponent } from './status-credit/status-credit-report.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     DpdlDataComponent,
     CreditNominalDataComponent,
     StatusAkadComponent,
+    StatusCreditComponent,
   ],
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
