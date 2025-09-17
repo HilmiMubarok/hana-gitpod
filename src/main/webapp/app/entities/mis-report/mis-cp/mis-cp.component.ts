@@ -187,8 +187,8 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   }
 
   private _resetForms(): void {
-    if (this.form) {
-      this.form.reset();
+    if (this.misCp) {
+      this.misCp.reset();
       this.allSelected = false;
       this.allSelectedProposalType = false;
       this.allSelectedApprovalLc = false;
@@ -277,7 +277,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   }
 
   private _initializeForm() {
-    this.form = new FormGroup({
+    this.misCp = new FormGroup({
       date1: new FormControl(null),
       date2: new FormControl(null),
       status: new FormControl(null),
