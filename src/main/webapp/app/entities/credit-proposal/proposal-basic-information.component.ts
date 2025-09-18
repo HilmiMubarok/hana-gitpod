@@ -410,7 +410,12 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
           this.creditProposal.notes = res.body.notes;
           this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-          this.saveCoverageAndUpdate(statusPreSave, source);
+          if (this.creditProposal.collateralProductRelations.length > 0) {
+            this.loadSummaryCollateral().then(() => {
+              this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+            });
+          }
+          //  this.saveCoverageAndUpdate(statusPreSave, source);
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
@@ -542,8 +547,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     }
-    if (this.dataCollateral.length > 0) {
-      this.loadSummaryCollateral();
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      this.loadSummaryCollateral().then(() => {
+        this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+      });
     }
     if (this.collateral.length > 0) {
       for (let i = 0; i < this.collateral.length; i++) {
