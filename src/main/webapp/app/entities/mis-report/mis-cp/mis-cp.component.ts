@@ -98,6 +98,13 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
         margin-top: 10px;
         color: #5bafaa;
       }
+
+      .e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text .e-anchor-wrap {
+        align-items: inherit;
+        display: inherit;
+        color: #3c958f;
+        font-size: 16px;
+      }
     `,
   ],
 })
