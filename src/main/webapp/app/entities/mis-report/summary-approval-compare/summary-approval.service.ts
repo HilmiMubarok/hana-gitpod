@@ -107,16 +107,23 @@ export class SummaryApprovalService {
     const proposalType = formData.get('proposalType')?.value;
     const segment = this._convertStatusToString(formData.get('segment')?.value);
     const lc = this._convertStatusToString(formData.get('lc')?.value);
-    
+
     // Get form values for amountType, condition, and debtorStatus
     const amountTypeValue = formData.get('amountType')?.value;
     const conditionValue = formData.get('condition')?.value;
     const debtorStatusValue = formData.get('debtorStatus')?.value;
-    
+
     // Apply default selection logic: if empty or null, select all
     const amountType = this._convertStatusToStringWithDefault(amountTypeValue, ['Changes', 'Plafond']);
     const condition = this._convertStatusToStringWithDefault(conditionValue, ['Approved', 'Reject', 'Cancel']);
-    const debtorStatus = this._convertStatusToStringWithDefault(debtorStatusValue, ['New', 'Additional', 'Renewal', 'Restructure', 'Decrease', 'Other']);
+    const debtorStatus = this._convertStatusToStringWithDefault(debtorStatusValue, [
+      'New',
+      'Additional',
+      'Renewal',
+      'Restructure',
+      'Decrease',
+      'Other',
+    ]);
 
     const payload = {
       startDate,
@@ -176,7 +183,14 @@ export class SummaryApprovalService {
     return numValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  createTableInWorksheet(worksheet: ExcelJS.Worksheet, tableData: TableData, startFromRow = 1, conditions: string, debtorStatus: string, amountTypes: string): void {
+  createTableInWorksheet(
+    worksheet: ExcelJS.Worksheet,
+    tableData: TableData,
+    startFromRow = 1,
+    conditions: string,
+    debtorStatus: string,
+    amountTypes: string
+  ): void {
     const { title: mainTitle, groups, reportData } = tableData;
 
     const conditionsArray = conditions.split(',');
@@ -204,10 +218,10 @@ export class SummaryApprovalService {
 
     // Create filtered report data that includes calculated totals based on selected categories
     const allReportData = { ...reportData };
-    
+
     // Recalculate total row based on filtered data only
     const totalRow = { ...reportData.total };
-    
+
     // Reset totals to 0 for all amount types
     const resetTotals = () => {
       const totals: any = { noa: 0 };
@@ -218,13 +232,13 @@ export class SummaryApprovalService {
       });
       return totals;
     };
-    
+
     totalRow.total = resetTotals();
     groups.forEach((_: string, index: number) => {
       const segmentKey = `sme${index + 1}`;
       totalRow[segmentKey] = resetTotals();
     });
-    
+
     // Sum only selected categories for total row
     flattenConditionsDebtorStatusArray.forEach(key => {
       if (reportData[key]) {
@@ -235,7 +249,7 @@ export class SummaryApprovalService {
           totalRow.total[`${amountKey}_idr`] += reportData[key].total[`${amountKey}_idr`] || 0;
           totalRow.total[`${amountKey}_usd`] += reportData[key].total[`${amountKey}_usd`] || 0;
         });
-        
+
         // Add to segment totals
         groups.forEach((_: string, index: number) => {
           const segmentKey = `sme${index + 1}`;
@@ -250,13 +264,13 @@ export class SummaryApprovalService {
         });
       }
     });
-    
+
     // Update allReportData with recalculated totals
     allReportData.total = totalRow;
-    
+
     // Merge filtered data
     Object.assign(allReportData, filteredReportData);
-    
+
     // Calculate dynamic column count based on selected amount types
     const amountColumnsPerSegment = amountTypesArray.length * 2; // 2 columns per amount type (IDR, USD)
     const columnsPerSegment = 1 + amountColumnsPerSegment; // NOA + amount columns
@@ -311,7 +325,7 @@ export class SummaryApprovalService {
       currentCol++;
 
       amountTypesArray.forEach(amountType => {
-        worksheet.getCell(startFromRow + 2, currentCol).value = `Amount (IDR) ${amountType}`;
+        worksheet.getCell(startFromRow + 2, currentCol).value = `${amountType === 'Plafond' ? 'Total Plafond' : amountType} (IDR)`;
         worksheet.getCell(startFromRow + 2, currentCol).alignment = { horizontal: 'center', vertical: 'middle' };
         worksheet.getCell(startFromRow + 2, currentCol).font = { bold: true };
         worksheet.getCell(startFromRow + 2, currentCol).fill = {
@@ -319,8 +333,8 @@ export class SummaryApprovalService {
           pattern: 'solid',
           fgColor: { argb: 'FFC0C0C0' },
         };
-        
-        worksheet.getCell(startFromRow + 2, currentCol + 1).value = `Amount (USD) ${amountType}`;
+
+        worksheet.getCell(startFromRow + 2, currentCol + 1).value = `${amountType === 'Plafond' ? 'Total Plafond' : amountType} (USD)`;
         worksheet.getCell(startFromRow + 2, currentCol + 1).alignment = { horizontal: 'center', vertical: 'middle' };
         worksheet.getCell(startFromRow + 2, currentCol + 1).font = { bold: true };
         worksheet.getCell(startFromRow + 2, currentCol + 1).fill = {
@@ -355,7 +369,7 @@ export class SummaryApprovalService {
     currentCol++;
 
     amountTypesArray.forEach(amountType => {
-      worksheet.getCell(startFromRow + 2, currentCol).value = `Amount (IDR) ${amountType}`;
+      worksheet.getCell(startFromRow + 2, currentCol).value = `${amountType === 'Plafond' ? 'Total Plafond' : amountType} (IDR)`;
       worksheet.getCell(startFromRow + 2, currentCol).alignment = { horizontal: 'center', vertical: 'middle' };
       worksheet.getCell(startFromRow + 2, currentCol).font = { bold: true };
       worksheet.getCell(startFromRow + 2, currentCol).fill = {
@@ -363,8 +377,8 @@ export class SummaryApprovalService {
         pattern: 'solid',
         fgColor: { argb: 'FFC0C0C0' },
       };
-      
-      worksheet.getCell(startFromRow + 2, currentCol + 1).value = `Amount (USD) ${amountType}`;
+
+      worksheet.getCell(startFromRow + 2, currentCol + 1).value = `${amountType === 'Plafond' ? 'Total Plafond' : amountType} (USD)`;
       worksheet.getCell(startFromRow + 2, currentCol + 1).alignment = { horizontal: 'center', vertical: 'middle' };
       worksheet.getCell(startFromRow + 2, currentCol + 1).font = { bold: true };
       worksheet.getCell(startFromRow + 2, currentCol + 1).fill = {
@@ -407,7 +421,7 @@ export class SummaryApprovalService {
           ];
           let totalNOA = 0;
           const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-          
+
           // Initialize totals for each amount type
           amountTypesArray.forEach(amountType => {
             totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -418,7 +432,7 @@ export class SummaryApprovalService {
             if (filteredReportData[key]) {
               const data = filteredReportData[key]?.[groupKey] || {};
               totalNOA += data.noa || 0;
-              
+
               // Extract amounts from summaryTotal array for each amount type
               // Only process amounts if NOA > 0
               if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
@@ -441,16 +455,13 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString());
           amountTypesArray.forEach(amountType => {
-            rowData.push(
-              this.formatNumber(totalAmounts[amountType].idr),
-              this.formatNumber(totalAmounts[amountType].usd)
-            );
+            rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
           });
         } else if (condition.key === 'reject_parent') {
           const rejectKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
           let totalNOA = 0;
           const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-          
+
           // Initialize totals for each amount type
           amountTypesArray.forEach(amountType => {
             totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -461,7 +472,7 @@ export class SummaryApprovalService {
             if (filteredReportData[key]) {
               const data = filteredReportData[key]?.[groupKey] || {};
               totalNOA += data.noa || 0;
-              
+
               // Extract amounts from summaryTotal array for each amount type
               // Only process amounts if NOA > 0
               if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
@@ -484,16 +495,20 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString());
           amountTypesArray.forEach(amountType => {
-            rowData.push(
-              this.formatNumber(totalAmounts[amountType].idr),
-              this.formatNumber(totalAmounts[amountType].usd)
-            );
+            rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
           });
         } else if (isPercentageRow) {
           // Calculate percentage based on category totals vs grand total
           let categoryKeys: string[] = [];
           if (condition.key === 'percent_approved') {
-            categoryKeys = ['approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other'];
+            categoryKeys = [
+              'approved_new',
+              'approved_additional',
+              'approved_renewal',
+              'approved_restructure',
+              'approved_decrease',
+              'approved_other',
+            ];
           } else if (condition.key === 'percent_reject') {
             categoryKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
           } else if (condition.key === 'percent_cancel') {
@@ -511,9 +526,19 @@ export class SummaryApprovalService {
 
           // Calculate grand total NOA
           const allKeys = [
-            'approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other',
-            'reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other',
-            'cancel'
+            'approved_new',
+            'approved_additional',
+            'approved_renewal',
+            'approved_restructure',
+            'approved_decrease',
+            'approved_other',
+            'reject_new',
+            'reject_additional',
+            'reject_renewal',
+            'reject_restructure',
+            'reject_decrease',
+            'reject_other',
+            'cancel',
           ];
           let grandTotalNOA = 0;
           allKeys.forEach(key => {
@@ -526,7 +551,7 @@ export class SummaryApprovalService {
           // Calculate percentage
           const percentage = grandTotalNOA > 0 ? ((categoryNOA / grandTotalNOA) * 100).toFixed(2) : '0.00';
           rowData.push(percentage + '%');
-          
+
           // Add zeros for all amount types (percentages don't show amounts)
           amountTypesArray.forEach(() => {
             rowData.push('0', '0');
@@ -534,13 +559,23 @@ export class SummaryApprovalService {
         } else if (condition.key === 'total') {
           // For 'total' row, calculate by summing all categories
           const allKeys = [
-            'approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other',
-            'reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other',
-            'cancel'
+            'approved_new',
+            'approved_additional',
+            'approved_renewal',
+            'approved_restructure',
+            'approved_decrease',
+            'approved_other',
+            'reject_new',
+            'reject_additional',
+            'reject_renewal',
+            'reject_restructure',
+            'reject_decrease',
+            'reject_other',
+            'cancel',
           ];
           let totalNOA = 0;
           const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-          
+
           // Initialize totals for each amount type
           amountTypesArray.forEach(amountType => {
             totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -550,7 +585,7 @@ export class SummaryApprovalService {
             if (filteredReportData[key]) {
               const data = filteredReportData[key]?.[groupKey] || {};
               totalNOA += data.noa || 0;
-              
+
               // Only process amounts if NOA > 0
               if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
                 data.summaryTotal.forEach(summary => {
@@ -572,21 +607,18 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString());
           amountTypesArray.forEach(amountType => {
-            rowData.push(
-              this.formatNumber(totalAmounts[amountType].idr),
-              this.formatNumber(totalAmounts[amountType].usd)
-            );
+            rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
           });
         } else {
           // For other individual categories, use filteredReportData
           const data = filteredReportData[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '0');
-          
+
           // Extract amounts from summaryTotal array based on amountType and currency
-          amountTypesArray.forEach((amountType) => {
+          amountTypesArray.forEach(amountType => {
             let idrAmount = 0;
             let usdAmount = 0;
-            
+
             // Only process amounts if NOA > 0
             if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
               data.summaryTotal.forEach(summary => {
@@ -601,11 +633,8 @@ export class SummaryApprovalService {
                 }
               });
             }
-            
-            rowData.push(
-              idrAmount ? this.formatNumber(idrAmount) : '0',
-              usdAmount ? this.formatNumber(usdAmount) : '0'
-            );
+
+            rowData.push(idrAmount ? this.formatNumber(idrAmount) : '0', usdAmount ? this.formatNumber(usdAmount) : '0');
           });
         }
       });
@@ -622,7 +651,7 @@ export class SummaryApprovalService {
         ];
         let totalNOA = 0;
         const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-        
+
         // Initialize totals for each amount type
         amountTypesArray.forEach(amountType => {
           totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -633,7 +662,7 @@ export class SummaryApprovalService {
           if (filteredReportData[key]) {
             const data = filteredReportData[key]?.total || {};
             totalNOA += data.noa || 0;
-            
+
             // Extract amounts from summaryTotal array for each amount type
             // Only process amounts if NOA > 0
             if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
@@ -656,16 +685,13 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString());
         amountTypesArray.forEach(amountType => {
-          rowData.push(
-            this.formatNumber(totalAmounts[amountType].idr),
-            this.formatNumber(totalAmounts[amountType].usd)
-          );
+          rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
         });
       } else if (condition.key === 'reject_parent') {
         const rejectKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
         let totalNOA = 0;
         const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-        
+
         // Initialize totals for each amount type
         amountTypesArray.forEach(amountType => {
           totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -676,7 +702,7 @@ export class SummaryApprovalService {
           if (filteredReportData[key]) {
             const data = filteredReportData[key]?.total || {};
             totalNOA += data.noa || 0;
-            
+
             // Extract amounts from summaryTotal array for each amount type
             // Only process amounts if NOA > 0
             if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
@@ -699,16 +725,20 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString());
         amountTypesArray.forEach(amountType => {
-          rowData.push(
-            this.formatNumber(totalAmounts[amountType].idr),
-            this.formatNumber(totalAmounts[amountType].usd)
-          );
+          rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
         });
       } else if (isPercentageRow) {
         // Calculate percentage based on category totals vs grand total
         let categoryKeys: string[] = [];
         if (condition.key === 'percent_approved') {
-          categoryKeys = ['approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other'];
+          categoryKeys = [
+            'approved_new',
+            'approved_additional',
+            'approved_renewal',
+            'approved_restructure',
+            'approved_decrease',
+            'approved_other',
+          ];
         } else if (condition.key === 'percent_reject') {
           categoryKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
         } else if (condition.key === 'percent_cancel') {
@@ -726,9 +756,19 @@ export class SummaryApprovalService {
 
         // Calculate grand total NOA
         const allKeys = [
-          'approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other',
-          'reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other',
-          'cancel'
+          'approved_new',
+          'approved_additional',
+          'approved_renewal',
+          'approved_restructure',
+          'approved_decrease',
+          'approved_other',
+          'reject_new',
+          'reject_additional',
+          'reject_renewal',
+          'reject_restructure',
+          'reject_decrease',
+          'reject_other',
+          'cancel',
         ];
         let grandTotalNOA = 0;
         allKeys.forEach(key => {
@@ -741,7 +781,7 @@ export class SummaryApprovalService {
         // Calculate percentage
         const percentage = grandTotalNOA > 0 ? ((categoryNOA / grandTotalNOA) * 100).toFixed(2) : '0.00';
         rowData.push(percentage + '%');
-        
+
         // Add zeros for all amount types (percentages don't show amounts)
         amountTypesArray.forEach(() => {
           rowData.push('0', '0');
@@ -749,13 +789,23 @@ export class SummaryApprovalService {
       } else if (condition.key === 'total') {
         // For 'total' row, calculate by summing all categories
         const allKeys = [
-          'approved_new', 'approved_additional', 'approved_renewal', 'approved_restructure', 'approved_decrease', 'approved_other',
-          'reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other',
-          'cancel'
+          'approved_new',
+          'approved_additional',
+          'approved_renewal',
+          'approved_restructure',
+          'approved_decrease',
+          'approved_other',
+          'reject_new',
+          'reject_additional',
+          'reject_renewal',
+          'reject_restructure',
+          'reject_decrease',
+          'reject_other',
+          'cancel',
         ];
         let totalNOA = 0;
         const totalAmounts: { [key: string]: { idr: number; usd: number } } = {};
-        
+
         // Initialize totals for each amount type
         amountTypesArray.forEach(amountType => {
           totalAmounts[amountType] = { idr: 0, usd: 0 };
@@ -765,7 +815,7 @@ export class SummaryApprovalService {
           if (filteredReportData[key]) {
             const data = filteredReportData[key]?.total || {};
             totalNOA += data.noa || 0;
-            
+
             // Only process amounts if NOA > 0
             if ((data.noa || 0) > 0 && data.summaryTotal && Array.isArray(data.summaryTotal)) {
               data.summaryTotal.forEach(summary => {
@@ -787,21 +837,18 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString());
         amountTypesArray.forEach(amountType => {
-          rowData.push(
-            this.formatNumber(totalAmounts[amountType].idr),
-            this.formatNumber(totalAmounts[amountType].usd)
-          );
+          rowData.push(this.formatNumber(totalAmounts[amountType].idr), this.formatNumber(totalAmounts[amountType].usd));
         });
       } else {
         // For other individual categories, use filteredReportData
         const totalData = filteredReportData[condition.key]?.total || {};
         rowData.push(totalData.noa || '0');
-        
+
         // Extract data from summaryTotal array structure
         amountTypesArray.forEach(amountType => {
           let idrAmount = 0;
           let usdAmount = 0;
-          
+
           // Only process amounts if NOA > 0
           if ((totalData.noa || 0) > 0 && totalData.summaryTotal && Array.isArray(totalData.summaryTotal)) {
             totalData.summaryTotal.forEach(summary => {
@@ -816,11 +863,8 @@ export class SummaryApprovalService {
               }
             });
           }
-          
-          rowData.push(
-            idrAmount ? this.formatNumber(idrAmount) : '0',
-            usdAmount ? this.formatNumber(usdAmount) : '0'
-          );
+
+          rowData.push(idrAmount ? this.formatNumber(idrAmount) : '0', usdAmount ? this.formatNumber(usdAmount) : '0');
         });
       }
 
@@ -903,13 +947,24 @@ export class SummaryApprovalService {
         data.payloadData1.debtorStatus,
         data.payloadData1.amountType
       );
-      lastRow = index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) + 6 + processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 2;
+      lastRow =
+        index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) +
+        6 +
+        processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length +
+        2;
     });
 
     // Process Data 2
     data.data2.forEach((item, index) => {
       const indexRowData2 = processConditions(data.payloadData2.condition, data.payloadData2.debtorStatus).length + 5;
-      this.createTableInWorksheet(worksheet, item, lastRow + 2 + index * indexRowData2 + 3, data.payloadData2.condition, data.payloadData2.debtorStatus, data.payloadData2.amountType);
+      this.createTableInWorksheet(
+        worksheet,
+        item,
+        lastRow + 2 + index * indexRowData2 + 3,
+        data.payloadData2.condition,
+        data.payloadData2.debtorStatus,
+        data.payloadData2.amountType
+      );
     });
 
     return workbook;
