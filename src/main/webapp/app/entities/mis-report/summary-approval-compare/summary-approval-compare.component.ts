@@ -394,10 +394,6 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow.getCell('A').value = 'Proposal Type';
     proposalTypeRow.getCell('B').value = data.payloadData1.proposalType;
 
-    const amountTypeRow = ws.getRow(3);
-    amountTypeRow.getCell('A').value = 'Amount Type';
-    amountTypeRow.getCell('B').value = data.payloadData1.amountType;
-
     // Process Data 1
     let indexRow = 0;
     data.data1.forEach((item, index) => {
@@ -405,14 +401,14 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       this.summaryApprovalService.createTableInWorksheet(
         ws,
         item,
-        index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) + 6,
+        index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) + 5,
         data.payloadData1.condition,
         data.payloadData1.debtorStatus,
         data.payloadData1.amountType
       );
     });
 
-    const lastRow = indexRow + 6;
+    const lastRow = indexRow + 5;
     // Data 2
     const dateRangeRow2 = ws.getRow(lastRow);
     dateRangeRow2.getCell('A').value = 'Date Range';
@@ -422,17 +418,13 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow2.getCell('A').value = 'Proposal Type';
     proposalTypeRow2.getCell('B').value = data.payloadData2.proposalType;
 
-    const amountTypeRow2 = ws.getRow(proposalTypeRow2.number + 1);
-    amountTypeRow2.getCell('A').value = 'Amount Type';
-    amountTypeRow2.getCell('B').value = data.payloadData2.amountType;
-
     // Process Data 2
     data.data2.forEach((item, index) => {
       const indexRowData2 = processConditions(data.payloadData2.condition, data.payloadData2.debtorStatus).length + 5;
       this.summaryApprovalService.createTableInWorksheet(
         ws,
         item,
-        lastRow + 2 + index * indexRowData2 + 3,
+        lastRow + 2 + index * indexRowData2 + 2,
         data.payloadData2.condition,
         data.payloadData2.debtorStatus,
         data.payloadData2.amountType
