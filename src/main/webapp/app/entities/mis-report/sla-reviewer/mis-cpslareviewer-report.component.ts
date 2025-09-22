@@ -484,7 +484,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
@@ -573,7 +573,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (selectedIds.length > 0) {
       return data.filter(proposal => selectedIds.includes(proposal.id));
     } else {
-      if ((reviewerNames.length === 1 && reviewerNames[0] === '') && (approvalLC.length === 1 && approvalLC[0] === '')) {
+      if (reviewerNames.length === 1 && reviewerNames[0] === '' && approvalLC.length === 1 && approvalLC[0] === '') {
         return data;
       } else {
         return data.filter(proposal => approvalLC.includes(proposal.approvalLc) && reviewerNames.includes(proposal.dataAssignToCROId));
