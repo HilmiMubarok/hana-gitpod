@@ -36,34 +36,34 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
 
     const reportData: any = {
       // Approved categories
-      approved_new: { total: { noa: 0, idr: 0, usd: 0 } },
-      approved_additional: { total: { noa: 0, idr: 0, usd: 0 } },
-      approved_renewal: { total: { noa: 0, idr: 0, usd: 0 } },
-      approved_restructure: { total: { noa: 0, idr: 0, usd: 0 } },
-      approved_decrease: { total: { noa: 0, idr: 0, usd: 0 } },
-      approved_other: { total: { noa: 0, idr: 0, usd: 0 } },
+      approved_new: { total: { noa: 0, summaryTotal: [] } },
+      approved_additional: { total: { noa: 0, summaryTotal: [] } },
+      approved_renewal: { total: { noa: 0, summaryTotal: [] } },
+      approved_restructure: { total: { noa: 0, summaryTotal: [] } },
+      approved_decrease: { total: { noa: 0, summaryTotal: [] } },
+      approved_other: { total: { noa: 0, summaryTotal: [] } },
 
       // Reject categories
-      reject_new: { total: { noa: 0, idr: 0, usd: 0 } },
-      reject_additional: { total: { noa: 0, idr: 0, usd: 0 } },
-      reject_renewal: { total: { noa: 0, idr: 0, usd: 0 } },
-      reject_restructure: { total: { noa: 0, idr: 0, usd: 0 } },
-      reject_decrease: { total: { noa: 0, idr: 0, usd: 0 } },
-      reject_other: { total: { noa: 0, idr: 0, usd: 0 } },
+      reject_new: { total: { noa: 0, summaryTotal: [] } },
+      reject_additional: { total: { noa: 0, summaryTotal: [] } },
+      reject_renewal: { total: { noa: 0, summaryTotal: [] } },
+      reject_restructure: { total: { noa: 0, summaryTotal: [] } },
+      reject_decrease: { total: { noa: 0, summaryTotal: [] } },
+      reject_other: { total: { noa: 0, summaryTotal: [] } },
 
       // Other categories
-      cancel: { total: { noa: 0, idr: 0, usd: 0 } },
-      total: { total: { noa: 0, idr: 0, usd: 0 } },
-      percent_approved: { total: { noa: '', idr: '', usd: '' } },
-      percent_reject: { total: { noa: '', idr: '', usd: '' } },
-      percent_cancel: { total: { noa: '', idr: '', usd: '' } },
+      cancel: { total: { noa: 0, summaryTotal: [] } },
+      total: { total: { noa: 0, summaryTotal: [] } },
+      percent_approved: { total: { noa: '', summaryTotal: [] } },
+      percent_reject: { total: { noa: '', summaryTotal: [] } },
+      percent_cancel: { total: { noa: '', summaryTotal: [] } },
     };
 
     groups.forEach((_: string, index: number) => {
       const segmentKey = `sme${index + 1}`;
       Object.keys(reportData).forEach(category => {
         if (!reportData[category][segmentKey]) {
-          reportData[category][segmentKey] = { noa: 0, idr: 0, usd: 0 };
+          reportData[category][segmentKey] = { noa: 0, summaryTotal: [] };
         }
       });
     });
@@ -118,50 +118,86 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
             }
 
             if (categoryKey && reportData[categoryKey]) {
-              // Sum up amounts from summaryAmount
-              let totalIDR = 0;
-              let totalUSD = 0;
+              // Update segment data
+              const noa = parseInt(product.noa, 10) || 0;
+              reportData[categoryKey][segmentKey].noa += noa;
+              
+              // Only process summaryTotal if NOA > 0
+              if (noa > 0) {
+                // Process summaryTotal at condition level (same level as product)
+                const amountTypeMap = new Map();
+                
+                if (condition.summaryTotal && condition.summaryTotal.length > 0) {
+                  condition.summaryTotal.forEach((summary: any) => {
+                    const amountType = summary.amountType;
+                    
+                    if (!amountTypeMap.has(amountType)) {
+                      amountTypeMap.set(amountType, {
+                        amountType,
+                        currencyAmount: []
+                      });
+                    }
 
-              if (product.summaryAmount && product.summaryAmount.length > 0) {
-                product.summaryAmount.forEach((summary: any) => {
-                  if (summary.currencyAmount) {
-                    summary.currencyAmount.forEach((currency: any) => {
-                      const amount = parseAmount(currency.amount);
-                      if (currency.currency === 'IDR') {
-                        totalIDR += amount;
-                      } else if (currency.currency === 'USD') {
-                        totalUSD += amount;
+                    if (summary.currencyAmount) {
+                      summary.currencyAmount.forEach((currency: any) => {
+                        const existingCurrency = amountTypeMap.get(amountType).currencyAmount.find(c => c.currency === currency.currency);
+                        if (existingCurrency) {
+                          existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                        } else {
+                          amountTypeMap.get(amountType).currencyAmount.push({
+                            currency: currency.currency,
+                            amount: currency.amount
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+
+                // Convert map to summaryTotal array
+                const summaryTotalArray = Array.from(amountTypeMap.values());
+                reportData[categoryKey][segmentKey].summaryTotal = summaryTotalArray;
+              } else {
+                // If NOA = 0, ensure summaryTotal is empty
+                reportData[categoryKey][segmentKey].summaryTotal = [];
+              }
+
+              // Update total
+              reportData[categoryKey].total.noa += noa;
+              
+              // Merge summaryTotal for totals only if NOA > 0
+              if (noa > 0 && reportData[categoryKey][segmentKey].summaryTotal) {
+                reportData[categoryKey][segmentKey].summaryTotal.forEach(summaryItem => {
+                  const existingTotal = reportData[categoryKey].total.summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                  if (existingTotal) {
+                    summaryItem.currencyAmount.forEach(currency => {
+                      const existingCurrency = existingTotal.currencyAmount.find(c => c.currency === currency.currency);
+                      if (existingCurrency) {
+                        existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                      } else {
+                        existingTotal.currencyAmount.push({
+                          currency: currency.currency,
+                          amount: currency.amount
+                        });
                       }
+                    });
+                  } else {
+                    reportData[categoryKey].total.summaryTotal.push({
+                      amountType: summaryItem.amountType,
+                      currencyAmount: [...summaryItem.currencyAmount]
                     });
                   }
                 });
               }
-
-              // If no USD amount, set to 0
-              if (totalUSD === 0 && totalIDR > 0) {
-                totalUSD = 0;
-              }
-
-              // Update segment data
-              const noa = parseInt(product.noa, 10) || 0;
-              reportData[categoryKey][segmentKey].noa += noa;
-              reportData[categoryKey][segmentKey].idr += totalIDR;
-              reportData[categoryKey][segmentKey].usd += totalUSD;
-
-              // Update total
-              reportData[categoryKey].total.noa += noa;
-              reportData[categoryKey].total.idr += totalIDR;
-              reportData[categoryKey].total.usd += totalUSD;
             }
           });
         }
       });
     });
 
-    // Calculate grand totals
+    // Calculate grand totals using summaryTotal structure
     let grandTotalNOA = 0;
-    let grandTotalIDR = 0;
-    let grandTotalUSD = 0;
+    const grandTotalSummaryTotal = [];
 
     // Sum all approved, reject, and cancel
     const categoriesToSum = [
@@ -175,16 +211,62 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
     categoriesToSum.forEach(key => {
       if (reportData[key]) {
         grandTotalNOA += reportData[key].total.noa || 0;
-        grandTotalIDR += reportData[key].total.idr || 0;
-        grandTotalUSD += reportData[key].total.usd || 0;
+
+        // Merge summaryTotal for grand total
+        if (reportData[key].total.summaryTotal) {
+          reportData[key].total.summaryTotal.forEach(summaryItem => {
+            const existingGrandTotal = grandTotalSummaryTotal.find(t => t.amountType === summaryItem.amountType);
+            if (existingGrandTotal) {
+              summaryItem.currencyAmount.forEach(currency => {
+                const existingCurrency = existingGrandTotal.currencyAmount.find(c => c.currency === currency.currency);
+                if (existingCurrency) {
+                  existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                } else {
+                  existingGrandTotal.currencyAmount.push({
+                    currency: currency.currency,
+                    amount: currency.amount
+                  });
+                }
+              });
+            } else {
+              grandTotalSummaryTotal.push({
+                amountType: summaryItem.amountType,
+                currencyAmount: [...summaryItem.currencyAmount]
+              });
+            }
+          });
+        }
 
         // Update segment totals
         groups.forEach((_: string, index: number) => {
           const segmentKey = `sme${index + 1}`;
           if (reportData[key][segmentKey]) {
             reportData.total[segmentKey].noa += reportData[key][segmentKey].noa || 0;
-            reportData.total[segmentKey].idr += reportData[key][segmentKey].idr || 0;
-            reportData.total[segmentKey].usd += reportData[key][segmentKey].usd || 0;
+            
+            // Merge summaryTotal for segment totals
+            if (reportData[key][segmentKey].summaryTotal) {
+              reportData[key][segmentKey].summaryTotal.forEach(summaryItem => {
+                const existingSegmentTotal = reportData.total[segmentKey].summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                if (existingSegmentTotal) {
+                  summaryItem.currencyAmount.forEach(currency => {
+                    const existingCurrency = existingSegmentTotal.currencyAmount.find(c => c.currency === currency.currency);
+                    if (existingCurrency) {
+                      existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                    } else {
+                      existingSegmentTotal.currencyAmount.push({
+                        currency: currency.currency,
+                        amount: currency.amount
+                      });
+                    }
+                  });
+                } else {
+                  reportData.total[segmentKey].summaryTotal.push({
+                    amountType: summaryItem.amountType,
+                    currencyAmount: [...summaryItem.currencyAmount]
+                  });
+                }
+              });
+            }
           }
         });
       }
@@ -192,8 +274,7 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
 
     reportData.total.total = {
       noa: grandTotalNOA,
-      idr: grandTotalIDR,
-      usd: grandTotalUSD,
+      summaryTotal: grandTotalSummaryTotal,
     };
 
     // Calculate percentages for each segment and total
@@ -244,14 +325,13 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
       reportData.percent_reject.total.noa = '0%';
       reportData.percent_cancel.total.noa = '0%';
     }
-
-    const tableData: TableData = {
-      title: lcData.lcName,
+    
+    results.push({
+      title: `${lcData.lcName}`,
       groups,
       reportData,
-    };
+    });
 
-    results.push(tableData);
   });
 
   return results;

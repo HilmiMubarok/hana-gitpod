@@ -13,6 +13,7 @@ interface FormDataConfig {
   menuType: 'Regional' | 'Approval LC';
   allSelectedSegment: boolean;
   allSelectedLc: boolean;
+  allSelectedAmountType: boolean;
   allSelectedCondition: boolean;
   allSelectedDebtorStatus: boolean;
   name: string;
@@ -27,7 +28,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   public formConfigs: FormDataConfig[] = [];
   public formData1: FormGroup;
   public formData2: FormGroup;
-  public lovAmount;
+  public lovAmount; // multi select
   public lovCondition; // multi select
   public lovSegment; // multi select
   public lovLc = {
@@ -54,6 +55,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
         menuType: 'Regional',
         allSelectedSegment: false,
         allSelectedLc: false,
+        allSelectedAmountType: false,
         allSelectedCondition: false,
         allSelectedDebtorStatus: false,
         name: 'form1',
@@ -63,6 +65,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
         menuType: 'Regional',
         allSelectedSegment: false,
         allSelectedLc: false,
+        allSelectedAmountType: false,
         allSelectedCondition: false,
         allSelectedDebtorStatus: false,
         name: 'form2',
@@ -119,6 +122,11 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
           config.allSelectedLc = this._areArraysEqual(selectedValues, allLcItems);
         });
       }
+
+      config.form.get('amountType')?.valueChanges.subscribe(selectedValues => {
+        const allAmountTypeItems = this.lovAmount.map(item => item);
+        config.allSelectedAmountType = this._areArraysEqual(selectedValues, allAmountTypeItems);
+      });
 
       config.form.get('condition')?.valueChanges.subscribe(selectedValues => {
         config.allSelectedCondition = this._areArraysEqual(selectedValues, this.lovCondition);
@@ -210,6 +218,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     this.formConfigs[index].form.get('segment')?.setValue([]);
     this.formConfigs[index].allSelectedSegment = false;
     this.formConfigs[index].allSelectedLc = false;
+    this.formConfigs[index].allSelectedAmountType = false;
   }
 
   public toggleSelectAllSegment(formIndex: number) {
@@ -229,6 +238,16 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       this.formConfigs[formIndex].form.get('lc')?.setValue(this.lovLc[this.formConfigs[formIndex].name].map(item => item.id));
     } else {
       this.formConfigs[formIndex].form.get('lc')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllAmountType(formIndex: number) {
+    this.formConfigs[formIndex].allSelectedAmountType = !this.formConfigs[formIndex].allSelectedAmountType;
+
+    if (this.formConfigs[formIndex].allSelectedAmountType) {
+      this.formConfigs[formIndex].form.get('amountType')?.setValue([...this.lovAmount]);
+    } else {
+      this.formConfigs[formIndex].form.get('amountType')?.setValue([]);
     }
   }
 
@@ -332,6 +351,15 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     });
   }
 
+  clearDateRange(formIndex: number) {
+    this.formConfigs[formIndex].form.get('startDate')?.reset();
+    this.formConfigs[formIndex].form.get('endDate')?.reset();
+  }
+
+  dateRangeHasValue(formIndex: number) {
+    return this.formConfigs[formIndex].form.get('startDate')?.value && this.formConfigs[formIndex].form.get('endDate')?.value;
+  }
+
   public processGenerate(data1, data2): void {
     if (!data1 || !data2) {
       this._setAutoWidthForAllColumns();
@@ -339,7 +367,6 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       this.loadingGenerate = false;
       return;
     }
-
     const processedData = {
       data1: getSampleTableData(data1[0]),
       data2: getSampleTableData(data2[0]),
@@ -380,7 +407,8 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
         item,
         index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) + 6,
         data.payloadData1.condition,
-        data.payloadData1.debtorStatus
+        data.payloadData1.debtorStatus,
+        data.payloadData1.amountType
       );
     });
 
@@ -401,7 +429,14 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     // Process Data 2
     data.data2.forEach((item, index) => {
       const indexRowData2 = processConditions(data.payloadData2.condition, data.payloadData2.debtorStatus).length + 5;
-      this.summaryApprovalService.createTableInWorksheet(ws, item, lastRow + 2 + index * indexRowData2 + 3, data.payloadData2.condition, data.payloadData2.debtorStatus);
+      this.summaryApprovalService.createTableInWorksheet(
+        ws,
+        item,
+        lastRow + 2 + index * indexRowData2 + 3,
+        data.payloadData2.condition,
+        data.payloadData2.debtorStatus,
+        data.payloadData2.amountType
+      );
     });
   }
 }
