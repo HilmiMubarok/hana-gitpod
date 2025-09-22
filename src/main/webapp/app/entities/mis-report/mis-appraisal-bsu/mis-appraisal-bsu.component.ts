@@ -273,7 +273,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'appraisal-result-inquiry';
+    predicate['target'] = 'mis-appraisal-report';
 
     this.misReportService.searchAppraisalBSU(predicate).subscribe({
       next: res => {

@@ -725,7 +725,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
