@@ -524,6 +524,10 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
   }
 
   _processTimelinePersonName(personName: string) {
+    if (!personName || personName === 'null') {
+      return '';
+    }
+
     const personNameArray = personName.split(' ');
 
     const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
