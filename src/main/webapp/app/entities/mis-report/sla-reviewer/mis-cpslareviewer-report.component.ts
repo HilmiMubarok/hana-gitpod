@@ -974,7 +974,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       return '';
     }
 
-    if (!product.maturityDate) {
+    if (!product.maturityDate || product.maturityDate === 'null') {
       return '';
     }
 
