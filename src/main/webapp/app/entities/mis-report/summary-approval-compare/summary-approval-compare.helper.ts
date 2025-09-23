@@ -581,7 +581,20 @@ export const processConditions = (conditions: string, debtorStatus: string) => {
     },
   ];
 
-  const excludeParents = ['Total', '% Total Approved', '% Total Reject', '% Total Cancel'];
+  // Dynamic excludeParents based on selected conditions
+  const conditionsArray = conditions.split(',').map(c => c.trim());
+  const excludeParents = ['Total']; // Total always included
+  
+  // Only include percentage items for selected conditions
+  if (conditionsArray.includes('Approved')) {
+    excludeParents.push('% Total Approved');
+  }
+  if (conditionsArray.includes('Reject')) {
+    excludeParents.push('% Total Reject');
+  }
+  if (conditionsArray.includes('Cancel')) {
+    excludeParents.push('% Total Cancel');
+  }
 
   if (conditions.length === 0 && debtorStatus.length === 0) {
     return allConditions;
@@ -647,7 +660,56 @@ export const processConditions = (conditions: string, debtorStatus: string) => {
     );
   }
 
+  // First filter: remove empty labels except for excludeParents and parents
   const filteredGrouped = grouped.filter(item => item.label !== '' || excludeParents.includes(item.parent) || item.isParent);
 
-  return filteredGrouped;
+  // Second filter: remove parents that don't have any active sub-items
+  const finalFiltered = [];
+  let i = 0;
+  
+  while (i < filteredGrouped.length) {
+    const currentItem = filteredGrouped[i];
+    
+    if (currentItem.isParent && !excludeParents.includes(currentItem.parent)) {
+      // Check if this parent has any active sub-items
+      let hasActiveSubItems = false;
+      let j = i + 1;
+      
+      // Look ahead to find sub-items for this parent
+      while (j < filteredGrouped.length && !filteredGrouped[j].isParent) {
+        if (filteredGrouped[j].parent === currentItem.parent && filteredGrouped[j].label !== '') {
+          hasActiveSubItems = true;
+          break;
+        }
+        j++;
+      }
+      
+      // Only include parent if it has active sub-items
+      if (hasActiveSubItems) {
+        finalFiltered.push(currentItem);
+        // Add all sub-items for this parent
+        j = i + 1;
+        while (j < filteredGrouped.length && !filteredGrouped[j].isParent) {
+          if (filteredGrouped[j].parent === currentItem.parent) {
+            finalFiltered.push(filteredGrouped[j]);
+          }
+          j++;
+        }
+        i = j; // Skip to next parent
+      } else {
+        // Skip this parent and all its sub-items
+        j = i + 1;
+        while (j < filteredGrouped.length && !filteredGrouped[j].isParent) {
+          j++;
+        }
+        i = j; // Skip to next parent
+      }
+    } else {
+      // For excludeParents or non-parent items, always include
+      finalFiltered.push(currentItem);
+      i++;
+    }
+  }
+
+  return finalFiltered;
 };
