@@ -516,6 +516,11 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getAdjustedMaturityDate(maturityDateStr, tenor, period) {
+
+    if (!maturityDateStr || maturityDateStr === 'null') {
+      return '';
+    }
+
     const maturityDate = new Date(maturityDateStr); // e.g. '2024-04-29'
   
     switch (period.toLowerCase()) {
