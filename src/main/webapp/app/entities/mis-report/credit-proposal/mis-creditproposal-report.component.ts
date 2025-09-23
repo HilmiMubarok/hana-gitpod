@@ -507,8 +507,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       return;
     }
 
+    // Filter Data
+    const filteredData = this._filterDataBeforeGenerate(data);
+    
     // Add data to worksheet
-    this.processData(data);
+    this.processData(filteredData);
 
     this._applyStyles();
     this._setAutoWidthForAllColumns();
@@ -521,6 +524,12 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     data.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
+  }
+
+  private _filterDataBeforeGenerate(data) {
+    const regional = this._convertStatusToString(this.MISReportCP.get('regional')?.value);
+    const regionalArr = regional.split(',');
+    return data.filter(proposal => regionalArr.includes(proposal.regionalId));
   }
 
   private _getTotalInitialLimitUSD(proposal: any): string {
