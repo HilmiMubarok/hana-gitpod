@@ -222,6 +222,24 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
   private addYearlySummaryData(worksheet: ExcelJS.Worksheet, data: any[]): void {
     const year = this.misYearlyReports.get('year')?.value ? moment(this.misYearlyReports.get('year')?.value).year() : 2025;
+    const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
+    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+
+    // Add labels at the top left before creating columns
+    const yearRow = worksheet.getRow(1);
+    yearRow.getCell('A').value = 'YEAR';
+    yearRow.getCell('B').value = year;
+
+    const customerStatusRow = worksheet.getRow(2);
+    customerStatusRow.getCell('A').value = 'Customer Status';
+    customerStatusRow.getCell('B').value = customerStatuss;
+
+    const approvalFasilitasRow = worksheet.getRow(3);
+    approvalFasilitasRow.getCell('A').value = 'Approval Fasilitas';
+    approvalFasilitasRow.getCell('B').value = approvalFasilitass;
+
+    // Start creating the main table from row 5 (leaving a gap)
+    const startRow = 5;
 
     const months = [
       'January',
@@ -239,41 +257,48 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     ];
     const statuses = ['Approved', 'Reject', 'Cancel'];
 
-    worksheet.mergeCells(1, 2, 1, 1 + months.length * statuses.length);
-    const titleCell = worksheet.getCell('B1');
+    // Title row for the year (now at row 5)
+    worksheet.mergeCells(startRow, 2, startRow, 1 + months.length * statuses.length);
+    const titleCell = worksheet.getCell(startRow, 2);
     titleCell.value = `YEAR ${year}`;
     titleCell.font = { bold: true, size: 14 };
     titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
     titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF00B0F0' } };
 
-    worksheet.mergeCells('A1:A3');
-    const firstColCell = worksheet.getCell('A2');
+    // Reviewer column header
+    worksheet.mergeCells(startRow, 1, startRow + 2, 1);
+    const firstColCell = worksheet.getCell(startRow + 1, 1);
     firstColCell.value = 'Reviewer';
     firstColCell.font = { bold: true };
     firstColCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
+    // Month headers (row 6)
     let col = 2;
     months.forEach(month => {
-      worksheet.mergeCells(2, col, 2, col + statuses.length - 1);
-      const cell = worksheet.getCell(2, col);
+      worksheet.mergeCells(startRow + 1, col, startRow + 1, col + statuses.length - 1);
+      const cell = worksheet.getCell(startRow + 1, col);
       cell.value = month;
       cell.font = { bold: true };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
       col += statuses.length;
     });
 
+    // Status headers (row 7)
     col = 2;
     months.forEach(() => {
       statuses.forEach((status, idx) => {
-        const cell = worksheet.getCell(3, col + idx);
+        const cell = worksheet.getCell(startRow + 2, col + idx);
         cell.value = status;
         cell.font = { bold: true };
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
       col += statuses.length;
     });
+
     const totalPerMonthPerStatus = Array(12 * statuses.length).fill(0);
 
+    // Data rows (starting from row 8)
+    let currentRow = startRow + 3;
     data.forEach(branchData => {
       const rowValues: (string | number)[] = [branchData.reviewer];
 
@@ -283,23 +308,35 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         totalPerMonthPerStatus[i] += value;
       }
 
-      worksheet.addRow(rowValues);
+      const dataRow = worksheet.getRow(currentRow);
+      rowValues.forEach((value, index) => {
+        dataRow.getCell(index + 1).value = value;
+      });
+      currentRow++;
     });
+
+    // Total row
     const totalRowValues: (string | number)[] = ['Total'];
     totalPerMonthPerStatus.forEach(val => totalRowValues.push(val));
 
-    const totalRow = worksheet.addRow(totalRowValues);
+    const totalRow = worksheet.getRow(currentRow);
+    totalRowValues.forEach((value, index) => {
+      totalRow.getCell(index + 1).value = value;
+    });
     totalRow.font = { bold: true };
+
+    // Column widths
     worksheet.getColumn(1).width = 40;
     worksheet.getColumn(1).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
 
-    // Lebar kolom bulan
+    // Width for month columns
     for (let i = 2; i <= worksheet.columnCount; i++) {
       worksheet.getColumn(i).width = 15;
     }
 
-    // Border dan alignment semua sel
-    worksheet.eachRow(row => {
+    // Border and alignment for all cells (starting from the main table)
+    for (let rowIndex = startRow; rowIndex <= currentRow; rowIndex++) {
+      const row = worksheet.getRow(rowIndex);
       row.height = 20;
       row.eachCell(cell => {
         cell.border = {
@@ -310,9 +347,9 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         };
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
-    });
+    }
 
-    // Warna background untuk baris total
+    // Background color for total row
     totalRow.eachCell(cell => {
       cell.fill = {
         type: 'pattern',
