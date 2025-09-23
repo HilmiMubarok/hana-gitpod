@@ -4,770 +4,419 @@ import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import moment from 'moment';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
-import * as ExcelJS from 'exceljs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PageEvent } from '@angular/material/paginator';
-import { InternalService } from 'app/entities/internal/internal.service';
-import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
-import { map, tap, switchMap } from 'rxjs';
-import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
-import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
+import { SummaryApprovalService } from '../summary-approval-compare/summary-approval.service';
+import { getSampleTableData, processConditions } from './mis-summary-approval.helper';
+
+interface FormDataConfig {
+  form: FormGroup;
+  menuType: 'Regional' | 'Approval LC';
+  allSelectedSegment: boolean;
+  allSelectedLc: boolean;
+  allSelectedCondition: boolean;
+  allSelectedDebtorStatus: boolean;
+  allSelectedAmountType: boolean;
+  name: string;
+}
 
 @Component({
   selector: 'jhi-mis-summary-approval-regional-lc',
   templateUrl: './mis-summary-approval-regional-lc.component.html',
-  styleUrls: ['../disabled-style.scss'],
-  styles: [
-    `
-      .select-all {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        line-height: 48px;
-        height: 48px;
-        padding: 0 16px;
-        text-align: left;
-        text-decoration: none;
-        max-width: 100%;
-        position: relative;
-        liststyletype: none;
-        outline: none;
-        display: flex;
-        flex-direction: row;
-        max-width: 100%;
-        box-sizing: border-box;
-        align-items: center;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .select-all:hover {
-        background-color: #f5f5f5;
-        cursor: pointer;
-      }
-
-      :host ::ng-deep .ng-invalid:not(form) {
-        border: none !important;
-      }
-
-      .skeleton-loading {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        background-color: #fff;
-        border-radius: 4px;
-        padding: 16px;
-        width: 90%;
-        height: 100%;
-        animation: skeleton-loading 1.5s ease-in-out infinite;
-      }
-
-      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
-      .mat-button-toggle-group-appearance-standard {
-        border: none !important;
-      }
-
-      .mat-button-toggle {
-        margin: 0 3px;
-        border-radius: 5px !important;
-        font-weight: 400;
-      }
-
-      .mat-button-toggle-appearance-standard {
-        background: #e5e5e5;
-      }
-
-      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
-        border: none;
-      }
-
-      .mat-button-toggle-checked {
-        color: rgb(255 255 255 / 87%);
-        background: #48a5a0;
-      }
-
-      @keyframes skeleton-loading {
-        0% {
-          background-color: #e2e2e2;
-        }
-        50% {
-          background-color: #f2f2f2;
-        }
-        100% {
-          background-color: #e2e2e2;
-        }
-      }
-    `,
-  ],
+  styleUrls: ['./mis-summary-approval.style.css'],
 })
 export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISReport implements OnInit {
-  public menu = 'regional';
-  public lovAmount = ['Changes', 'Plafond'];
-  public lovCondition = ['Approved', 'Reject', 'Cancel'];
-  public lovRegional = [];
-  public lovApprovalLC = [];
-  public form: FormGroup;
-  public allSelectedCondition = false;
-  public allSelectedRegional = false;
-  public allselectedapprovalLC = false;
-  private readonly parentIds = ['7101', '7102', '7201', '7301', '7401', '7402', '7501', '7502', '7503', '7504'];
-  private readonly approvalLCId = ['SME', 'BTB', 'COMMERCIAL', 'CORPORATE', 'GLOBALBS'];
-  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
-  proposType: IGeneralParameter[];
-  private LOS_REL = 'LOS_REL';
+  public formConfigs: FormDataConfig[] = [];
+  public formData: FormGroup;
+  public lovAmount: any[] = [];
+  public lovCondition: any[] = [];
+  public lovSegment: any[] = [];
+  public lovLc = {
+    form: [],
+  };
+  public allDataLovLc: any;
+  public lovProposalType: any;
+  public lovDebtorStatus: any[] = [];
+  public loadingGenerate = false;
+
   constructor(
-    public misReportService: MisReportService,
-    public messageService: MessageService,
-    public internalService: InternalService,
-    public generalParameterService: GeneralParameterService,
-    public relationTypeService: RelationTypeService
+    public summaryApprovalService: SummaryApprovalService,
+    public message: MessageService,
+    public misReportService: MisReportService
   ) {
     super(misReportService);
-    this._initializeForm();
-    this._handleFormChanges();
-  }
-
-  onMenuChanged(): void {
-    this._resetForms();
-  }
-
-  private _resetForms(): void {
-    if (this.form) {
-      this.form.reset();
-      this.allSelectedRegional = false;
-      this.allselectedapprovalLC = false;
-      this.allSelectedCondition = false;
-    }
-  }
-  ngOnInit(): void {
-    this.generalParameterService
-      .queryFilterBy({
-        idParameterType: 'PROPOSAL_TYPE',
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.proposType = res.body;
-      });
-    this.loadFilteredInternal();
-    this.form.get('proposalStatus')?.valueChanges.subscribe(() => {
-      this.loadRelationType();
-    });
-  }
-  private loadRelationType(): void {
-    this.relationTypeService
-      .queryFilterBy({
-        idParent: this.LOS_REL,
-        page: 0,
-        size: 9999,
-      })
-      .pipe(
-        map(response => response.body),
-        map(relationTypes =>
-          relationTypes
-            .filter(relationType => {
-              const proposalType = this.form.get('proposalStatus')?.value;
-              const isBackToBack = proposalType === 'Total Exposure Back to Back';
-              const internalId = String(relationType.parentId);
-              if (isBackToBack) {
-                return internalId === 'BTB';
-              } else {
-                return this.approvalLCId.includes(internalId) && internalId !== 'BTB';
-              }
-            })
-            .map(relationType => ({ id: relationType.id, name: relationType.description, parentID: relationType.parentId }))
-        )
-      )
-      .subscribe({
-        next: relationTypes => (this.lovApprovalLC = relationTypes),
-        error: () =>
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to get regionalRM Data',
-          }),
-      });
-  }
-  private loadFilteredInternal(): void {
-    this.internalService
-      .queryFilterBy({
-        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
-        size: 9999,
-        page: 0,
-      })
-      .pipe(
-        map(response => response.body),
-        map(internals =>
-          internals
-            .filter(internal => {
-              const isInParent = this.parentIds.includes(String(internal.id));
-              return isInParent;
-            })
-            .map(internal => ({ id: internal.id, name: internal.facilityName }))
-        )
-      )
-      .subscribe({
-        next: internals => (this.lovRegional = internals),
-        error: () =>
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to get regionalRM Data',
-          }),
-      });
-  }
-
-  public toggleSelectRegionalAll(): void {
-    this.allSelectedRegional = !this.allSelectedRegional;
-    if (this.allSelectedRegional) {
-      this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
-    } else {
-      this.form.get('regional')?.setValue(null);
-    }
-  }
-
-  public toggleSelectAllApprovalLC(): void {
-    this.allselectedapprovalLC = !this.allselectedapprovalLC;
-    if (this.allselectedapprovalLC) {
-      this.form.get('approvalLC')?.setValue([...this.lovApprovalLC.map(internal => internal.id)]);
-    } else {
-      this.form.get('approvalLC')?.setValue(null);
-    }
-  }
-  public dateRangeHasValue(): void {
-    return this.form.get('startDate')?.value && this.form.get('endDate')?.value;
-  }
-  public toggleSelectAllCondition(): void {
-    this.allSelectedCondition = !this.allSelectedCondition;
-    if (this.allSelectedCondition) {
-      this.form.get('condition')?.setValue([...this.lovCondition.map(lovJenisPengikatan => lovJenisPengikatan)]);
-    } else {
-      this.form.get('condition')?.setValue(null);
-    }
-  }
-
-  public clearDateRange(): void {
-    this.form.get('startDate')?.reset();
-    this.form.get('endDate')?.reset();
-  }
-
-  private _initializeForm() {
-    this.form = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      amount: new FormControl(''),
-      condition: new FormControl(''),
-      regional: new FormControl(''),
-      approvalLC: new FormControl(''),
-      proposalStatus: new FormControl(''),
-    });
-  }
-
-  private _handleFormChanges(): void {
-    this.form.get('startDate')?.valueChanges.subscribe(date => {
-      if (moment.isMoment(date)) {
-        const formattedDate = date.format('YYYY-MM-DD');
-        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
-      }
-    });
-
-    this.form.get('endDate')?.valueChanges.subscribe(date => {
-      if (moment.isMoment(date)) {
-        const formattedDate = date.format('YYYY-MM-DD');
-        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
-      }
-    });
-  }
-
-  public generateMISSummaryApproval(): void {
-    if (this.menu === 'regional' || this.menu === 'approvalLC') {
-      if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Date Range.',
-        });
-        return;
-      }
-    }
-    this.misReportService.setLoading(true);
-    let params;
-    if (this.menu === 'regional') {
-      params = {
-        startDate: this.form.get('startDate')?.value,
-        endDate: this.form.get('endDate')?.value,
-        regional: this._convertStatusToString(this.form.get('regional')?.value || null),
-        proposalType: this.form.get('proposalStatus')?.value || null,
-        amountType: this.form.get('amount')?.value,
-      };
-    } else {
-      params = {
-        startDate: this.form.get('startDate')?.value,
-        endDate: this.form.get('endDate')?.value,
-        lc: this._convertStatusToString(this.form.get('approvalLC')?.value || null),
-        proposalType: this.form.get('proposalStatus')?.value,
-        amountType: this.form.get('amount')?.value,
-      };
-    }
-    if (this.menu === 'regional') {
-      this.misReportService.getMisSummaryApprovalRegional(params).subscribe({
-        next: res => this._processGenerate(res.body, 'MIS_Summary_Approval_Regional_Report'),
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
-          this._resetData();
-          this.misReportService.setLoading(false);
-        },
-        complete: () => {
-          this._resetData();
-          this.misReportService.setLoading(false);
-        },
-      });
-    } else {
-      this.misReportService.getMisSummaryApprovalLC(params).subscribe({
-        next: res => this._processGenerate(res.body, 'MIS_Summary_Approval_LC_Report'),
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
-          this._resetData();
-          this.misReportService.setLoading(false);
-        },
-        complete: () => {
-          this._resetData();
-          this.misReportService.setLoading(false);
-        },
-      });
-    }
-  }
-
-  private _processGenerate(data, fileName) {
-    this.setUpColumns(this.columns);
-    // if data is empty, generate an empty file
-    if (!data || data.length === 0) {
-      this.applyStyles();
-      this.downloadFile(fileName);
-      return;
-    }
-
-    // Add data to worksheet
-    this.processData(data);
-
-    this._applyStyles();
-    this._setAutoWidthForAllColumns();
-    this._setAutoHeightForAllRows();
-    this.downloadFile(fileName);
-    this._resetData();
-  }
-
-  private _applyStyles(): void {
-    super.applyStyles();
-    this.columns.forEach(column => {
-      const col = this.worksheet.getColumn(column.key);
-      col.alignment = {
-        vertical: 'middle',
-        horizontal: 'center',
-        wrapText: true,
-      };
-
-      const columnValue = this.worksheet.getColumn(column.key);
-
-      const newValue = columnValue.values.map(value => {
-        if (value) {
-          return this._clearEmptyEntries(value.toString());
-        }
-        return value;
-      });
-
-      columnValue.values = newValue;
-    });
-  }
-  protected processData(data: any[]): void {
-    const worksheet = this.worksheet;
-    const conditions = this._buildConditionStructure();
-    const proposalType = this.form.get('proposalType')?.value;
-    const approvalLC = this._convertStatusToString(this.form.get('approvalLC')?.value);
-    const segment = this._convertStatusToString(this.form.get('regional')?.value || '');
-    let sources: any[] = [];
-    let sourcesLc: any[] = [];
-    if (this.menu === 'regional') {
-      sources = data[0]?.segment.filter(seg => segment.includes(String(seg.segmentId)));
-    } else {
-      sourcesLc = data[0]?.lcType.filter(apprlc => approvalLC.includes(String(apprlc.lcId)));
-    }
-
-    worksheet.mergeCells('A1:A3');
-    worksheet.getCell('A1').value = 'Conditions';
-
-    let col = 2; // Kolom B karena kolom A dipakai untuk "Conditions"
-
-    let startCol = 2; // misal mulai dari kolom 2
-
-    sources.forEach(src => {
-      const segmentName = src.segmentName;
-      const lcList = src.lcType[0] || [];
-      const relatedLcItems = this.lovApprovalLC.filter(item => item.parentID === lcList.lcParentId);
-      const totalCols = relatedLcItems.length * 3;
-
-      // +3 lagi untuk kolom TOTAL
-      const segmentSpan = totalCols + 3;
-
-      // Row 1: Segment name
-      worksheet.mergeCells(1, col, 1, col + segmentSpan - 1);
-      worksheet.getCell(1, col).value = segmentName;
-      worksheet.getCell(1, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-      // Row 2 & 3: LC item
-      relatedLcItems.forEach(item => {
-        worksheet.mergeCells(2, col, 2, col + 2);
-        worksheet.getCell(2, col).value = item.name;
-        worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-        worksheet.getCell(3, col).value = 'NOA';
-        worksheet.getCell(3, col + 1).value = 'Amount (IDR)';
-        worksheet.getCell(3, col + 2).value = 'Amount (USD)';
-
-        [col, col + 1, col + 2].forEach(c => {
-          worksheet.getCell(3, c).alignment = { vertical: 'middle', horizontal: 'center' };
-        });
-
-        col += 3;
-      });
-
-      // Row 2 & 3: TOTAL
-      worksheet.mergeCells(2, col, 2, col + 2);
-      worksheet.getCell(2, col).value = 'TOTAL';
-      worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-      worksheet.getCell(3, col).value = 'NOA';
-      worksheet.getCell(3, col + 1).value = 'Amount (IDR)';
-      worksheet.getCell(3, col + 2).value = 'Amount (USD)';
-
-      [worksheet.getCell(3, col), worksheet.getCell(3, col + 1), worksheet.getCell(3, col + 2)].forEach(cell => {
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      });
-
-      // 🔑 update startCol supaya segment berikutnya tidak nabrak merge
-      startCol += segmentSpan;
-    });
-
-    // Styling
-    [1, 2, 3].forEach(r => {
-      worksheet.getRow(r).alignment = {
-        vertical: 'middle',
-        horizontal: 'center',
-        wrapText: true,
-      };
-      worksheet.getRow(r).font = { bold: true };
-    });
-
-    // ISI DATA
-    conditions.forEach((cond, i) => {
-      const row = i + 4;
-      worksheet.getCell(`A${row}`).value = cond;
-      let colIndex = 2;
-
-      sources.forEach(src => {
-        const lcList = src.lcType[0].listLC || [];
-
-        const relatedLcItems = lcList.filter(lc => this.lovApprovalLC.find(item => item.id === lc.lcId));
-
-        // Inisialisasi total
-        let totalNOA = 0;
-        let totalAmountIDR = 0;
-        let totalAmountUSD = 0;
-
-        relatedLcItems.forEach(item => {
-          const result = this._getConditionFromItem(item, cond);
-          worksheet.getCell(row, colIndex).value = result.noa || '';
-          worksheet.getCell(row, colIndex + 1).value = result.amountIDR || '';
-          worksheet.getCell(row, colIndex + 2).value = result.amountUSD || '';
-
-          // Hanya jumlahkan kalau bukan kondisi %
-          if (!cond.includes('%')) {
-            totalNOA += parseInt(result.noa || '0', 10);
-            totalAmountIDR += parseInt(result.amountIDR || '0', 10);
-            totalAmountUSD += parseInt(result.amountUSD || '0', 10);
-          }
-          colIndex += 3;
-          if (cond === '% Total Approve' || cond === '% Total Reject' || cond === '% Total Cancel') {
-            let sumPercent = 0;
-            for (let c = 2; c < colIndex; c += 3) {
-              const val = worksheet.getCell(row, c).value;
-              if (typeof val === 'string' && val.includes('%')) {
-                sumPercent += parseFloat(val.replace('%', '')) || 0;
-              }
-            }
-            if (sumPercent > 100) {
-              sumPercent = 100;
-            }
-            worksheet.getCell(row, colIndex).value = sumPercent.toFixed(2) + '%';
-            worksheet.getCell(row, colIndex + 1).value = '0';
-            worksheet.getCell(row, colIndex + 2).value = '0';
-          } else {
-            worksheet.getCell(row, colIndex).value = totalNOA;
-            worksheet.getCell(row, colIndex + 1).value = totalAmountIDR;
-            worksheet.getCell(row, colIndex + 2).value = totalAmountUSD;
-          }
-        });
-        colIndex += 3;
-      });
-    });
-
-    // ===== HEADER (ROW 1–3) =====
-    sourcesLc.forEach(src => {
-      const segmentName = src.lcName;
-      const lcType = src.segment || [];
-
-      // Filter LC yang termasuk segmentId pada parentIds
-      const validLCs = lcType.filter(lc => this.parentIds.includes(lc.segmentId));
-      const sortedSegments = validLCs.sort((a, b) => Number(a.segmentId) - Number(b.segmentId));
-
-      const totalValidCols = sortedSegments.length * 3;
-
-      // Row 1: Nama Segment
-      worksheet.mergeCells(1, col, 1, col + totalValidCols + 2);
-      worksheet.getCell(1, col).value = segmentName;
-      worksheet.getCell(1, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-      // Row 2 & 3: Nama LC + Subheader
-      sortedSegments.forEach(lc => {
-        worksheet.mergeCells(2, col, 2, col + 2);
-        worksheet.getCell(2, col).value = lc.segmentName;
-        worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-        worksheet.getCell(3, col).value = 'NOA';
-        worksheet.getCell(3, col + 1).value = 'Amount (IDR)';
-        worksheet.getCell(3, col + 2).value = 'Amount (USD)';
-
-        [col, col + 1, col + 2].forEach(c => {
-          worksheet.getCell(3, c).alignment = { vertical: 'middle', horizontal: 'center' };
-        });
-
-        col += 3;
-      });
-
-      // TOTAL per segment
-      worksheet.mergeCells(2, col, 2, col + 2);
-      worksheet.getCell(2, col).value = 'TOTAL';
-      worksheet.getCell(2, col).alignment = { vertical: 'middle', horizontal: 'center' };
-
-      worksheet.getCell(3, col).value = 'NOA';
-      worksheet.getCell(3, col + 1).value = 'Amount (IDR)';
-      worksheet.getCell(3, col + 2).value = 'Amount (USD)';
-
-      [col, col + 1, col + 2].forEach(c => {
-        worksheet.getCell(3, c).alignment = { vertical: 'middle', horizontal: 'center' };
-      });
-
-      col += 3;
-    });
-
-    // ===== STYLING HEADER =====
-    [1, 2, 3].forEach(r => {
-      worksheet.getRow(r).alignment = {
-        vertical: 'middle',
-        horizontal: 'center',
-        wrapText: true,
-      };
-      worksheet.getRow(r).font = { bold: true };
-    });
-
-    // ===== ISI DATA =====
-    conditions.forEach((cond, i) => {
-      const row = i + 4;
-      worksheet.getCell(`A${row}`).value = cond;
-      let colIndex = 2;
-
-      sourcesLc.forEach(src => {
-        const lcType = src.segment || [];
-
-        // Filter LC yang termasuk segmentId pada parentIds
-        const validLCs = lcType.filter(lc => this.parentIds.includes(lc.segmentId));
-        const sortedSegments = validLCs.sort((a, b) => Number(a.segmentId) - Number(b.segmentId));
-        let totalNOA = 0;
-        let totalAmountIDR = 0;
-        let totalAmountUSD = 0;
-
-        sortedSegments.forEach(lc => {
-          const result = this._getConditionFromItem(lc, cond); // Ambil data langsung dari lc
-
-          worksheet.getCell(row, colIndex).value = result.noa || '';
-          worksheet.getCell(row, colIndex + 1).value = result.amountIDR || '';
-          worksheet.getCell(row, colIndex + 2).value = result.amountUSD || '';
-
-          // Hanya jumlahkan kalau bukan kondisi %
-          if (!cond.includes('%')) {
-            totalNOA += parseInt(result.noa || '0', 10);
-            totalAmountIDR += parseInt(result.amountIDR || '0', 10);
-            totalAmountUSD += parseInt(result.amountUSD || '0', 10);
-          }
-
-          colIndex += 3;
-
-          // ==== Kolom TOTAL ====
-          if (cond === '% Total Approve' || cond === '% Total Reject' || cond === '% Total Cancel') {
-            // Ambil nilai persen dari fungsi _getConditionFromItem (sudah return %)
-            worksheet.getCell(row, colIndex).value = result.noa || 0; // isinya sudah dalam bentuk "25%" misalnya
-            worksheet.getCell(row, colIndex + 1).value = result.amountIDR || 0;
-            worksheet.getCell(row, colIndex + 2).value = result.amountUSD || 0;
-          } else {
-            worksheet.getCell(row, colIndex).value = totalNOA;
-            worksheet.getCell(row, colIndex + 1).value = totalAmountIDR;
-            worksheet.getCell(row, colIndex + 2).value = totalAmountUSD;
-          }
-        });
-        colIndex += 3;
-      });
-    });
-  }
-
-  private _getConditionFromItem(
-    lc: any,
-    condition: string
-  ): {
-    noa: string;
-    amountIDR: string;
-    amountUSD: string;
-  } {
-    let noa = 0;
-    let amountIDR = 0;
-    let amountUSD = 0;
-
-    let totalNOA = 0;
-    let approvedNOA = 0;
-    let rejectNOA = 0;
-    let cancelNOA = 0;
-    const amountType = this.form.get('amount')?.value;
-    const conditionTypes = lc.conditionType || [];
-    for (const cond of conditionTypes) {
-      const condName = (cond.conditionName || '').trim();
-      const noaVal = parseInt(cond.noa || '0', 10);
-
-      if (['Approved', 'Reject', 'Cancel'].includes(condName)) {
-        totalNOA += noaVal;
-        if (condName === 'Approved') {
-          approvedNOA += noaVal;
-        }
-        if (condName === 'Reject') {
-          rejectNOA += noaVal;
-        }
-        if (condName === 'Cancel') {
-          cancelNOA += noaVal;
-        }
-      }
-
-      const isCancelByBranch = condition === 'Cancel by Branch' && condName === 'Cancel';
-      const isDirectMatch = condition === condName;
-
-      if (isCancelByBranch || isDirectMatch) {
-        noa += noaVal;
-      }
-
-      if (condition === 'Total') {
-        noa += noaVal;
-      }
-
-      if (cond.product?.length) {
-        for (const prod of cond.product) {
-          const fullCond = `${condName} - ${prod.kategoriProduct}`;
-          const isProductMatch = condition === fullCond;
-
-          // Untuk kondisi seperti "Approved - Renewal", dll
-          if (isProductMatch) {
-            noa += parseInt(prod.noa || '0', 10);
-
-            for (const amount of prod.summaryAmount || []) {
-              if (amount.amountType === amountType) {
-                for (const curr of amount.currencyAmount || []) {
-                  if (curr.currency === 'IDR') {
-                    amountIDR += parseInt(curr.amount || '0', 10);
-                  } else if (curr.currency === 'USD') {
-                    amountUSD += parseInt(curr.amount || '0', 10);
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        // Untuk kondisi seperti "Approved", "Reject", "Cancel" (tanpa kategoriProduct)
-        const isSummaryOfCondition = condition === condName && ['Approved', 'Reject', 'Cancel'].includes(condName);
-        if (isSummaryOfCondition) {
-          for (const prod of cond.product) {
-            for (const amount of prod.summaryAmount || []) {
-              if (amount.amountType === amountType) {
-                for (const curr of amount.currencyAmount || []) {
-                  if (curr.currency === 'IDR') {
-                    amountIDR += parseInt(curr.amount || '0', 10);
-                  } else if (curr.currency === 'USD') {
-                    amountUSD += parseInt(curr.amount || '0', 10);
-                  }
-                }
-              }
-            }
-          }
-        }
-        if (condition === 'Total') {
-          for (const prod of cond.product) {
-            for (const amount of prod.summaryAmount || []) {
-              if (amount.amountType === amountType) {
-                for (const curr of amount.currencyAmount || []) {
-                  if (curr.currency === 'IDR') {
-                    amountIDR += parseInt(curr.amount || '0', 10);
-                  } else if (curr.currency === 'USD') {
-                    amountUSD += parseInt(curr.amount || '0', 10);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // Handle % Total
-    let noaResult: string;
-    if (condition === '% Total Approve') {
-      noaResult = totalNOA > 0 ? ((approvedNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-    } else if (condition === '% Total Reject') {
-      noaResult = totalNOA > 0 ? ((rejectNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-    } else if (condition === '% Total Cancel') {
-      noaResult = totalNOA > 0 ? ((cancelNOA / totalNOA) * 100).toFixed(2) + '%' : '0%';
-    } else {
-      noaResult = noa.toFixed(2).replace(/\.00$/, '');
-    }
-
-    return {
-      noa: noaResult || '0',
-      amountIDR: amountIDR.toString() || '0',
-      amountUSD: amountUSD.toString() || '0',
-    };
-  }
-
-  private _buildConditionStructure(): string[] {
-    return [
-      'Approved',
-      'Approved - New (NTB)',
-      'Approved - Additional (Existing)',
-      'Approved - Renewal',
-      'Approved - Restructure',
-      'Approved - Decrease',
-      'Approved - Other',
-      'Reject',
-      'Reject - New (NTB)',
-      'Reject - Additional (Existing)',
-      'Reject - Renewal',
-      'Reject - Restructure',
-      'Reject - Decrease',
-      'Reject - Other',
-      'Cancel by Branch',
-      'Total',
-      '% Total Approve',
-      '% Total Reject',
-      '% Total Cancel',
+    this.lovAmount = [];
+    this.lovCondition = [];
+    this.lovSegment = [];
+    this.lovProposalType;
+    this.lovDebtorStatus = [];
+    this.formData = this.createFormGroup();
+    this.formConfigs = [
+      {
+        form: this.formData,
+        menuType: 'Regional',
+        allSelectedSegment: false,
+        allSelectedLc: false,
+        allSelectedCondition: false,
+        allSelectedDebtorStatus: false,
+        allSelectedAmountType: false,
+        name: 'form1',
+      },
     ];
   }
 
-  get columns() {
-    return [{ header: 'Condition', key: 'condition' }];
+  ngOnInit(): void {
+    this._initialize();
+    this._setupDateFormatters();
+  }
+
+  private createFormGroup(): FormGroup {
+    return new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      proposalType: new FormControl(''),
+      segment: new FormControl([]),
+      lc: new FormControl([]),
+      amountType: new FormControl([]),
+      condition: new FormControl([]),
+      debtorStatus: new FormControl([]),
+    });
+  }
+
+  private _setupDateFormatters(): void {
+    const dateFields = ['startDate', 'endDate'];
+    const forms = [this.formData];
+
+    forms.forEach(form => {
+      dateFields.forEach(fieldName => {
+        form.get(fieldName)?.valueChanges.subscribe(date => {
+          if (moment.isMoment(date)) {
+            const formattedDate = date.format('YYYY-MM-DD');
+            form.get(fieldName)?.setValue(formattedDate, { emitEvent: false });
+          }
+        });
+      });
+    });
+
+    this._setupSelectAllDetection();
+  }
+
+  private _setupSelectAllDetection(): void {
+    setTimeout(() => {
+      this.formConfigs.forEach((config, index) => {
+        config.form.get('segment')?.valueChanges.subscribe(selectedValues => {
+          if (config.menuType === 'Regional' && this.lovSegment && this.lovSegment.length > 0) {
+            const allRegionalItems = this.lovSegment.map(item => item.facilityName);
+            config.allSelectedSegment = this._areArraysEqual(selectedValues, allRegionalItems);
+          }
+        });
+
+        config.form.get('lc')?.valueChanges.subscribe(selectedValues => {
+          if (config.menuType === 'Approval LC' && this.lovLc[config.name] && this.lovLc[config.name].length > 0) {
+            const allLcItems = this.lovLc[config.name].map(item => item.id);
+            config.allSelectedLc = this._areArraysEqual(selectedValues, allLcItems);
+          }
+        });
+
+        config.form.get('condition')?.valueChanges.subscribe(selectedValues => {
+          if (this.lovCondition && this.lovCondition.length > 0) {
+            config.allSelectedCondition = this._areArraysEqual(selectedValues, this.lovCondition);
+          }
+        });
+
+        config.form.get('debtorStatus')?.valueChanges.subscribe(selectedValues => {
+          if (this.lovDebtorStatus && this.lovDebtorStatus.length > 0) {
+            config.allSelectedDebtorStatus = this._areArraysEqual(selectedValues, this.lovDebtorStatus);
+          }
+        });
+
+        config.form.get('amountType')?.valueChanges.subscribe(selectedValues => {
+          if (this.lovAmount && this.lovAmount.length > 0) {
+            config.allSelectedAmountType = this._areArraysEqual(selectedValues, this.lovAmount);
+          }
+        });
+      });
+    }, 100);
+  }
+
+  private _areArraysEqual(arr1: any[], arr2: any[]): boolean {
+    if (!arr1 || !arr2) {
+      return false;
+    }
+
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+
+    const sortedArr1 = [...arr1].sort();
+    const sortedArr2 = [...arr2].sort();
+
+    return sortedArr1.every((val, idx) => val === sortedArr2[idx]);
+  }
+
+  private _initialize(): void {
+    // Get Proposal Type
+    this.summaryApprovalService.getProposalType().subscribe({
+      next: res => {
+        this.lovProposalType = res || [];
+      },
+      error: error => {
+        console.error('Error loading proposal type:', error);
+        this.lovProposalType = [];
+      },
+    });
+
+    // Get Segment
+    this.summaryApprovalService.getSegment().subscribe({
+      next: res => {
+        this.lovSegment = res || [];
+      },
+      error: error => {
+        console.error('Error loading segment:', error);
+        this.lovSegment = [];
+      },
+    });
+
+    // Get Amount Type
+    try {
+      this.lovAmount = this.summaryApprovalService.getAmountType() || [];
+    } catch (error) {
+      console.error('Error loading amount type:', error);
+      this.lovAmount = [];
+    }
+
+    // Get LC
+    this.summaryApprovalService.getLc().subscribe({
+      next: res => {
+        this.allDataLovLc = res || {};
+        if (this.allDataLovLc[this.formConfigs[0].name] && this.allDataLovLc[this.formConfigs[0].name].defaultLc) {
+          this.lovLc[this.formConfigs[0].name] = this.allDataLovLc[this.formConfigs[0].name].defaultLc;
+        } else {
+          this.lovLc[this.formConfigs[0].name] = [];
+        }
+
+        // Setup proposal type change listener
+        this.formConfigs[0].form.get('proposalType')?.valueChanges.subscribe(selectedValues => {
+          if (selectedValues === 'Total Exposure Back to Back') {
+            this.formConfigs[0].allSelectedLc = false;
+            this.formConfigs[0].form.get('lc')?.setValue([]);
+            this.lovLc[this.formConfigs[0].name] = this.allDataLovLc[this.formConfigs[0].name]?.btb || [];
+          } else {
+            this.formConfigs[0].allSelectedLc = false;
+            this.formConfigs[0].form.get('lc')?.setValue([]);
+            this.lovLc[this.formConfigs[0].name] = this.allDataLovLc[this.formConfigs[0].name]?.nbtb || [];
+          }
+        });
+      },
+      error: error => {
+        console.error('Error loading LC data:', error);
+        this.allDataLovLc = {};
+        this.lovLc[this.formConfigs[0].name] = [];
+      },
+    });
+
+    // Get Condition
+    try {
+      this.lovCondition = this.summaryApprovalService.getCondition() || [];
+    } catch (error) {
+      console.error('Error loading condition:', error);
+      this.lovCondition = [];
+    }
+
+    // Get Debtor Status
+    try {
+      this.lovDebtorStatus = this.summaryApprovalService.getDebtorStatus() || [];
+    } catch (error) {
+      console.error('Error loading debtor status:', error);
+      this.lovDebtorStatus = [];
+    }
+  }
+
+  public toggleMenu() {
+    this.formConfigs[0].menuType = this.formConfigs[0].menuType === 'Regional' ? 'Approval LC' : 'Regional';
+    this.formConfigs[0].form.get('startDate')?.setValue('');
+    this.formConfigs[0].form.get('endDate')?.setValue('');
+    this.formConfigs[0].form.get('segment')?.setValue([]);
+    this.formConfigs[0].form.get('lc')?.setValue([]);
+    this.formConfigs[0].form.get('debtorStatus')?.setValue([]);
+    this.formConfigs[0].form.get('amountType')?.setValue([]);
+    this.formConfigs[0].form.get('condition')?.setValue([]);
+    this.formConfigs[0].allSelectedSegment = false;
+    this.formConfigs[0].allSelectedLc = false;
+  }
+
+  public toggleSelectAllSegment() {
+    this.formConfigs[0].allSelectedSegment = !this.formConfigs[0].allSelectedSegment;
+
+    if (this.formConfigs[0].allSelectedSegment) {
+      const allSegmentValues = this.lovSegment?.map(item => item.facilityName) || [];
+      this.formConfigs[0].form.get('segment')?.setValue(allSegmentValues);
+    } else {
+      this.formConfigs[0].form.get('segment')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllLc() {
+    this.formConfigs[0].allSelectedLc = !this.formConfigs[0].allSelectedLc;
+
+    if (this.formConfigs[0].allSelectedLc) {
+      const allLcValues = this.lovLc[this.formConfigs[0].name]?.map(item => item.id) || [];
+      this.formConfigs[0].form.get('lc')?.setValue(allLcValues);
+    } else {
+      this.formConfigs[0].form.get('lc')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllCondition() {
+    this.formConfigs[0].allSelectedCondition = !this.formConfigs[0].allSelectedCondition;
+
+    if (this.formConfigs[0].allSelectedCondition) {
+      this.formConfigs[0].form.get('condition')?.setValue([...this.lovCondition]);
+    } else {
+      this.formConfigs[0].form.get('condition')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllDebtorStatus() {
+    this.formConfigs[0].allSelectedDebtorStatus = !this.formConfigs[0].allSelectedDebtorStatus;
+
+    if (this.formConfigs[0].allSelectedDebtorStatus) {
+      this.formConfigs[0].form.get('debtorStatus')?.setValue([...this.lovDebtorStatus]);
+    } else {
+      this.formConfigs[0].form.get('debtorStatus')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllAmountType() {
+    this.formConfigs[0].allSelectedAmountType = !this.formConfigs[0].allSelectedAmountType;
+    if (this.formConfigs[0].allSelectedAmountType) {
+      this.formConfigs[0].form.get('amountType')?.setValue([...this.lovAmount]);
+    } else {
+      this.formConfigs[0].form.get('amountType')?.setValue([]);
+    }
+  }
+  public validateForms(formData: FormGroup) {
+    const startDate = formData.get('startDate')?.value;
+    const endDate = formData.get('endDate')?.value;
+    const proposalType = formData.get('proposalType')?.value;
+    const errors = [];
+
+    if (!startDate && !endDate && !proposalType) {
+      errors.push({ isValid: false, errorMessage: 'Please Select Data' });
+    }
+
+    if (!startDate || !endDate) {
+      errors.push({ isValid: false, errorMessage: 'Please Select Date Range Data' });
+    }
+
+    if (!proposalType) {
+      errors.push({ isValid: false, errorMessage: 'Please Select Proposal Type Data' });
+    }
+
+    return errors.length ? errors : [{ isValid: true, errorMessage: null }];
+  }
+  private _getValidationMessages() {
+    const form1 = this.validateForms(this.formData);
+    const errorMessages = [];
+
+    if (Array.isArray(form1)) {
+      form1.forEach(item => {
+        if (!item.isValid) {
+          errorMessages.push(item.errorMessage);
+        }
+      });
+    }
+    return errorMessages;
+  }
+
+  private _generateData() {
+    const payloadData = this.summaryApprovalService.generatePayloadFormat(this.formData, this.formConfigs[0].menuType);
+    const data$ = this.summaryApprovalService.generate(payloadData, this.summaryApprovalService.getEndpoint(this.formConfigs[0].menuType));
+
+    return data$;
+  }
+
+  public generate() {
+    this.loadingGenerate = true;
+    const validationMessages = this._getValidationMessages();
+
+    if (validationMessages.length > 0) {
+      validationMessages.forEach(message => {
+        this.message.add({
+          severity: 'error',
+          summary: 'Validation Error',
+          detail: message,
+        });
+      });
+      this.loadingGenerate = false;
+      return;
+    }
+
+    this._generateData().subscribe({
+      next: data => {
+        this.processGenerate(data);
+      },
+      error: error => {
+        console.error('Error generating data:', error);
+        this.message.add({
+          severity: 'error',
+          summary: 'Generation Error',
+          detail: 'An error occurred while generating the report',
+        });
+        this.loadingGenerate = false;
+      },
+    });
+  }
+
+  public processGenerate(data: any): void {
+    if (!data) {
+      if (this.worksheet) {
+        this._setAutoWidthForAllColumns();
+        this.downloadFile('MIS_SUMMARY_APPROVAL');
+      }
+      this.loadingGenerate = false;
+      return;
+    }
+    const processedData = {
+      data1: getSampleTableData(data[0]),
+      payloadData1: this.summaryApprovalService.generatePayloadFormat(this.formData, this.formConfigs[0].menuType),
+    };
+    this.processData(processedData);
+
+    if (this.worksheet) {
+      this._setAutoWidthForAllColumns();
+      if (this.formConfigs[0].menuType === 'Regional') {
+        this.downloadFile('MIS_Summary_Approval_Regional_Report_');
+      } else {
+        this.downloadFile('MIS_Summary_Approval_LC_Report_');
+      }
+    }
+
+    this._resetData();
+    this.loadingGenerate = false;
+  }
+
+  protected processData(data: any): void {
+    const ws = this.worksheet;
+    const dateRangeRow = ws.getRow(1);
+    dateRangeRow.getCell('A').value = 'Date Range';
+    dateRangeRow.getCell('B').value = data.payloadData1.startDate + ' - ' + data.payloadData1.endDate;
+
+    const proposalTypeRow = ws.getRow(2);
+    proposalTypeRow.getCell('A').value = 'Proposal Type';
+    proposalTypeRow.getCell('B').value = data.payloadData1.proposalType;
+
+    // Process Data
+    let indexRow = 0;
+    data.data1.forEach((item: any, index: number) => {
+      const conditionsLength = processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length;
+      indexRow += conditionsLength + 5;
+      this.summaryApprovalService.createTableInWorksheet(
+        ws,
+        item,
+        index * (conditionsLength + 5) + 6,
+        data.payloadData1.condition,
+        data.payloadData1.debtorStatus,
+        data.payloadData1.amountType
+      );
+    });
   }
 }

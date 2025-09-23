@@ -595,11 +595,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   _filterCPBeforeGenerate(data) {
-
     data.forEach(proposal => {
       proposal.statusProposal = this._getStatusData(proposal);
     });
-    
+
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
@@ -747,7 +746,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
@@ -792,11 +791,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (!Array.isArray(timeLineCreditProposal)) {
       return '';
     }
-    
+
     const filtered = timeLineCreditProposal
       .filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize')
       .map(timeline => timeline.personName);
-      
+
     return filtered.length ? filtered.join(',\n') : '';
   }
 
