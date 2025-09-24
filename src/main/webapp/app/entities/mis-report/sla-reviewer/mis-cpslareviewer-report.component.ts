@@ -531,7 +531,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_Reviewer'),
+      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Review'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
