@@ -868,11 +868,29 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private formatReviewer(reviewerName: string): string {
-    if (!reviewerName) {
+    try {
+      if (!reviewerName) {
+        return '';
+      }
+
+      if (reviewerName.includes('null')) {
+        reviewerName = reviewerName.replace('null', '');
+      }
+
+      const words = reviewerName.split(' ');
+
+      const formattedWords = words.map(word => {
+        if (word === word.toUpperCase()) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+
+      return formattedWords.join(' ');
+    } catch (error) {
+      console.log('Error formatting reviewer name:', error);
       return '';
     }
-
-    return reviewerName.replace(/ null/g, '');
   }
 
   private formatProvisionFee(provisionFee: string): string {
