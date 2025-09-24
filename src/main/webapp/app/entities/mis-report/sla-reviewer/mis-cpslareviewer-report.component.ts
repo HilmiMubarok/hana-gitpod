@@ -645,7 +645,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         gradingSME: this.getGrading(proposal) === 'Grading' ? proposal.creditGrading : '',
         rating: this.getGrading(proposal) === 'Rating' ? proposal.creditGrading : '',
         statusOfFacility: product.pengajuan || '',
-        takeOverYN: proposal.previousBank ? 'Y' : 'N',
+        takeOverYN: proposal.previousBank === null || proposal.previousBank === 'null' ? 'N' : 'Y',
         previousBank: proposal.previousBank || '',
         facility: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
@@ -851,10 +851,10 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     const { darAppealSeqNo, appealMemoDocNo } = proposal;
 
     if (Number(darAppealSeqNo) === 0 && !appealMemoDocNo) {
-      return 'NO';
+      return 'N';
     }
 
-    return 'YES';
+    return 'Y';
   }
 
   private getGrading(proposal: any) {
