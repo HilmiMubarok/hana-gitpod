@@ -638,7 +638,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         regional: this.getRegionalParentRM(proposal.regionalParentRM),
         headName: proposal.headName || '',
         bm: proposal.bm || '',
-        rm: proposal.rmFirstName && proposal.rmLastName ? proposal.rmFirstName + ' ' + proposal.rmLastName : '',
+        rm: proposal.rmFirstName || proposal.rmLastName ? (proposal.rmFirstName ? proposal.rmFirstName : '') + ' ' + (proposal.rmLastName ? proposal.rmLastName : '') : '',
         debtorName: proposal.debtorName || '',
         loanCommApproval: proposal.approvalLc || '',
         lineOfBusiness: proposal.lineOfBusiness || '',
