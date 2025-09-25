@@ -531,7 +531,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_Reviewer'),
+      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Review'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -638,14 +638,14 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         regional: this.getRegionalParentRM(proposal.regionalParentRM),
         headName: proposal.headName || '',
         bm: proposal.bm || '',
-        rm: proposal.rmFirstName && proposal.rmLastName ? proposal.rmFirstName + ' ' + proposal.rmLastName : '',
+        rm: proposal.rmFirstName || proposal.rmLastName ? (proposal.rmFirstName ? proposal.rmFirstName : '') + ' ' + (proposal.rmLastName ? proposal.rmLastName : '') : '',
         debtorName: proposal.debtorName || '',
         loanCommApproval: proposal.approvalLc || '',
         lineOfBusiness: proposal.lineOfBusiness || '',
         gradingSME: this.getGrading(proposal) === 'Grading' ? proposal.creditGrading : '',
         rating: this.getGrading(proposal) === 'Rating' ? proposal.creditGrading : '',
         statusOfFacility: product.pengajuan || '',
-        takeOverYN: proposal.previousBank ? 'Y' : 'N',
+        takeOverYN: proposal.previousBank === null || proposal.previousBank === 'null' ? 'N' : 'Y',
         previousBank: proposal.previousBank || '',
         facility: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
@@ -657,8 +657,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         grandTotalPlafondDebtorOnlyIDR: proposal.totalPlafondDebtorOnlyIDR || '',
         grandTotalPlafondTotalExposureIDR: proposal.grandTotalPlafondEqToIDR || '',
         exchangeRate: this.getExchangeRate(proposal) || '',
-        interestRate: product.currentRate || '',
-        provisionFee: this.formatProvisionFee(product.provisionFee) || '',
+        interestRate: this.getInterestRate(product.currentRate),
+        provisionFee: this.formatProvisionFee(product.provisionFee, product.provisionFeeType) || '',
         provisionFeeType: product.provisionFeeType || '',
         adminFee: this.formatAdminFee(product.adminFee) || '',
         adminFeeType: product.adminFeeType || '',
@@ -851,10 +851,10 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     const { darAppealSeqNo, appealMemoDocNo } = proposal;
 
     if (Number(darAppealSeqNo) === 0 && !appealMemoDocNo) {
-      return 'NO';
+      return 'N';
     }
 
-    return 'YES';
+    return 'Y';
   }
 
   private getGrading(proposal: any) {
@@ -868,21 +868,49 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private formatReviewer(reviewerName: string): string {
-    if (!reviewerName) {
+    try {
+      if (!reviewerName) {
+        return '';
+      }
+
+      if (reviewerName.includes('null')) {
+        reviewerName = reviewerName.replace('null', '');
+      }
+
+      const words = reviewerName.split(' ');
+
+      const formattedWords = words.map(word => {
+        if (word === word.toUpperCase()) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+
+      return formattedWords.join(' ');
+    } catch (error) {
+      console.log('Error formatting reviewer name:', error);
       return '';
     }
-
-    return reviewerName.replace(/ null/g, '');
   }
 
-  private formatProvisionFee(provisionFee: string): string {
+  private formatProvisionFee(provisionFee: string, type: string): string {
     if (!provisionFee) {
       return '';
     }
 
-    const data = provisionFee.split('.')[0];
+    let formattedProvisionFee = provisionFee;
 
-    return Number(data).toFixed(2);
+    if (type === 'IDR' || type === 'USD') {
+      formattedProvisionFee = provisionFee.replace(/,/g, '');
+    } else {
+      const data = provisionFee.split('.')[0];
+      if (Number(data) === 0) {
+        return '0';
+      }
+      formattedProvisionFee = Number(data).toFixed(2).replace(/\B(?=(\d{3})+(?!\.))/g, ',');
+    }
+
+    return formattedProvisionFee;
   }
 
   private getDateOfAssignment(proposal: any, isDateFormated = true): string {
@@ -1042,5 +1070,17 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (regionalParentRM === 'Mortgage/KPR') {
       return 'M';
     }
+  }
+
+  private getInterestRate(interestRate) {
+    if (!interestRate) {
+      return '';
+    }
+
+    if (Number(interestRate) === 0) {
+      return '0';
+    }
+
+    return Number(interestRate).toFixed(2).toString();
   }
 }

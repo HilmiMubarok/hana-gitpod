@@ -40,7 +40,7 @@
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
               [class.disabled-control]="MISReportSLA.get('status')?.disabled">
-              <mat-label>Status</mat-label>
+              <mat-label>Proposal Status</mat-label>
               <mat-select formControlName="status" multiple (focus)="onControlFocus('status')" (blur)="onControlBlur()">
                 <li class="select-all" (click)="toggleSelectAll()">
                   {{ allSelected ? 'Deselect All' : 'Select All' }}
@@ -94,7 +94,7 @@
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
               [class.disabled-control]="MISReportSLA.get('query')?.disabled">
-              <mat-label>Search</mat-label>
+              <mat-label>Debtor Name</mat-label>
               <input matInput placeholder="Search in here..." type="text" formControlName="query"
                 (focus)="onSearchFocus()" (blur)="onSearchBlur()" (keydown.enter)="doSearch()" />
               <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()"
