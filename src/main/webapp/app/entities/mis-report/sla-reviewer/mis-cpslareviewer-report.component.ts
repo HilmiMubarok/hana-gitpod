@@ -658,7 +658,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         grandTotalPlafondTotalExposureIDR: proposal.grandTotalPlafondEqToIDR || '',
         exchangeRate: this.getExchangeRate(proposal) || '',
         interestRate: product.currentRate || '',
-        provisionFee: this.formatProvisionFee(product.provisionFee) || '',
+        provisionFee: this.formatProvisionFee(product.provisionFee, product.provisionFeeType) || '',
         provisionFeeType: product.provisionFeeType || '',
         adminFee: this.formatAdminFee(product.adminFee) || '',
         adminFeeType: product.adminFeeType || '',
@@ -893,14 +893,24 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
   }
 
-  private formatProvisionFee(provisionFee: string): string {
+  private formatProvisionFee(provisionFee: string, type: string): string {
     if (!provisionFee) {
       return '';
     }
 
-    const data = provisionFee.split('.')[0];
+    let formattedProvisionFee = provisionFee;
 
-    return Number(data).toFixed(2);
+    if (type === 'IDR' || type === 'USD') {
+      formattedProvisionFee = provisionFee.replace(/,/g, '');
+    } else {
+      const data = provisionFee.split('.')[0];
+      if (Number(data) === 0) {
+        return '0';
+      }
+      formattedProvisionFee = Number(data).toFixed(2).replace(/\B(?=(\d{3})+(?!\.))/g, ',');
+    }
+
+    return formattedProvisionFee;
   }
 
   private getDateOfAssignment(proposal: any, isDateFormated = true): string {
