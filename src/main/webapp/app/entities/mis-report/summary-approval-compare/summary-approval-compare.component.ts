@@ -6,14 +6,16 @@ import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { MisReportService } from '../mis-report.service';
-import { getSampleTableData } from './summary-approval-compare.helper';
+import { getSampleTableData, processConditions } from './summary-approval-compare.helper';
 
 interface FormDataConfig {
   form: FormGroup;
   menuType: 'Regional' | 'Approval LC';
   allSelectedSegment: boolean;
   allSelectedLc: boolean;
+  allSelectedAmountType: boolean;
   allSelectedCondition: boolean;
+  allSelectedDebtorStatus: boolean;
   name: string;
 }
 
@@ -26,7 +28,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   public formConfigs: FormDataConfig[] = [];
   public formData1: FormGroup;
   public formData2: FormGroup;
-  public lovAmount;
+  public lovAmount; // multi select
   public lovCondition; // multi select
   public lovSegment; // multi select
   public lovLc = {
@@ -35,6 +37,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   }; // multi select
   public allDataLovLc;
   public lovProposalType;
+  public lovDebtorStatus;
   public loadingGenerate = false;
 
   constructor(
@@ -52,7 +55,9 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
         menuType: 'Regional',
         allSelectedSegment: false,
         allSelectedLc: false,
+        allSelectedAmountType: false,
         allSelectedCondition: false,
+        allSelectedDebtorStatus: false,
         name: 'form1',
       },
       {
@@ -60,7 +65,9 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
         menuType: 'Regional',
         allSelectedSegment: false,
         allSelectedLc: false,
+        allSelectedAmountType: false,
         allSelectedCondition: false,
+        allSelectedDebtorStatus: false,
         name: 'form2',
       },
     ];
@@ -78,6 +85,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       lc: new FormControl(''),
       amountType: new FormControl(''),
       condition: new FormControl(''),
+      debtorStatus: new FormControl(''),
     });
   }
 
@@ -114,6 +122,11 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
           config.allSelectedLc = this._areArraysEqual(selectedValues, allLcItems);
         });
       }
+
+      config.form.get('amountType')?.valueChanges.subscribe(selectedValues => {
+        const allAmountTypeItems = this.lovAmount.map(item => item);
+        config.allSelectedAmountType = this._areArraysEqual(selectedValues, allAmountTypeItems);
+      });
 
       config.form.get('condition')?.valueChanges.subscribe(selectedValues => {
         config.allSelectedCondition = this._areArraysEqual(selectedValues, this.lovCondition);
@@ -193,6 +206,9 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
 
     // Get Condition
     this.lovCondition = this.summaryApprovalService.getCondition();
+
+    // Get Debtor Status
+    this.lovDebtorStatus = this.summaryApprovalService.getDebtorStatus();
   }
 
   public toggleMenu(whichMenu: 'menuData1' | 'menuData2') {
@@ -202,6 +218,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     this.formConfigs[index].form.get('segment')?.setValue([]);
     this.formConfigs[index].allSelectedSegment = false;
     this.formConfigs[index].allSelectedLc = false;
+    this.formConfigs[index].allSelectedAmountType = false;
   }
 
   public toggleSelectAllSegment(formIndex: number) {
@@ -224,6 +241,16 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     }
   }
 
+  public toggleSelectAllAmountType(formIndex: number) {
+    this.formConfigs[formIndex].allSelectedAmountType = !this.formConfigs[formIndex].allSelectedAmountType;
+
+    if (this.formConfigs[formIndex].allSelectedAmountType) {
+      this.formConfigs[formIndex].form.get('amountType')?.setValue([...this.lovAmount]);
+    } else {
+      this.formConfigs[formIndex].form.get('amountType')?.setValue([]);
+    }
+  }
+
   public toggleSelectAllCondition(formIndex: number) {
     this.formConfigs[formIndex].allSelectedCondition = !this.formConfigs[formIndex].allSelectedCondition;
 
@@ -231,6 +258,16 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       this.formConfigs[formIndex].form.get('condition')?.setValue([...this.lovCondition]);
     } else {
       this.formConfigs[formIndex].form.get('condition')?.setValue([]);
+    }
+  }
+
+  public toggleSelectAllDebtorStatus(formIndex: number) {
+    this.formConfigs[formIndex].allSelectedDebtorStatus = !this.formConfigs[formIndex].allSelectedDebtorStatus;
+
+    if (this.formConfigs[formIndex].allSelectedDebtorStatus) {
+      this.formConfigs[formIndex].form.get('debtorStatus')?.setValue([...this.lovDebtorStatus]);
+    } else {
+      this.formConfigs[formIndex].form.get('debtorStatus')?.setValue([]);
     }
   }
 
@@ -303,7 +340,9 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   }
 
   public generate() {
+    this.loadingGenerate = true;
     if (this._getValidationMessages().length > 0) {
+      this.loadingGenerate = false;
       return;
     }
 
@@ -312,13 +351,22 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     });
   }
 
+  clearDateRange(formIndex: number) {
+    this.formConfigs[formIndex].form.get('startDate')?.reset();
+    this.formConfigs[formIndex].form.get('endDate')?.reset();
+  }
+
+  dateRangeHasValue(formIndex: number) {
+    return this.formConfigs[formIndex].form.get('startDate')?.value && this.formConfigs[formIndex].form.get('endDate')?.value;
+  }
+
   public processGenerate(data1, data2): void {
     if (!data1 || !data2) {
       this._setAutoWidthForAllColumns();
       this.downloadFile('MIS_SUMMARY_APPROVAL_COMPARE');
+      this.loadingGenerate = false;
       return;
     }
-
     const processedData = {
       data1: getSampleTableData(data1[0]),
       data2: getSampleTableData(data2[0]),
@@ -331,6 +379,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
 
     this.downloadFile('Summary_Approval_Compare_');
     this._resetData();
+    this.loadingGenerate = false;
   }
 
   protected processData(data): void {
@@ -345,21 +394,21 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow.getCell('A').value = 'Proposal Type';
     proposalTypeRow.getCell('B').value = data.payloadData1.proposalType;
 
-    const amountTypeRow = ws.getRow(3);
-    amountTypeRow.getCell('A').value = 'Amount Type';
-    amountTypeRow.getCell('B').value = data.payloadData1.amountType;
-
     // Process Data 1
+    let indexRow = 0;
     data.data1.forEach((item, index) => {
+      indexRow += processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5;
       this.summaryApprovalService.createTableInWorksheet(
         ws,
         item,
-        index * 24 + 6
+        index * (processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5) + 5,
+        data.payloadData1.condition,
+        data.payloadData1.debtorStatus,
+        data.payloadData1.amountType
       );
     });
 
-    const lastRow = data.data1.length * 24 + 6;
-    
+    const lastRow = indexRow + 5;
     // Data 2
     const dateRangeRow2 = ws.getRow(lastRow);
     dateRangeRow2.getCell('A').value = 'Date Range';
@@ -369,16 +418,16 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow2.getCell('A').value = 'Proposal Type';
     proposalTypeRow2.getCell('B').value = data.payloadData2.proposalType;
 
-    const amountTypeRow2 = ws.getRow(proposalTypeRow2.number + 1);
-    amountTypeRow2.getCell('A').value = 'Amount Type';
-    amountTypeRow2.getCell('B').value = data.payloadData2.amountType;
-
     // Process Data 2
     data.data2.forEach((item, index) => {
+      const indexRowData2 = processConditions(data.payloadData2.condition, data.payloadData2.debtorStatus).length + 5;
       this.summaryApprovalService.createTableInWorksheet(
         ws,
         item,
-        lastRow + 2 + index * 24 + 3
+        lastRow + 2 + index * indexRowData2 + 2,
+        data.payloadData2.condition,
+        data.payloadData2.debtorStatus,
+        data.payloadData2.amountType
       );
     });
   }

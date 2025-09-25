@@ -429,7 +429,7 @@ export class MisDashboardCredamComponent implements OnInit {
       const staffNeeds = this.staffNeeds(applicationType);
       const existing = this.staffcredams;
       const totalStaffNeeds = totalStaffNeedss;
-      const shortOver = totalStaffNeedss - this.staffcredams;
+      const shortOver = this.staffcredams - totalStaffNeedss;
 
       return {
         applicationType,
@@ -443,12 +443,12 @@ export class MisDashboardCredamComponent implements OnInit {
       };
     });
 
-    const total = this.totalStaffNeeds(processed).toFixed(2);
+    // const total = this.totalStaffNeeds(processed).toFixed(2);
 
     this.dataSource = this.calculateRowSpan(
       processed.map(row => ({
         ...row,
-        totalStaffNeeds: total,
+        totalStaffNeeds: row.totalStaffNeeds,
         existing: row.existing,
         shortOver: row.shortOver,
       }))

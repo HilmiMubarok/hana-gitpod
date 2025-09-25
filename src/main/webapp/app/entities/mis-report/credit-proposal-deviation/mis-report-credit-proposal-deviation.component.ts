@@ -183,7 +183,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
@@ -353,11 +353,31 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this.downloadFile(fileName);
     this._resetData();
   }
+  private _filterCPBeforeGenerate(data: any[]): any[] {
+    const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
+    const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regionalRM')?.value);
+    const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerStatus')?.value);
+    let cp = data;
+
+    if (customerTypes && customerTypes.length > 0) {
+      cp = cp.filter(p => customerTypes.includes(p.customerStatus));
+    }
+
+    if (regionals && regionals.length > 0) {
+      cp = cp.filter(p => regionals.includes(p.regionalId));
+    }
+    if (statuss && statuss.length > 0) {
+      cp = cp.filter(p => statuss.includes(p.statusId));
+    }
+
+    return cp;
+  }
   protected processData(data: any[]): void {
-    data.sort((a, b) => new Date(a.proposalDate).getTime() - new Date(b.proposalDate).getTime());
+    const dataFilter = this._filterCPBeforeGenerate(data);
+    dataFilter.sort((a, b) => new Date(a.proposalDate).getTime() - new Date(b.proposalDate).getTime());
 
     let noCounter = 1;
-    data.forEach(proposal => {
+    dataFilter.forEach(proposal => {
       noCounter = this._addProposalData(this.worksheet, proposal, noCounter);
     });
   }
@@ -417,7 +437,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       proposalDate: `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
         new Date(proposal.proposalDate).getMonth() + 1
       ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}`,
-      segment: proposal.segment || '',
+      segment: proposal.regionalName || '',
       bookingBranch: proposal.bookingBranchName || '',
       customerStatus: proposal.customerStatus || '',
       cif: proposal.cif || '',

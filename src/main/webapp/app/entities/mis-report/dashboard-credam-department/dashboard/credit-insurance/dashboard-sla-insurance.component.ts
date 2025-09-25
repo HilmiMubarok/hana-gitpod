@@ -408,7 +408,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
       this.processChartData();
     });
 
-    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => {
+    this.dashboardService.getBarChartData(date, 'by-insurance').subscribe(res => {
       const data = [...res].reverse();
       this.chartUserData = data;
     });
@@ -439,14 +439,14 @@ export class MisDashboardInsuranceComponent implements OnInit {
       });
 
       const totalStaffNeedsValue = this.totalStaffNeeds(processedData);
-      const shortOver = (totalStaffNeedsValue - parseFloat(this.existingValue?.toString() || '0')).toFixed(2);
+      const shortOver = (parseFloat(this.existingValue?.toString() || '0') - totalStaffNeedsValue);
 
       this.dataSource = this.calculateRowSpan(
         processedData.map(row => ({
           ...row,
           existing: this.existingValue,
           shortOver,
-          totalStaffNeeds: totalStaffNeedsValue.toFixed(2),
+          totalStaffNeeds: totalStaffNeedsValue,
         }))
       );
     }

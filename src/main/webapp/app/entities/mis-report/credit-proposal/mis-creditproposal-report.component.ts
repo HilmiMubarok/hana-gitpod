@@ -329,7 +329,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
@@ -507,8 +507,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       return;
     }
 
+    // Filter Data
+    const filteredData = this._filterDataBeforeGenerate(data);
+    
     // Add data to worksheet
-    this.processData(data);
+    this.processData(filteredData);
 
     this._applyStyles();
     this._setAutoWidthForAllColumns();
@@ -521,6 +524,12 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     data.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
+  }
+
+  private _filterDataBeforeGenerate(data) {
+    const regional = this._convertStatusToString(this.MISReportCP.get('regional')?.value);
+    const regionalArr = regional.split(',');
+    return data.filter(proposal => regionalArr.includes(proposal.regionalId));
   }
 
   private _getTotalInitialLimitUSD(proposal: any): string {
@@ -671,6 +680,38 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     return approvalTLDates.join('\n');
   }
 
+  private _getGuarantorList(proposal): string {
+    if (!proposal || !proposal.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const filtered = proposal.collateral.filter(c => {
+      const type = (c.collateralType || '').toLowerCase().trim();
+      return type.includes('corporate') || type.includes('personal guarantee');
+    });
+
+    const guarantors = filtered.map(c => c.collateralProperty?.name || '').filter(name => name && name.trim() !== '');
+
+    return guarantors.join(',\n');
+  }
+
+  private _getCreditRatingGuarantorList(proposal): string {
+    if (!proposal || !proposal.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const filtered = proposal.collateral.filter(c => {
+      const type = (c.collateralType || '').toLowerCase().trim();
+      return type.includes('corporate') || type.includes('personal guarantee');
+    });
+
+    const guarantors = filtered
+      .map(c => c.collateralProperty?.creditRating || '')
+      .filter(creditRating => creditRating && creditRating.trim() !== '');
+
+    return guarantors.join(',\n');
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
@@ -761,8 +802,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       reviewerName: proposal.dataAssignToCROName || '',
       status: proposal.status || '',
       summaryOfReviewerRecommendation: proposal.approvalStatus || '',
-      guarantor: '',
-      creditRatingGuarantor: '',
+      guarantor: this._getGuarantorList(proposal),
+      creditRatingGuarantor: this._getCreditRatingGuarantorList(proposal),
     });
   }
 

@@ -16,7 +16,12 @@
     <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[1], title: 'Data 2' }"></ng-container>
 
     <div class="text-center">
-        <button mat-raised-button id="generate-btn" class="confirm-button-no" (click)="generate()">Generate</button>
+        <button mat-raised-button id="generate-btn" class="confirm-button-no" (click)="generate()"
+            [disabled]="loadingGenerate"
+            [class.loading]="loadingGenerate">
+            <span *ngIf="!loadingGenerate">Generate Document</span>
+            <span *ngIf="loadingGenerate">Generating Document...</span>
+        </button>
     </div>
 </div>
 
@@ -43,12 +48,15 @@
                             <mat-label>Enter a date range</mat-label>
                             <mat-date-range-input [rangePicker]="picker">
                                 <input matStartDate formControlName="startDate" placeholder="Start date"
-                                    (focus)="picker.open()" readonly />
+                                    (focus)="$event.stopPropagation(); picker.open()" readonly />
                                 <input matEndDate formControlName="endDate" placeholder="End date"
-                                    (focus)="picker.open()" readonly />
+                                    (focus)="$event.stopPropagation(); picker.open()" readonly />
                             </mat-date-range-input>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker></mat-date-range-picker>
+                            <mat-datepicker-toggle matSuffix (click)="$event.stopPropagation(); clearDateRange(config === formConfigs[0] ? 0 : 1);" *ngIf="dateRangeHasValue(config === formConfigs[0] ? 0 : 1)">
+                                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                            </mat-datepicker-toggle>
                         </mat-form-field>
                     </div>
                     <div class="col-12 col-md-6">
@@ -88,7 +96,10 @@
                     <div class="col-12 col-md-6">
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>Amount Type</mat-label>
-                            <mat-select formControlName="amountType">
+                            <mat-select multiple formControlName="amountType">
+                                <li class="select-all" (click)="toggleSelectAllAmountType(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedAmountType ? 'Deselect All' : 'Select All' }}
+                                </li>
                                 <mat-option *ngFor="let item of lovAmount" [value]="item">{{ item }}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -107,7 +118,18 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-12 col-md-6"></div>
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Debtor Status</mat-label>
+                            <mat-select multiple formControlName="debtorStatus">
+                                <li class="select-all"
+                                    (click)="toggleSelectAllDebtorStatus(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedDebtorStatus ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovDebtorStatus" [value]="item">{{ item }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>

@@ -6,8 +6,7 @@ import { MessageService } from 'primeng/api';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { PositionService } from 'app/entities/position/position.service';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { MatDatepicker } from '@angular/material/datepicker/datepicker';
 export const YEAR_FORMATS = {
   parse: { dateInput: 'YYYY' },
   display: { dateInput: 'YYYY', monthYearLabel: 'YYYY', dateA11yLabel: 'YYYY', monthYearA11yLabel: 'YYYY' },
@@ -20,22 +19,19 @@ export const YEAR_FORMATS = {
   providers: [{ provide: MAT_DATE_FORMATS, useValue: YEAR_FORMATS }],
 })
 export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISReport {
-  public lovBranch = [];
-  lovProposalType: { code: string; description: string }[] = [];
   misYearlyReports: FormGroup;
   @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
-  lovCustomerStatus = ['New', 'Existing'];
-  lovApprovalFasilitas = ['New', 'Restructure', 'Additional', 'Decrease', 'Renewal', 'Other'];
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
     this.misYearlyReports = new FormGroup({
       year: new FormControl(''),
       customerStatus: new FormControl(''),
       approvalFasilitas: new FormControl(''),
+      monthYearStart: new FormControl(),
+      monthYearEnd: new FormControl(),
     });
   }
   menu = 'yearly';
-
   onMenuChanged(): void {
     this._resetForms();
   }
@@ -43,33 +39,119 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
   private _resetForms(): void {
     if (this.misYearlyReports) {
       this.misYearlyReports.reset();
-      this.allSelectedApprovalFasilitas = false;
     }
   }
+  formatMonthYear(date: Date | null): string {
+    if (!date) {
+      return '';
+    }
+    const d = date instanceof Date ? date : new Date(date);
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const year = d.getFullYear();
+    return `${month}-${year}`;
+  }
   generateMISYearlyReport() {
+    let params;
     const yearControl = this.misYearlyReports.get('year')?.value;
     const year = yearControl ? moment(yearControl).year().toString() : null;
-    const approvalFasilitas = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
-    const customerStatus = this.misYearlyReports.get('customerStatus')?.value;
+    const startMonthYearly = this.misYearlyReports.get('monthYearStart')?.value;
+    const endMonthYearly = this.misYearlyReports.get('monthYearEnd')?.value;
+    const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
+    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+    if (this.menu === 'monthly') {
+      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value || !approvalFasilitass) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
 
-    const params = {
-      year,
-      customerStatus: customerStatus,
-      approvalFasilitas: approvalFasilitas,
-    };
+      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Date Range.',
+        });
+        return;
+      }
+      if (!approvalFasilitass) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Approval Fasilitas.',
+        });
+        return;
+      }
+    } else {
+      if (!year || !approvalFasilitass) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
 
-    this.misReportService.getMisSummaryProductivityYearly(params).subscribe({
-      next: res => this.processGenerate(res.body, 'MIS-CRO-SUMMARY-REPORT'),
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
-        this._resetData();
-        this.misReportService.setLoading(false);
-      },
-      complete: () => {
-        this._resetData();
-        this.misReportService.setLoading(false);
-      },
-    });
+      if (!year) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Date Range.',
+        });
+        return;
+      }
+      if (!approvalFasilitass) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Approval Fasilitas.',
+        });
+        return;
+      }
+    }
+    if (this.menu === 'yearly') {
+      params = {
+        year,
+        customerStatus: customerStatuss,
+        approvalFasilitas: approvalFasilitass,
+      };
+    } else {
+      params = {
+        startMonth: this.formatMonthYear(startMonthYearly),
+        endMonth: this.formatMonthYear(endMonthYearly),
+        categoryName: approvalFasilitass,
+        customerStatus: customerStatuss,
+      };
+    }
+    if (this.menu === 'monthly') {
+      this.misReportService.getMisSummaryProductivityMonthly(params).subscribe({
+        next: res => this.processGenerates(res.body, 'MIS-CRO-SUMMARY-REPORT'),
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+        complete: () => {
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+      });
+    } else {
+      this.misReportService.getMisSummaryProductivityYearly(params).subscribe({
+        next: res => this.processGenerate(res.body, 'MIS-CRO-SUMMARY-REPORT'),
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+        complete: () => {
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+      });
+    }
   }
 
   protected worksheet: ExcelJS.Worksheet;
@@ -140,6 +222,24 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
   private addYearlySummaryData(worksheet: ExcelJS.Worksheet, data: any[]): void {
     const year = this.misYearlyReports.get('year')?.value ? moment(this.misYearlyReports.get('year')?.value).year() : 2025;
+    const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
+    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+
+    // Add labels at the top left before creating columns
+    const yearRow = worksheet.getRow(1);
+    yearRow.getCell('A').value = 'YEAR';
+    yearRow.getCell('B').value = year;
+
+    const customerStatusRow = worksheet.getRow(2);
+    customerStatusRow.getCell('A').value = 'Customer Status';
+    customerStatusRow.getCell('B').value = customerStatuss;
+
+    const approvalFasilitasRow = worksheet.getRow(3);
+    approvalFasilitasRow.getCell('A').value = 'Approval Fasilitas';
+    approvalFasilitasRow.getCell('B').value = approvalFasilitass;
+
+    // Start creating the main table from row 5 (leaving a gap)
+    const startRow = 5;
 
     const months = [
       'January',
@@ -157,42 +257,48 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     ];
     const statuses = ['Approved', 'Reject', 'Cancel'];
 
-    worksheet.mergeCells(1, 2, 1, 1 + months.length * statuses.length);
-    const titleCell = worksheet.getCell('B1');
+    // Title row for the year (now at row 5)
+    worksheet.mergeCells(startRow, 2, startRow, 1 + months.length * statuses.length);
+    const titleCell = worksheet.getCell(startRow, 2);
     titleCell.value = `YEAR ${year}`;
     titleCell.font = { bold: true, size: 14 };
     titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
     titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF00B0F0' } };
 
-    worksheet.mergeCells('A1:A3');
-    const firstColCell = worksheet.getCell('A2');
+    // Reviewer column header
+    worksheet.mergeCells(startRow, 1, startRow + 2, 1);
+    const firstColCell = worksheet.getCell(startRow + 1, 1);
     firstColCell.value = 'Reviewer';
     firstColCell.font = { bold: true };
     firstColCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
+    // Month headers (row 6)
     let col = 2;
     months.forEach(month => {
-      worksheet.mergeCells(2, col, 2, col + statuses.length - 1);
-      const cell = worksheet.getCell(2, col);
+      worksheet.mergeCells(startRow + 1, col, startRow + 1, col + statuses.length - 1);
+      const cell = worksheet.getCell(startRow + 1, col);
       cell.value = month;
       cell.font = { bold: true };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
       col += statuses.length;
     });
 
-    // ===== Baris 3: Sub-header status per bulan =====
+    // Status headers (row 7)
     col = 2;
     months.forEach(() => {
       statuses.forEach((status, idx) => {
-        const cell = worksheet.getCell(3, col + idx);
+        const cell = worksheet.getCell(startRow + 2, col + idx);
         cell.value = status;
         cell.font = { bold: true };
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
       col += statuses.length;
     });
+
     const totalPerMonthPerStatus = Array(12 * statuses.length).fill(0);
 
+    // Data rows (starting from row 8)
+    let currentRow = startRow + 3;
     data.forEach(branchData => {
       const rowValues: (string | number)[] = [branchData.reviewer];
 
@@ -202,22 +308,183 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         totalPerMonthPerStatus[i] += value;
       }
 
-      worksheet.addRow(rowValues);
+      const dataRow = worksheet.getRow(currentRow);
+      rowValues.forEach((value, index) => {
+        dataRow.getCell(index + 1).value = value;
+      });
+      currentRow++;
     });
+
+    // Total row
     const totalRowValues: (string | number)[] = ['Total'];
     totalPerMonthPerStatus.forEach(val => totalRowValues.push(val));
 
-    const totalRow = worksheet.addRow(totalRowValues);
+    const totalRow = worksheet.getRow(currentRow);
+    totalRowValues.forEach((value, index) => {
+      totalRow.getCell(index + 1).value = value;
+    });
     totalRow.font = { bold: true };
+
+    // Column widths
     worksheet.getColumn(1).width = 40;
     worksheet.getColumn(1).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
 
-    // Lebar kolom bulan
+    // Width for month columns
     for (let i = 2; i <= worksheet.columnCount; i++) {
       worksheet.getColumn(i).width = 15;
     }
 
-    // Border dan alignment semua sel
+    // Border and alignment for all cells (starting from the main table)
+    for (let rowIndex = startRow; rowIndex <= currentRow; rowIndex++) {
+      const row = worksheet.getRow(rowIndex);
+      row.height = 20;
+      row.eachCell(cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          bottom: { style: 'thin' },
+          left: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+    }
+
+    // Background color for total row
+    totalRow.eachCell(cell => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFFF00' },
+      };
+    });
+  }
+  // monthly
+  private processGenerates(data, fileName) {
+    this.workbook = new ExcelJS.Workbook();
+    this.worksheet = this.workbook.addWorksheet('Monthly Summary');
+    this.processDataMonthly(data);
+    this.downloadFile(fileName);
+  }
+
+  private transformToWorksheetDataMonthly(rawData: any[]): any[] {
+    const result: any[] = [];
+    rawData.forEach(item => {
+      item.reviewers?.forEach(cat => {
+        result.push({
+          reviewer: cat.fullName,
+          dataMonthly: cat,
+        });
+      });
+    });
+
+    return result;
+  }
+  protected processDataMonthly(data: any[]): void {
+    const transformed = this.transformToWorksheetDataMonthly(data);
+    this.addMonthlySummaryData(this.worksheet, transformed);
+  }
+
+  private addMonthlySummaryData(worksheet: ExcelJS.Worksheet, data: any[]): void {
+    const statuses = ['Approved', 'Reject', 'Cancel'];
+
+    const startMonthYearly = this.misYearlyReports.get('monthYearStart')?.value;
+    const endMonthYearly = this.misYearlyReports.get('monthYearEnd')?.value;
+
+    const startFormatted = startMonthYearly ? moment(startMonthYearly).format('MMM YYYY') : '';
+    const endFormatted = endMonthYearly ? moment(endMonthYearly).format('MMM YYYY') : '';
+
+    const periodTitle =
+      startFormatted && endFormatted ? `Periode: ${startFormatted} - ${endFormatted}` : startFormatted || endFormatted || 'Periode';
+
+    const allCategories: string[] = [];
+    data.forEach(r => {
+      r.dataMonthly?.category?.forEach((cat: any) => {
+        if (!allCategories.includes(cat.categoryName)) {
+          allCategories.push(cat.categoryName);
+        }
+      });
+    });
+
+    const totalCols = allCategories.length * statuses.length * 2 + 1;
+
+    worksheet.mergeCells(1, 1, 1, totalCols);
+    const periodCell = worksheet.getCell(1, 1);
+    periodCell.value = periodTitle;
+    periodCell.font = { bold: true, size: 16 };
+    periodCell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+    worksheet.mergeCells('A2:A4');
+    worksheet.getCell('A2').value = 'Reviewer';
+    worksheet.getCell('A2').font = { bold: true };
+    worksheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+
+    allCategories.forEach((cat, cIdx) => {
+      const offset = cIdx * statuses.length * 2;
+
+      worksheet.mergeCells(2, 2 + offset, 2, 1 + statuses.length * 2 + offset);
+      worksheet.getCell(2, 2 + offset).value = cat;
+      worksheet.getCell(2, 2 + offset).font = { bold: true, size: 14, color: { argb: 'FF0000' } };
+      worksheet.getCell(2, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+
+      worksheet.mergeCells(3, 2 + offset, 3, 1 + statuses.length + offset);
+      worksheet.getCell(3, 2 + offset).value = 'Total';
+      worksheet.getCell(3, 2 + offset).font = { bold: true };
+      worksheet.getCell(3, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+
+      worksheet.mergeCells(3, 2 + statuses.length + offset, 3, 1 + statuses.length * 2 + offset);
+      worksheet.getCell(3, 2 + statuses.length + offset).value = 'Avg';
+      worksheet.getCell(3, 2 + statuses.length + offset).font = { bold: true };
+      worksheet.getCell(3, 2 + statuses.length + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+
+      statuses.forEach((s, idx) => {
+        worksheet.getCell(4, 2 + offset + idx).value = s;
+        worksheet.getCell(4, 2 + offset + idx).font = { bold: true };
+        worksheet.getCell(4, 2 + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+
+      statuses.forEach((s, idx) => {
+        worksheet.getCell(4, 2 + statuses.length + offset + idx).value = s;
+        worksheet.getCell(4, 2 + statuses.length + offset + idx).font = { bold: true };
+        worksheet.getCell(4, 2 + statuses.length + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+    });
+    const startRow = 5;
+    data.forEach(r => {
+      const rowValues: (string | number)[] = [r.reviewer];
+
+      allCategories.forEach(catName => {
+        const cat = r.dataMonthly.category?.find((c: any) => c.categoryName === catName);
+
+        if (cat) {
+          rowValues.push(cat.totalApproved || 0);
+          rowValues.push(cat.totalReject || 0);
+          rowValues.push(cat.totalCancel || 0);
+
+          rowValues.push(cat.averageApproved || 0);
+          rowValues.push(cat.averageReject || 0);
+          rowValues.push(cat.averageCancel || 0);
+        } else {
+          rowValues.push(0, 0, 0, 0, 0, 0);
+        }
+      });
+
+      worksheet.addRow(rowValues);
+    });
+
+    const lastRow = worksheet.lastRow!.number;
+    const totalRow = worksheet.addRow([]);
+
+    totalRow.getCell(1).value = 'TOTAL';
+    totalRow.getCell(1).font = { bold: true };
+
+    for (let col = 2; col <= totalCols; col++) {
+      const colLetter = worksheet.getColumn(col).letter;
+      totalRow.getCell(col).value = { formula: `SUM(${colLetter}${startRow}:${colLetter}${lastRow})` };
+      totalRow.getCell(col).font = { bold: true };
+    }
+    worksheet.getColumn(1).width = 50;
+    worksheet.getColumn(1).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
+
     worksheet.eachRow(row => {
       row.height = 20;
       row.eachCell(cell => {
@@ -230,37 +497,5 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
     });
-
-    // Warna background untuk baris total
-    totalRow.eachCell(cell => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFFFFF00' },
-      };
-    });
-  }
-
-  private _applyStyles(worksheet: ExcelJS.Worksheet) {
-    worksheet.eachRow((row, rowNumber) => {
-      row.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    });
-  }
-  chosenYearHandler(normalizedYear: moment.Moment, datepicker: any) {
-    const ctrlValue = moment();
-    ctrlValue.year(normalizedYear.year());
-    this.misYearlyReports.get('year')?.setValue(ctrlValue.toDate());
-    datepicker.close();
-  }
-
-  allSelectedApprovalFasilitas = false;
-
-  toggleSelectApprovalFasilitas(): void {
-    this.allSelectedApprovalFasilitas = !this.allSelectedApprovalFasilitas;
-    if (this.allSelectedApprovalFasilitas) {
-      this.misYearlyReports.get('approvalFasilitas')?.setValue(this.lovApprovalFasilitas.map(item => item));
-    } else {
-      this.misYearlyReports.get('approvalFasilitas')?.setValue([]);
-    }
   }
 }

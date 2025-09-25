@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
@@ -18,7 +18,6 @@ const routes: Routes = [
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(routes)],
   declarations: [MisCpslaReviewerReportComponent],
-  providers: [],
-  exports: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MisCpslaReviewerReportModule {}

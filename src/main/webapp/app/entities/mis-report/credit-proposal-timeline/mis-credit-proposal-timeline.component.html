@@ -77,6 +77,28 @@
             </div>
           </div>
         </div>
+        <div class="row my-3">
+          <div class="col-12 col-md-6">
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('approvalLC')?.disabled">
+                <mat-label>Approval LC</mat-label>
+                <mat-select
+                  formControlName="approvalLC"
+                  (selectionChange)="changeOption($event)"
+                  multiple
+                  (openedChange)="onStatusOpenedChange($event)"
+                >
+                  <li class="select-all" (click)="toggleSelectAllApprovalLc()">
+                    {{ allSelected ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovApprovalLc" [value]="item.statusId">
+                    {{ item.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
 
       <!-- Search Field -->
@@ -161,13 +183,22 @@
           </ng-container>
 
           <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef>
+              <!-- Action -->
               <mat-checkbox
-                [checked]="isSelected(element.applicationNumber)"
-                (change)="toggleSelection(element.applicationNumber, $event.checked)"
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [hidden]="(searchResult && searchResult.length === 0) || loadingSearch"
               >
               </mat-checkbox>
+            </th>
+
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataAction"></div>
+              <ng-template #dataAction>
+                <mat-checkbox (change)="selection.toggle(element)" [checked]="selection.isSelected(element)"> </mat-checkbox>
+              </ng-template>
             </td>
           </ng-container>
 

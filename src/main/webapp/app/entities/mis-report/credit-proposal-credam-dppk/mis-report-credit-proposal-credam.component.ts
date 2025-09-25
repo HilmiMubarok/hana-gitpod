@@ -298,7 +298,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
 
   private _getTimelineName(timeline: any[], status: string): string {
     const entry = timeline
-      .filter(item => item.statusDescription === status)
+      .filter(item => item.fromStatusDescription === status)
       .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime())[0];
     return entry?.personName || '';
   }

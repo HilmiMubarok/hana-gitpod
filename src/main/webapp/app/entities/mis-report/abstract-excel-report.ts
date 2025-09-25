@@ -136,7 +136,10 @@ export abstract class AbstractExcelMISReport {
     const buffer = await this.workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const date = new Date();
-    const outputName = `${fileName}_${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}_${String(date.getHours()).padStart(2, '0')}-${String(date.getMinutes()).padStart(2, '0')}`;
+    const outputName = `${fileName}_${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(
+      2,
+      '0'
+    )}_${String(date.getHours()).padStart(2, '0')}-${String(date.getMinutes()).padStart(2, '0')}`;
     saveAs(blob, outputName);
   }
 
@@ -204,6 +207,14 @@ export abstract class AbstractExcelMISReport {
     }
 
     return status.join(',');
+  }
+
+  protected _convertStatusToStringApplicationType(values: any[]): string {
+    if (!values || values.length === 0) {
+      return '';
+    }
+    // encode hanya PLUS (+), jangan encode semuanya
+    return values.map(v => v.replace(/\+/g, '%2B')).join(',');
   }
 
   protected _getFacilityProposedDataSource(proposal): string {
@@ -516,8 +527,12 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getAdjustedMaturityDate(maturityDateStr, tenor, period) {
+    if (!maturityDateStr || maturityDateStr === 'null') {
+      return '';
+    }
+
     const maturityDate = new Date(maturityDateStr); // e.g. '2024-04-29'
-  
+
     switch (period.toLowerCase()) {
       case 'month':
         maturityDate.setMonth(maturityDate.getMonth() - tenor);
@@ -531,7 +546,7 @@ export abstract class AbstractExcelMISReport {
       default:
         throw new Error("Invalid period. Use 'Month', 'Year', or 'Day'.");
     }
-  
+
     return maturityDate.toISOString().split('T')[0]; // Returns 'YYYY-MM-DD'
   }
 
@@ -542,17 +557,17 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    const filteredProducts = products.filter(p => p.maturityDate !== null && p.maturityDate !== 'null')
-    
+    const filteredProducts = products.filter(p => p.maturityDate !== null && p.maturityDate !== 'null');
+
     filteredProducts.map(product => {
-      if(product.pengajuan === 'Renewal') {
+      if (product.pengajuan === 'Renewal') {
         const tenor = product.tenorFasilitas;
         const period = product.periodType;
         product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
       }
     });
 
-    return filteredProducts.map(product => product.maturityDate).join(',\n')
+    return filteredProducts.map(product => product.maturityDate).join(',\n');
   }
 
   protected _getFromDateBasedOnField(
@@ -601,7 +616,6 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getDaysToMaturityDate(proposal: any): string {
-
     // TGL Maturity Date - Tanggal CRA
     // Jika ada positif dan negatif, ambil negatif paling besar. e.g [1, -2, 3, -4] -> -4
     // Jika full positif, ambil yang paling kecil. e.g [1, 2, 3, 4] -> 1
@@ -624,8 +638,8 @@ export abstract class AbstractExcelMISReport {
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     });
 
-    const daysToMaturityDate = diffDays.length > 0 ? diffDays.reduce((a, b) => Math.min(a, b)).toString() : ''
-    
+    const daysToMaturityDate = diffDays.length > 0 ? diffDays.reduce((a, b) => Math.min(a, b)).toString() : '';
+
     return daysToMaturityDate;
   }
 

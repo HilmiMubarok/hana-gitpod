@@ -10,6 +10,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { PageEvent } from '@angular/material/paginator';
 import { map } from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline-summary',
@@ -100,6 +101,7 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
   showStatusAndRegional = false;
   dateTypes: string[] = ['Proposal Date', 'Date From Status'];
 
+  public selection = new SelectionModel<any>(true, []);
   public lovCustomerType = ['New', 'Existing'];
   public allSelectedRegional = false;
   public lovRegional = [];
@@ -330,7 +332,7 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'mis-cp-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
@@ -505,18 +507,52 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
     this.downloadFile(fileName);
   }
 
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
+  private _getTimelineFilters(): {
+    customerType: any[];
+    query: string;
+    regional: string[];
+    skipFilters: boolean;
+  } {
+    const hasSelection = this.selectedApplications.length > 0;
+
+    return {
+      customerType: hasSelection ? [] : this.misCpTimeline.get('customerType')?.value || [],
+      query: this.misCpTimeline.get('query')?.value || '',
+      regional: hasSelection ? [] : this.misCpTimeline.get('regional')?.value || [],
+      skipFilters: hasSelection,
+    };
+  }
+
   protected processData(data: any[]): void {
-    const selectedData =
-      this.selectedApplications.length > 0 ? data.filter(item => this.selectedApplications.includes(item.proposalNumber)) : data;
+    const filters = this._getTimelineFilters();
+
+    const selectedIds = this.selection.selected.map(item => item.id);
+
+    let selectedData = selectedIds.length > 0 ? data.filter(item => selectedIds.includes(item.id)) : data;
+
+    if (filters.query && filters.query.trim() !== '') {
+      const keyword = filters.query.toLowerCase();
+      selectedData = selectedData.filter(
+        item => (item.proposalNumber || '').toLowerCase().includes(keyword) || (item.debtorName || '').toLowerCase().includes(keyword)
+      );
+    }
 
     selectedData.sort((a, b) => {
       const dateA = new Date(a.proposalDate);
       const dateB = new Date(b.proposalDate);
-
       if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
         return 0;
       }
-
       return dateA.getTime() - dateB.getTime();
     });
 

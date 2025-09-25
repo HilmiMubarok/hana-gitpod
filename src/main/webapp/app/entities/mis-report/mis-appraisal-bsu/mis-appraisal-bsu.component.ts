@@ -273,7 +273,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'appraisal-result-inquiry';
+    predicate['target'] = 'mis-appraisal-report';
 
     this.misReportService.searchAppraisalBSU(predicate).subscribe({
       next: res => {
@@ -524,6 +524,10 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
   }
 
   _processTimelinePersonName(personName: string) {
+    if (!personName || personName === 'null') {
+      return '';
+    }
+
     const personNameArray = personName.split(' ');
 
     const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
@@ -926,7 +930,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
         tanggalPenilaian,
         tanggalLaporan: this._getApprovedFromDate(row),
         reviewer: row.reviewerBy || '',
-        negativeList: row.scoreCard?.[0]?.criteria || '', // Gunakan optional chaining
+        negativeList: row.scoreCard ? row.scoreCard.map((sc: any) => sc.criteria).join('\n') : '',
         timeline:
           timeLineData
             ?.map(timeline => {

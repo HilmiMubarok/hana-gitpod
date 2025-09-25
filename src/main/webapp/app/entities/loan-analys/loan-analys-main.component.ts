@@ -1197,7 +1197,11 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
-    this.loadSummaryCollateral();
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      this.loadSummaryCollateral().then(() => {
+        this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+      });
+    }
   }
   private checkIsDoc() {
     for (let i = 0; i < this.dataFileDar.length; i++) {
@@ -1751,17 +1755,18 @@ export class LoanAnalysMainComponent implements OnInit {
     this.parentSubject.next('red-clicked');
   }
 
-  private refractorSaveForIsAllowSave(statusPreSave: string): void {
+  private refractorSaveForIsAllowSave(statusPreSave: string, source: string): void {
+    source = this.saveState;
     this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
       this.creditProposal.notes = res.body.notes;
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      this.saveCoverageAndUpdate(statusPreSave, source);
       this.loanAnalysOpinionComponent.refresh();
-
       // if (this.loanAnalysOpinionComponent) {
       // this.loanAnalysOpinionComponent.refresh();
       // }
 
-      this.saveApplicationRole(this.saveState);
+      // this.saveApplicationRole(source);
     });
   }
 
@@ -1811,7 +1816,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   setIsAllowSave(status: boolean) {
     const statusPreSave = status ? 'complete' : 'not-complete';
-
+    const source = this.saveState;
     const tempRouter = this.router.url.split('/')[1];
 
     const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
@@ -1820,7 +1825,7 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       if (this.saveState === 'default') {
         if (statusPreSave === 'complete') {
-          this.refractorSaveForIsAllowSave(statusPreSave);
+          this.refractorSaveForIsAllowSave(statusPreSave, source);
         } else {
           this.messageService.add({
             severity: 'info',
@@ -1846,7 +1851,7 @@ export class LoanAnalysMainComponent implements OnInit {
                 detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
               });
             } else {
-              this.refractorSaveForIsAllowSave(statusPreSave);
+              this.refractorSaveForIsAllowSave(statusPreSave, source);
             }
           }
         } else if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval') {
@@ -1861,7 +1866,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                 });
               } else {
-                this.refractorSaveForIsAllowSave(statusPreSave);
+                this.refractorSaveForIsAllowSave(statusPreSave, source);
               }
             } else if (laDataSelf.length > 1) {
               laDataSelf.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -1876,7 +1881,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                 });
               } else {
-                this.refractorSaveForIsAllowSave(statusPreSave);
+                this.refractorSaveForIsAllowSave(statusPreSave, source);
               }
             } else if (laDataSelf.length === 0) {
               this.messageService.add({
@@ -1893,7 +1898,7 @@ export class LoanAnalysMainComponent implements OnInit {
             });
           }
         } else {
-          this.refractorSaveForIsAllowSave(statusPreSave);
+          this.refractorSaveForIsAllowSave(statusPreSave, source);
         }
       }
     }
@@ -2012,15 +2017,26 @@ export class LoanAnalysMainComponent implements OnInit {
 
     return returnVal;
   }
-  private loadSummaryCollateral(): void {
+  private async loadSummaryCollateral(): Promise<void> {
     const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+    const res = await this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).toPromise();
+
+    this.dataCollateral = lodash.filter(res.body, function (o) {
+      return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+    });
+
+    // tunggu semua findCollateralPropertySummary selesai
+    const allSummaries = await Promise.all(this.dataCollateral.map(c => this.findCollateralPropertySummary(c.partyId)));
+
+    // gabungkan hasil ke collateralPropertiesSummary
+    this.collateralPropertiesSummary = allSummaries.flat();
+  }
+  public findCollateralPropertySummary(partyId: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe({
+        next: res => resolve(res.body),
+        error: err => reject(err),
       });
-      for (let i = 0; i < this.dataCollateral.length; i++) {
-        this.findCollateralPropertySummary(this.dataCollateral[i].partyId);
-      }
     });
   }
   private saveUpdate(status: string, source: string): void {
@@ -2141,11 +2157,15 @@ export class LoanAnalysMainComponent implements OnInit {
       // Perform the pre-save and update credit proposal
       const preSaveData = this.preSave(status);
       const res = await this.creditProposalService.update(preSaveData).toPromise();
+
       // Update credit proposal fields with response data
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      // Update coverage
+
+      await this.loadSummaryCollateral();
+
+      // Update coverage dengan data collateralPropertiesSummary yang sudah ada
       await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
 
       // Save the update with the given status and source
@@ -2163,9 +2183,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
-
       const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
-
       const lcaData = this.creditProposal.notes.filter(note => note.type === 'loan_committee');
       if (source === 'default') {
         if (this.loanAnalysOpinionComponent) {
@@ -2249,6 +2267,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
+    this.saveCoverageAndUpdate('complete-not-visit', source);
   }
 
   // public onSave(source: string): void {
@@ -2695,11 +2714,6 @@ export class LoanAnalysMainComponent implements OnInit {
   public findCollateralProperty(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
-    });
-  }
-  public findCollateralPropertySummary(partyId: string): void {
-    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
-      this.collateralPropertiesSummary = [...this.collateralPropertiesSummary, ...res.body];
     });
   }
 
