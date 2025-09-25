@@ -106,10 +106,12 @@ export class GridDetailInsuranceComponent implements OnInit {
           this.insuranceInformationService.update(res).subscribe(_res => {
             _res.body.collateralId = collateralId;
             this.loadByPartyId(collateralId);
+            this.insuranceInformationService.dataSourceInsurance.push(_res.body);
           });
         } else {
           this.insuranceInformationService.create(res).subscribe(_res => {
             this.loadByPartyId(collateralId);
+            this.insuranceInformationService.dataSourceInsurance.push(_res.body);
           });
         }
       }
