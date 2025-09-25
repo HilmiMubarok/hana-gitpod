@@ -644,6 +644,13 @@ import { RouterModule } from '@angular/router';
           import('./mis-report/credit-proposal/mis-report-credit-proposal.module').then(m => m.MisCreditProposalReportModule),
       },
       {
+        path: 'mis-application-tracking-report-bsu',
+        loadChildren: () =>
+          import('./mis-report/mis-application-tracking/mis-application-tracking-report.module').then(
+            m => m.MisApplicationTrackingReportModule
+          ),
+      },
+      {
         path: 'mis-cpfacility-report',
         loadChildren: () =>
           import('./mis-report/credit-proposa-facility/mis-report-credit-proposal-facility.module').then(

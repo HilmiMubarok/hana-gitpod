@@ -33,6 +33,17 @@ export class MisReportService {
     );
   }
 
+  public getMisApplicationTracking(params: any): Observable<HttpResponse<any>> {
+    const queryString = Object.keys(params)
+      .filter(k => params[k] !== null && params[k] !== undefined && params[k] !== '')
+      .map(k => `${k}=${params[k]}`)
+      .join('&');
+
+    const url = `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis-bsu/tracking-report?${queryString}`;
+
+    return this.http.get<any>(url, { observe: 'response' });
+  }
+
   public getMisYearlyReport(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-yearly/`,
