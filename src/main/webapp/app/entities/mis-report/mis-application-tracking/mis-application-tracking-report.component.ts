@@ -285,32 +285,11 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
       return;
     }
 
-    if (
-      (!this.MISApplicationTracking.get('date1')?.value || !this.MISApplicationTracking.get('date2')?.value) &&
-      (!this.MISApplicationTracking.get('status')?.value || this.MISApplicationTracking.get('status')?.value.length === 0)
-    ) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, Select Parameter.',
-      });
-      return;
-    }
-
     if (!this.MISApplicationTracking.get('date1')?.value || !this.MISApplicationTracking.get('date2')?.value) {
       this.messageService.add({
         severity: 'error',
         summary: 'Warning',
         detail: 'Please, entry Date Range.',
-      });
-      return;
-    }
-
-    if (!this.MISApplicationTracking.get('status')?.value || this.MISApplicationTracking.get('status')?.value.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, entry Status Proposal.',
       });
       return;
     }
@@ -321,6 +300,10 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
       status: this._convertStatusToString(this.MISApplicationTracking.get('status')?.value),
       applicationType: this._convertStatusToStringApplicationType(this.MISApplicationTracking.get('applicationType')?.value),
     };
+
+    if (params.startDate === params.endDate) {
+      params.endDate = `${params.endDate} 23:59:59`;
+    }
 
     this.misReportService.getMisApplicationTracking(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline_Summary'),
