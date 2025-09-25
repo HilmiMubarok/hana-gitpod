@@ -657,7 +657,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         grandTotalPlafondDebtorOnlyIDR: proposal.totalPlafondDebtorOnlyIDR || '',
         grandTotalPlafondTotalExposureIDR: proposal.grandTotalPlafondEqToIDR || '',
         exchangeRate: this.getExchangeRate(proposal) || '',
-        interestRate: product.currentRate || '',
+        interestRate: this.getInterestRate(product.currentRate),
         provisionFee: this.formatProvisionFee(product.provisionFee, product.provisionFeeType) || '',
         provisionFeeType: product.provisionFeeType || '',
         adminFee: this.formatAdminFee(product.adminFee) || '',
@@ -1070,5 +1070,17 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (regionalParentRM === 'Mortgage/KPR') {
       return 'M';
     }
+  }
+
+  private getInterestRate(interestRate) {
+    if (!interestRate) {
+      return '';
+    }
+
+    if (Number(interestRate) === 0) {
+      return '0';
+    }
+
+    return Number(interestRate).toFixed(2).toString();
   }
 }
