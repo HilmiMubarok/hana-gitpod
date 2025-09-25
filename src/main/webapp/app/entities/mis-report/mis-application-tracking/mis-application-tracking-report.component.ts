@@ -271,7 +271,7 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
       params = { query: this.MISApplicationTracking.get('query')?.value };
 
       this.misReportService.getMisApplicationTracking(params).subscribe({
-        next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline_Summary'),
+        next: res => this._processGenerate(res.body, 'MIS_Application_Tracking'),
         error: () => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
           this._resetData();
@@ -306,7 +306,7 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
     }
 
     this.misReportService.getMisApplicationTracking(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline_Summary'),
+      next: res => this._processGenerate(res.body, 'MIS_Application_Tracking'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -331,6 +331,7 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
       { header: 'CIF', key: 'cif' },
       { header: 'Debtor Name', key: 'debtorName' },
       { header: 'Application Type', key: 'applicationType' },
+      { header: 'Status', key: 'status' },
       { header: 'RM', key: 'rm' },
       { header: 'Facility Type', key: 'facilityType' },
       { header: 'Maturity Date', key: 'maturityDate' },
@@ -339,7 +340,7 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
   }
 
   private _applyStyles(): void {
-    const headerColumns = ['no', 'cif', 'debtorName', 'applicationType', 'rm', 'facilityType', 'maturityDate', 'createdDate'];
+    const headerColumns = ['no', 'cif', 'debtorName', 'applicationType', 'status', 'rm', 'facilityType', 'maturityDate', 'createdDate'];
 
     headerColumns.forEach(key => {
       const col = this.worksheet.getColumn(key);
@@ -435,6 +436,7 @@ export class MisApplicationTrackingReportComponent extends AbstractExcelMISRepor
       cif: proposal.cif ?? '',
       debtorName: proposal.debiturName ?? '',
       applicationType: proposal.applicationType ?? '',
+      status: proposal.status ?? '',
       rm: proposal.rmName ?? '',
       facilityType: proposal.facilityType ?? '',
       maturityDate: proposal.maturityDate ? this._formatDate(proposal.maturityDate) : '',
