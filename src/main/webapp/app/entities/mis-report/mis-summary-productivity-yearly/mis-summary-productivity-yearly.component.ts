@@ -57,17 +57,8 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     const startMonthYearly = this.misYearlyReports.get('monthYearStart')?.value;
     const endMonthYearly = this.misYearlyReports.get('monthYearEnd')?.value;
     const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
-    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+    const customerStatuss = this._convertStatusToString(this.misYearlyReports.get('customerStatus')?.value);
     if (this.menu === 'monthly') {
-      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value || !approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Parameter.',
-        });
-        return;
-      }
-
       if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value) {
         this.messageService.add({
           severity: 'error',
@@ -76,24 +67,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Approval Fasilitas.',
-        });
-        return;
-      }
     } else {
-      if (!year || !approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Parameter.',
-        });
-        return;
-      }
-
       if (!year) {
         this.messageService.add({
           severity: 'error',
@@ -102,20 +76,12 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Approval Fasilitas.',
-        });
-        return;
-      }
     }
     if (this.menu === 'yearly') {
       params = {
         year,
         customerStatus: customerStatuss,
-        approvalFasilitas: approvalFasilitass,
+        rank: approvalFasilitass,
       };
     } else {
       params = {
@@ -169,11 +135,9 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     rawData.forEach(item => {
       item.reviewers?.forEach(reviewer => {
         const monthsData: number[] = Array(12 * 3).fill(0);
-
         reviewer.data?.forEach(conditionBlock => {
           const condition = conditionBlock.condition;
           const conditionIndex = this.getConditionIndex(condition);
-
           conditionBlock.summaryMonthly?.forEach(summary => {
             const monthIndex = this.getMonthIndex(summary.month);
             if (monthIndex >= 0 && conditionIndex >= 0) {
@@ -451,10 +415,8 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     const startRow = 5;
     data.forEach(r => {
       const rowValues: (string | number)[] = [r.reviewer];
-
       allCategories.forEach(catName => {
         const cat = r.dataMonthly.category?.find((c: any) => c.categoryName === catName);
-
         if (cat) {
           rowValues.push(cat.totalApproved || 0);
           rowValues.push(cat.totalReject || 0);

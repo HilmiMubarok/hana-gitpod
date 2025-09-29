@@ -25,13 +25,21 @@ export class MisYearlyComponent {
   }
 
   allSelectedApprovalFasilitas = false;
-
+  allSelectedCustomerStatus = false;
   toggleSelectApprovalFasilitas(): void {
     this.allSelectedApprovalFasilitas = !this.allSelectedApprovalFasilitas;
     if (this.allSelectedApprovalFasilitas) {
       this.form.get('approvalFasilitas')?.setValue(this.lovApprovalFasilitas.map(item => item));
     } else {
       this.form.get('approvalFasilitas')?.setValue([]);
+    }
+  }
+  toggleSelectCustomerStatus(): void {
+    this.allSelectedCustomerStatus = !this.allSelectedCustomerStatus;
+    if (this.allSelectedCustomerStatus) {
+      this.form.get('customerStatus')?.setValue(this.lovCustomerStatus.map(item => item));
+    } else {
+      this.form.get('customerStatus')?.setValue([]);
     }
   }
 }
