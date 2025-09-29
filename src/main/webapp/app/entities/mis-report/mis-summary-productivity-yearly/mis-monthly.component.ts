@@ -18,6 +18,7 @@ export class MisMonthlyComponent {
   lovCustomerStatus = ['New', 'Existing'];
   @Input() form!: FormGroup;
   allSelectedApprovalFasilitas: boolean;
+  allSelectedCustomerStatus = false;
   onMonthYearStartSelected(event: Date, datepicker: MatDatepicker<Date>) {
     this.form.get('monthYearStart')?.setValue(event);
     datepicker.close();
@@ -28,6 +29,14 @@ export class MisMonthlyComponent {
       this.form.get('approvalFasilitas')?.setValue(this.lovApprovalFasilitas.map(item => item));
     } else {
       this.form.get('approvalFasilitas')?.setValue([]);
+    }
+  }
+  toggleSelectCustomerStatus(): void {
+    this.allSelectedCustomerStatus = !this.allSelectedCustomerStatus;
+    if (this.allSelectedCustomerStatus) {
+      this.form.get('customerStatus')?.setValue(this.lovCustomerStatus.map(item => item));
+    } else {
+      this.form.get('customerStatus')?.setValue([]);
     }
   }
   onMonthYearEndSelected(event: Date, datepicker: MatDatepicker<Date>) {
