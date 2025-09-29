@@ -57,17 +57,8 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     const startMonthYearly = this.misYearlyReports.get('monthYearStart')?.value;
     const endMonthYearly = this.misYearlyReports.get('monthYearEnd')?.value;
     const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
-    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+    const customerStatuss = this._convertStatusToString(this.misYearlyReports.get('customerStatus')?.value);
     if (this.menu === 'monthly') {
-      if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value || !approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Parameter.',
-        });
-        return;
-      }
-
       if (!this.misYearlyReports.get('monthYearStart')?.value || !this.misYearlyReports.get('monthYearEnd')?.value) {
         this.messageService.add({
           severity: 'error',
@@ -76,24 +67,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Approval Fasilitas.',
-        });
-        return;
-      }
     } else {
-      if (!year || !approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Parameter.',
-        });
-        return;
-      }
-
       if (!year) {
         this.messageService.add({
           severity: 'error',
@@ -102,26 +76,18 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
         });
         return;
       }
-      if (!approvalFasilitass) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Approval Fasilitas.',
-        });
-        return;
-      }
     }
     if (this.menu === 'yearly') {
       params = {
         year,
         customerStatus: customerStatuss,
-        approvalFasilitas: approvalFasilitass,
+        rank: approvalFasilitass,
       };
     } else {
       params = {
         startMonth: this.formatMonthYear(startMonthYearly),
         endMonth: this.formatMonthYear(endMonthYearly),
-        categoryName: approvalFasilitass,
+        rank: approvalFasilitass,
         customerStatus: customerStatuss,
       };
     }
@@ -169,11 +135,9 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     rawData.forEach(item => {
       item.reviewers?.forEach(reviewer => {
         const monthsData: number[] = Array(12 * 3).fill(0);
-
         reviewer.data?.forEach(conditionBlock => {
           const condition = conditionBlock.condition;
           const conditionIndex = this.getConditionIndex(condition);
-
           conditionBlock.summaryMonthly?.forEach(summary => {
             const monthIndex = this.getMonthIndex(summary.month);
             if (monthIndex >= 0 && conditionIndex >= 0) {
@@ -223,7 +187,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
   private addYearlySummaryData(worksheet: ExcelJS.Worksheet, data: any[]): void {
     const year = this.misYearlyReports.get('year')?.value ? moment(this.misYearlyReports.get('year')?.value).year() : 2025;
     const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
-    const customerStatuss = this.misYearlyReports.get('customerStatus')?.value;
+    const customerStatuss = this._convertStatusToString(this.misYearlyReports.get('customerStatus')?.value);
 
     // Add labels at the top left before creating columns
     const yearRow = worksheet.getRow(1);
@@ -392,9 +356,24 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
     const startFormatted = startMonthYearly ? moment(startMonthYearly).format('MMM YYYY') : '';
     const endFormatted = endMonthYearly ? moment(endMonthYearly).format('MMM YYYY') : '';
+    const approvalFasilitass = this._convertStatusToString(this.misYearlyReports.get('approvalFasilitas')?.value);
+    const customerStatuss = this._convertStatusToString(this.misYearlyReports.get('customerStatus')?.value);
 
     const periodTitle =
       startFormatted && endFormatted ? `Periode: ${startFormatted} - ${endFormatted}` : startFormatted || endFormatted || 'Periode';
+
+    const periodeRow = worksheet.getRow(1);
+    periodeRow.getCell('A').value = 'Periode';
+    periodeRow.getCell('B').value = startFormatted;
+    periodeRow.getCell('C').value = endFormatted;
+
+    const customerStatusRow = worksheet.getRow(2);
+    customerStatusRow.getCell('A').value = 'Customer Status';
+    customerStatusRow.getCell('B').value = customerStatuss;
+
+    const approvalFasilitasRow = worksheet.getRow(3);
+    approvalFasilitasRow.getCell('A').value = 'Approval Fasilitas';
+    approvalFasilitasRow.getCell('B').value = approvalFasilitass;
 
     const allCategories: string[] = [];
     data.forEach(r => {
@@ -407,54 +386,54 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
     const totalCols = allCategories.length * statuses.length * 2 + 1;
 
-    worksheet.mergeCells(1, 1, 1, totalCols);
-    const periodCell = worksheet.getCell(1, 1);
-    periodCell.value = periodTitle;
-    periodCell.font = { bold: true, size: 16 };
-    periodCell.alignment = { vertical: 'middle', horizontal: 'center' };
+    // // === Judul Periode sekarang di baris 4 ===
+    // worksheet.mergeCells(4, 1, 4, totalCols);
+    // const periodCell = worksheet.getCell(4, 1);
+    // periodCell.value = periodTitle;
+    // periodCell.font = { bold: true, size: 16 };
+    // periodCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-    worksheet.mergeCells('A2:A4');
-    worksheet.getCell('A2').value = 'Reviewer';
-    worksheet.getCell('A2').font = { bold: true };
-    worksheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+    worksheet.mergeCells('A5:A7');
+    worksheet.getCell('A5').value = 'Reviewer';
+    worksheet.getCell('A5').font = { bold: true };
+    worksheet.getCell('A5').alignment = { vertical: 'middle', horizontal: 'center' };
 
     allCategories.forEach((cat, cIdx) => {
       const offset = cIdx * statuses.length * 2;
 
-      worksheet.mergeCells(2, 2 + offset, 2, 1 + statuses.length * 2 + offset);
-      worksheet.getCell(2, 2 + offset).value = cat;
-      worksheet.getCell(2, 2 + offset).font = { bold: true, size: 14, color: { argb: 'FF0000' } };
-      worksheet.getCell(2, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+      worksheet.mergeCells(5, 2 + offset, 5, 1 + statuses.length * 2 + offset);
+      worksheet.getCell(5, 2 + offset).value = cat;
+      worksheet.getCell(5, 2 + offset).font = { bold: true, size: 14, color: { argb: 'FF0000' } };
+      worksheet.getCell(5, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
 
-      worksheet.mergeCells(3, 2 + offset, 3, 1 + statuses.length + offset);
-      worksheet.getCell(3, 2 + offset).value = 'Total';
-      worksheet.getCell(3, 2 + offset).font = { bold: true };
-      worksheet.getCell(3, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+      worksheet.mergeCells(6, 2 + offset, 6, 1 + statuses.length + offset);
+      worksheet.getCell(6, 2 + offset).value = 'Total';
+      worksheet.getCell(6, 2 + offset).font = { bold: true };
+      worksheet.getCell(6, 2 + offset).alignment = { vertical: 'middle', horizontal: 'center' };
 
-      worksheet.mergeCells(3, 2 + statuses.length + offset, 3, 1 + statuses.length * 2 + offset);
-      worksheet.getCell(3, 2 + statuses.length + offset).value = 'Avg';
-      worksheet.getCell(3, 2 + statuses.length + offset).font = { bold: true };
-      worksheet.getCell(3, 2 + statuses.length + offset).alignment = { vertical: 'middle', horizontal: 'center' };
+      worksheet.mergeCells(6, 2 + statuses.length + offset, 6, 1 + statuses.length * 2 + offset);
+      worksheet.getCell(6, 2 + statuses.length + offset).value = 'Avg';
+      worksheet.getCell(6, 2 + statuses.length + offset).font = { bold: true };
+      worksheet.getCell(6, 2 + statuses.length + offset).alignment = { vertical: 'middle', horizontal: 'center' };
 
       statuses.forEach((s, idx) => {
-        worksheet.getCell(4, 2 + offset + idx).value = s;
-        worksheet.getCell(4, 2 + offset + idx).font = { bold: true };
-        worksheet.getCell(4, 2 + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell(7, 2 + offset + idx).value = s;
+        worksheet.getCell(7, 2 + offset + idx).font = { bold: true };
+        worksheet.getCell(7, 2 + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
       });
 
       statuses.forEach((s, idx) => {
-        worksheet.getCell(4, 2 + statuses.length + offset + idx).value = s;
-        worksheet.getCell(4, 2 + statuses.length + offset + idx).font = { bold: true };
-        worksheet.getCell(4, 2 + statuses.length + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell(7, 2 + statuses.length + offset + idx).value = s;
+        worksheet.getCell(7, 2 + statuses.length + offset + idx).font = { bold: true };
+        worksheet.getCell(7, 2 + statuses.length + offset + idx).alignment = { vertical: 'middle', horizontal: 'center' };
       });
     });
-    const startRow = 5;
+
+    const startRow = 8;
     data.forEach(r => {
       const rowValues: (string | number)[] = [r.reviewer];
-
       allCategories.forEach(catName => {
         const cat = r.dataMonthly.category?.find((c: any) => c.categoryName === catName);
-
         if (cat) {
           rowValues.push(cat.totalApproved || 0);
           rowValues.push(cat.totalReject || 0);
@@ -467,7 +446,6 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
           rowValues.push(0, 0, 0, 0, 0, 0);
         }
       });
-
       worksheet.addRow(rowValues);
     });
 
@@ -482,20 +460,23 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
       totalRow.getCell(col).value = { formula: `SUM(${colLetter}${startRow}:${colLetter}${lastRow})` };
       totalRow.getCell(col).font = { bold: true };
     }
+
     worksheet.getColumn(1).width = 50;
     worksheet.getColumn(1).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
 
-    worksheet.eachRow(row => {
+    worksheet.eachRow((row, rowNumber) => {
       row.height = 20;
-      row.eachCell(cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          bottom: { style: 'thin' },
-          left: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      });
+      if (rowNumber >= 5) {
+        row.eachCell(cell => {
+          cell.border = {
+            top: { style: 'thin' },
+            bottom: { style: 'thin' },
+            left: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+      }
     });
   }
 }

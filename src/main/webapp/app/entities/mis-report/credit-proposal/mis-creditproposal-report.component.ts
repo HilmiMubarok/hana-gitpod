@@ -509,7 +509,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
     // Filter Data
     const filteredData = this._filterDataBeforeGenerate(data);
-    
+
     // Add data to worksheet
     this.processData(filteredData);
 
@@ -528,6 +528,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
   private _filterDataBeforeGenerate(data) {
     const regional = this._convertStatusToString(this.MISReportCP.get('regional')?.value);
+
+    if (!regional) {
+      return data;
+    }
+
     const regionalArr = regional.split(',');
     return data.filter(proposal => regionalArr.includes(proposal.regionalId));
   }
