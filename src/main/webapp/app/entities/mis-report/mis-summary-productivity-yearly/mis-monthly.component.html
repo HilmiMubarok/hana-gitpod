@@ -47,7 +47,10 @@
     <div class="col-12 col-md-6 mb-1">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Customer Status</mat-label>
-        <mat-select formControlName="customerStatus">
+        <mat-select formControlName="customerStatus" multiple>
+          <li class="select-all" (click)="toggleSelectCustomerStatus()">
+            {{ allSelectedCustomerStatus ? 'Deselect All' : 'Select All' }}
+          </li>
           <mat-option *ngFor="let item of lovCustomerStatus" [value]="item">
             {{ item }}
           </mat-option>
