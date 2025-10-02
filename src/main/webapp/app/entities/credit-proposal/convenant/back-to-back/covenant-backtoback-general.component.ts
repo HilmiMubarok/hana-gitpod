@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantBackToBackGeneral } from '../convenant.constant';
+import { dataCovenantBackToBackGeneral, statusCovenantNotRefreshedFromMaster } from '../convenant.constant';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { replaceConvenantFromMaster } from '../convenant.helper';
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-back-to-back-general',
   templateUrl: './covenant-backtoback-general.component.html',
@@ -84,6 +85,7 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
         idParameterType: 'COVENANT_BTB_GENERAL_TIMES_CONDITION',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         const data = lodash.filter(res.body, function (o) {
@@ -95,6 +97,15 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
           gridCondition[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridBackToBackGeneral = gridCondition;
+        // sort standardDataGridBackToBackGeneral by id asc
+        this.standardDataGridBackToBackGeneral.sort((a, b) => b.id - a.id);
+        
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = replaceConvenantFromMaster(
+            this.standardDataGridBackToBackGeneral,
+            this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral
+          );
+        }
         this.getBackToBackGeneral();
 
         if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0) {

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantAbove } from '../convenant.constant';
+import { dataCovenantAbove, statusCovenantNotRefreshedFromMaster } from '../convenant.constant';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { replaceConvenantFromMaster } from '../convenant.helper';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-above',
@@ -83,6 +84,7 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
         idParameterType: 'COVENANT_ABOVE_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         // res.body.forEach(data => {
@@ -101,6 +103,14 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
           gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridAbove = gridAbove;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = replaceConvenantFromMaster(
+            this.standardDataGridAbove,
+            this.creditProposalItem.attributes['convenant'].standardDataGridAbove
+          );
+        }
+
         this.getStandardDataGridAbove();
 
         if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
