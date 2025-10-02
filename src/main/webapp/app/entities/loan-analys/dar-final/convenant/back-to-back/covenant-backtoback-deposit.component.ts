@@ -5,6 +5,8 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { Subject, takeUntil } from 'rxjs';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Router } from '@angular/router';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-dar-covenant-back-to-back-deposit',
@@ -103,6 +105,7 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
         idParameterType: 'COVENANT_BTB_TERMS_CONDITION',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
@@ -114,6 +117,12 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
         }
 
         this.standardDataGridBackToBackDeposit = gridAbove;
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = replaceConvenantFromMaster(
+            this.standardDataGridBackToBackDeposit,
+            this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit
+          );
+        }
         this.getBackToBackDeposit();
 
         if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {

@@ -5,6 +5,8 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { Subject, takeUntil } from 'rxjs';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Router } from '@angular/router';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
 
 @Component({
   selector: 'jhi-covenant-below-temp',
@@ -97,6 +99,7 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit, OnDestr
         idParameterType: 'COVENANT_BELOW_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
@@ -108,6 +111,14 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit, OnDestr
         }
 
         this.standardCovenant = gridAbove;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = replaceConvenantFromMaster(
+            this.standardCovenant,
+            this.creditProposalItem.attributes['convenant'].standardCovenant
+          );
+        }
+
         this.getStandardDataGridBelow();
 
         if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
