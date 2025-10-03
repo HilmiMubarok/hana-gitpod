@@ -144,7 +144,7 @@
         </mat-form-field>
       </div>
 
-      <div class="row px-2" *ngIf="searchResult || loadingSearch">
+      <div class="row px-1" *ngIf="searchResult || loadingSearch">
         <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
           <ng-container matColumnDef="proposalNumber">
             <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
@@ -196,6 +196,7 @@
             </td>
           </ng-container>
 
+          <!-- Select All -->
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
               <!-- Action -->
@@ -219,15 +220,6 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-        <mat-paginator
-          [length]="totalItems"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions"
-          [pageIndex]="currentPage"
-          (page)="doSearch($event)"
-          aria-label="Select page"
-        >
-        </mat-paginator>
       </div>
 
       <div class="mt-3 text-center" *ngIf="showDateRange || showStatusAndRegional">
