@@ -20,7 +20,9 @@ export const replaceConvenantFromMaster = (master: IConvenant[], proposal: IConv
   });
 
   const updatedProposal: IConvenant[] = [];
-  master.sort((a, b) => b.id - a.id);
+
+  console.log("Master: ", master)
+  
   master.forEach(masterItem => {
     const existingProposal = proposalMap.get(masterItem.covenant);
     if (existingProposal) {
@@ -37,5 +39,6 @@ export const replaceConvenantFromMaster = (master: IConvenant[], proposal: IConv
       });
     }
   });
-  return updatedProposal;
+  console.log("Updated Proposal: ", updatedProposal)
+  return updatedProposal.sort((a, b) => a.id - b.id);
 };
