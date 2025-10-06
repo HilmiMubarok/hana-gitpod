@@ -275,6 +275,7 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
   public clearSearch(): void {
     this.misCpTimeline.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
     this.searchResult = null;
+    this.selection.clear();
   }
 
   skeletonData = [
@@ -309,12 +310,13 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
   public searchResult = null;
   displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription', 'select'];
 
-  public pageSize = 10;
+  public pageSize = 9999;
   public currentPage = 0;
   public totalItems = 0;
   public pageSizeOptions: number[] = [5, 10, 25, 50];
 
   public doSearch(pageEvent?: PageEvent): void {
+    this.selection.clear();
     this.loadingSearch = true;
 
     if (pageEvent) {
@@ -339,6 +341,7 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
         this.searchResult = res.body || [];
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.setAllSelectedSearch();
         this.loadingSearch = false;
 
         if (queryValue !== null && queryValue !== undefined) {
@@ -509,6 +512,18 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
 
   masterToggle() {
     this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+
+  selectAll() {
+    if (this.selection.selected.length > 0) {
+      this.selection.clear();
+    } else {
+      this.selection.select(...this.searchResult);
+    }
+  }
+
+  setAllSelectedSearch() {
+    this.selection.select(...this.searchResult);
   }
 
   isAllSelected() {
@@ -825,15 +840,15 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
     const customerType = this.misCpTimeline.get('customerType')?.value;
     const search = this.misCpTimeline.get('query')?.value;
 
-    let filteredTimeline;
+    const rawTimeline = timeLineCreditProposal?.timeLineCreditProposal || [];
+
+    let filteredTimeline: any[] = [];
     if (!customerType || customerType.length === 0 || (search && search !== '')) {
-      filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+      filteredTimeline = [...rawTimeline];
     } else {
       const customerStatus = timeLineCreditProposal.customerStatus || '';
       if (customerType.includes(customerStatus)) {
-        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
-      } else {
-        filteredTimeline = [];
+        filteredTimeline = [...rawTimeline];
       }
     }
 
@@ -858,58 +873,58 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       }
     }
 
-    reversedTimeline.forEach((timeline, timelineIndex) => {
-      worksheet.addRow({
-        no: timelineIndex === 0 ? manualNo : '',
-        proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
-        proposalDate:
-          timelineIndex === 0
-            ? timeLineCreditProposal.proposalDate
-              ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-                  new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
-                ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
-              : ''
+    if (reversedTimeline.length > 0) {
+      reversedTimeline.forEach((timeline, timelineIndex) => {
+        worksheet.addRow({
+          no: timelineIndex === 0 ? manualNo : '',
+          proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
+          proposalDate:
+            timelineIndex === 0
+              ? timeLineCreditProposal.proposalDate
+                ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+                    new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
+                  ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
+                : ''
+              : '',
+          segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
+          branchs: timelineIndex === 0 ? timeLineCreditProposal.bookingBranchName || '' : '',
+          customerStatus: timelineIndex === 0 ? timeLineCreditProposal.customerStatus || '' : '',
+          rm: timelineIndex === 0 ? `${timeLineCreditProposal.rmFirstName || ''} ${timeLineCreditProposal.rmLastName || ''}`.trim() : '',
+          bm: timelineIndex === 0 ? timeLineCreditProposal.bm || '' : '',
+          headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
+          cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
+          debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
+          loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
+          proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
+          previousStatus: timeline.fromStatusDescription || '',
+          nextStatus: timeline.statusDescription || '',
+          previousDate: timeline.fromDate
+            ? `${String(new Date(timeline.fromDate).getDate()).padStart(2, '0')}-${String(
+                new Date(timeline.fromDate).getMonth() + 1
+              ).padStart(2, '0')}-${new Date(timeline.fromDate).getFullYear()}`
             : '',
-        segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
-        branchs: timelineIndex === 0 ? timeLineCreditProposal.bookingBranchName || '' : '',
-        customerStatus: timelineIndex === 0 ? timeLineCreditProposal.customerStatus || '' : '',
-        rm: timelineIndex === 0 ? `${timeLineCreditProposal.rmFirstName || ''} ${timeLineCreditProposal.rmLastName || ''}`.trim() : '',
-        bm: timelineIndex === 0 ? timeLineCreditProposal.bm || '' : '',
-        headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
-        cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
-        debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
-        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
-        proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
-        previousStatus: timeline.fromStatusDescription || '',
-        nextStatus: timeline.statusDescription || '',
-        previousDate: timeline.fromDate
-          ? `${String(new Date(timeline.fromDate).getDate()).padStart(2, '0')}-${String(
-              new Date(timeline.fromDate).getMonth() + 1
-            ).padStart(2, '0')}-${new Date(timeline.fromDate).getFullYear()}`
-          : '',
-        nextDate:
-          timeline.thruDate === '9999-12-31'
-            ? ''
-            : timeline.thruDate
-            ? `${String(new Date(timeline.thruDate).getDate()).padStart(2, '0')}-${String(
-                new Date(timeline.thruDate).getMonth() + 1
-              ).padStart(2, '0')}-${new Date(timeline.thruDate).getFullYear()}`
-            : '',
-        pic: timeline.personName || '',
-        note: timeline.note || '',
-        status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
-        tatPipelineProcess: timelineIndex === 0 ? tatPipeline : '',
-        tatReviewProcess: timelineIndex === 0 ? tatReview : '',
-        tatPendingAcceptance: timelineIndex === 0 ? tatPending : '',
-        tatAppealPipelineProcess: timelineIndex === 0 ? tatAppealPipeline : '',
-        tatAppealReviewProcess: timelineIndex === 0 ? tatAppealReview : '',
-        tatAppealPendingAcceptance: timelineIndex === 0 ? tatAppealPending : '',
-        tatSigned: timelineIndex === 0 ? tatSigned : '',
-        tat: timelineIndex === 0 ? totalTat : '',
+          nextDate:
+            timeline.thruDate === '9999-12-31'
+              ? ''
+              : timeline.thruDate
+              ? `${String(new Date(timeline.thruDate).getDate()).padStart(2, '0')}-${String(
+                  new Date(timeline.thruDate).getMonth() + 1
+                ).padStart(2, '0')}-${new Date(timeline.thruDate).getFullYear()}`
+              : '',
+          pic: timeline.personName || '',
+          note: timeline.note || '',
+          status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
+          tatPipelineProcess: timelineIndex === 0 ? tatPipeline : '',
+          tatReviewProcess: timelineIndex === 0 ? tatReview : '',
+          tatPendingAcceptance: timelineIndex === 0 ? tatPending : '',
+          tatAppealPipelineProcess: timelineIndex === 0 ? tatAppealPipeline : '',
+          tatAppealReviewProcess: timelineIndex === 0 ? tatAppealReview : '',
+          tatAppealPendingAcceptance: timelineIndex === 0 ? tatAppealPending : '',
+          tatSigned: timelineIndex === 0 ? tatSigned : '',
+          tat: timelineIndex === 0 ? totalTat : '',
+        });
       });
-    });
 
-    if (filteredTimeline.length > 0) {
       const endRow = startRow + filteredTimeline.length - 1;
       worksheet.mergeCells(`A${startRow}:A${endRow}`);
       worksheet.mergeCells(`B${startRow}:B${endRow}`);
@@ -933,6 +948,36 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       worksheet.mergeCells(`Z${startRow}:Z${endRow}`);
       worksheet.mergeCells(`AA${startRow}:AA${endRow}`);
       worksheet.mergeCells(`AB${startRow}:AB${endRow}`);
+    } else {
+      // fallback kalau timeline kosong/null
+      worksheet.addRow({
+        no: manualNo,
+        proposalNumber: timeLineCreditProposal.proposalNumber || '',
+        proposalDate: timeLineCreditProposal.proposalDate
+          ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+              new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
+            ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
+          : '',
+        segment: timeLineCreditProposal.segment || '',
+        branchs: timeLineCreditProposal.bookingBranchName || '',
+        customerStatus: timeLineCreditProposal.customerStatus || '',
+        rm: `${timeLineCreditProposal.rmFirstName || ''} ${timeLineCreditProposal.rmLastName || ''}`.trim(),
+        bm: timeLineCreditProposal.bm || '',
+        headName: timeLineCreditProposal.headName || '',
+        cif: timeLineCreditProposal.cif || '',
+        debtorName: timeLineCreditProposal.debtorName || '',
+        loanCommApproval: timeLineCreditProposal.approvalLc?.split(' ')[0] || '',
+        proposalType: timeLineCreditProposal.proposalType || '',
+        status: timeLineCreditProposal.status || '',
+        tatPipelineProcess: tatPipeline,
+        tatReviewProcess: tatReview,
+        tatPendingAcceptance: tatPending,
+        tatAppealPipelineProcess: tatAppealPipeline,
+        tatAppealReviewProcess: tatAppealReview,
+        tatAppealPendingAcceptance: tatAppealPending,
+        tatSigned,
+        tat: totalTat,
+      });
     }
   }
 

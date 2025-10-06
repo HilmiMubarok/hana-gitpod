@@ -573,10 +573,15 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (selectedIds.length > 0) {
       return data.filter(proposal => selectedIds.includes(proposal.id));
     } else {
-      if (reviewerNames.length === 1 && reviewerNames[0] === '' && approvalLC.length === 1 && approvalLC[0] === '') {
-        return data;
-      } else {
-        return data.filter(proposal => approvalLC.includes(proposal.approvalLc) && reviewerNames.includes(proposal.dataAssignToCROId));
+      switch (true) {
+        case Boolean(reviewerNames && reviewerNames.length > 0 && approvalLC && approvalLC.length > 0):
+          return data.filter(proposal => approvalLC.includes(proposal.approvalLc) || reviewerNames.includes(proposal.dataAssignToCROId));
+        case Boolean(reviewerNames && reviewerNames.length > 0):
+          return data.filter(proposal => reviewerNames.includes(proposal.dataAssignToCROId));
+        case Boolean(approvalLC && approvalLC.length > 0):
+          return data.filter(proposal => approvalLC.includes(proposal.approvalLc));
+        default:
+          return data;
       }
     }
   }
@@ -638,7 +643,10 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         regional: this.getRegionalParentRM(proposal.regionalParentRM),
         headName: proposal.headName || '',
         bm: proposal.bm || '',
-        rm: proposal.rmFirstName || proposal.rmLastName ? (proposal.rmFirstName ? proposal.rmFirstName : '') + ' ' + (proposal.rmLastName ? proposal.rmLastName : '') : '',
+        rm:
+          proposal.rmFirstName || proposal.rmLastName
+            ? (proposal.rmFirstName ? proposal.rmFirstName : '') + ' ' + (proposal.rmLastName ? proposal.rmLastName : '')
+            : '',
         debtorName: proposal.debtorName || '',
         loanCommApproval: proposal.approvalLc || '',
         lineOfBusiness: proposal.lineOfBusiness || '',
@@ -907,7 +915,9 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       if (Number(data) === 0) {
         return '0';
       }
-      formattedProvisionFee = Number(data).toFixed(2).replace(/\B(?=(\d{3})+(?!\.))/g, ',');
+      formattedProvisionFee = Number(data)
+        .toFixed(2)
+        .replace(/\B(?=(\d{3})+(?!\.))/g, ',');
     }
 
     return formattedProvisionFee;
