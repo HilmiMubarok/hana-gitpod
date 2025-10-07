@@ -39,9 +39,6 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
   constructor(private generalParameterService: GeneralParameterService) {}
 
   ngOnInit(): void {
-
-    console.log("OnInit: ", this.creditProposalItem.attributes['convenant'].standardCovenant)
-    
     this.LovCovenantBelow();
   }
 
