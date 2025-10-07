@@ -388,7 +388,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
     this._applyStyles(worksheet);
     this._setAutoWidthForAllColumns();
-    this._setAutoHeightForAllRows();
+    // this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
     this._resetData();
   }
@@ -529,7 +529,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
         for (const timeline of appraisal.timeLine) {
           if (timeline.statusDescription === 'Visited' && timeline.createdDate) {
-            dates.push(timeline.createdDate);
+            dates.push(this.formatDateMISCP(timeline.createdDate));
           }
         }
       }
@@ -587,6 +587,32 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     }
 
     return regional;
+  }
+
+  private _getProvisionFeeValue(products: any): string {
+    if (!products) {
+      return '';
+    }
+
+    const productArray = Array.isArray(products) ? products : [products];
+
+    const results = productArray.map(p => {
+      const provisionType = p?.provisionFeeType || '';
+      const provisionFee = p?.provisionFee;
+
+      if (provisionFee === '' || provisionFee === null || provisionFee === undefined) {
+        return '';
+      }
+
+      if (provisionType !== '%p.a') {
+        const feeNumber = Number(provisionFee);
+        return isNaN(feeNumber) ? provisionFee : Math.round(feeNumber).toString();
+      }
+
+      return provisionFee.toString();
+    });
+
+    return results.filter(r => r !== '').join('\n');
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
@@ -671,7 +697,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         grandTotalPlafondDebtorIDR: i === 0 ? proposal.totalPlafondDebtorOnlyIDR || '' : '',
         grandTotalPlafondExposureIDR: i === 0 ? proposal.grandTotalPlafondEqToIDR || '' : '',
         interestRate: this._formatTwoDecimals(product.currentRate),
-        provisionFee: this._formatTwoDecimals(product.provisionFee),
+        provisionFee: this._getProvisionFeeValue(product),
         provisionType: product.provisionFeeType || '',
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
