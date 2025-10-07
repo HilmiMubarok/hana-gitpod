@@ -91,8 +91,12 @@ export class CovenantBackToBackDepositComponent implements OnInit {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? data.length
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;
         const gridDeposit = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridDeposit[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }

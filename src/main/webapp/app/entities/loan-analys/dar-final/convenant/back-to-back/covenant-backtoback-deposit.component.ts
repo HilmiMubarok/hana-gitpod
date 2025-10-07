@@ -110,8 +110,11 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? activeData.length
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;
         const gridAbove = [];
-        for (let i = 0; i < activeData.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridAbove[i] = { id: num, covenant: activeData[i].value, status: 'Applied', deviation: '', justification: '' };
         }
