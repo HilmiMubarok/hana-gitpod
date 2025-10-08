@@ -85,8 +85,15 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = data;
+        }
+
+        const dataLength =  !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId) ? data : this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0 ? data: this.creditProposalItem.attributes['convenant'].standardCovenant;
+        
         const gridBelow = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
