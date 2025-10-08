@@ -86,7 +86,11 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
           return o.statusId === 'ACTIVE';
         });
 
-        const dataLength =  !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId) ? data.length : this.creditProposalItem.attributes['convenant'].standardCovenant;
+        if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = data;
+        }
+
+        const dataLength =  !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId) ? data : this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0 ? data: this.creditProposalItem.attributes['convenant'].standardCovenant;
         
         const gridBelow = [];
         for (let i = 0; i < dataLength.length; i++) {

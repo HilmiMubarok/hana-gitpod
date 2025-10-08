@@ -92,6 +92,9 @@ export class CovenantBackToBackDepositComponent implements OnInit {
           return o.statusId === 'ACTIVE';
         });
 
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = data;
+        }
         const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
           ? data.length
           : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;

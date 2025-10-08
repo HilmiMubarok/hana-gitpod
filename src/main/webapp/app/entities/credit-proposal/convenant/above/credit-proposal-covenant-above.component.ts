@@ -103,6 +103,9 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
       })
       .subscribe(res => {
         const activeData = this.filterActiveCovenants(res.body);
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = activeData;
+        }
         const dataLength =  !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId) ? activeData.length : this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
         this.standardDataGridAbove = this.mapToGridAbove(dataLength);
 

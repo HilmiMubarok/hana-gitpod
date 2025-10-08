@@ -104,6 +104,9 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit, OnDestr
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+        if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = activeData;
+        }
         const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
           ? activeData.length
           : this.creditProposalItem.attributes['convenant'].standardCovenant;
