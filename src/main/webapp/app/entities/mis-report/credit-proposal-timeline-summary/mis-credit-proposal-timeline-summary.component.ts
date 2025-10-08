@@ -87,6 +87,13 @@ import { SelectionModel } from '@angular/cdk/collections';
         margin-top: 10px;
         color: #5bafaa;
       }
+
+      .e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text .e-anchor-wrap {
+        align-items: inherit;
+        display: inherit;
+        color: #3c958f;
+        font-size: 16px;
+      }
     `,
   ],
 })
@@ -557,9 +564,14 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
 
     if (filters.query && filters.query.trim() !== '') {
       const keyword = filters.query.toLowerCase();
-      selectedData = selectedData.filter(
-        item => (item.proposalNumber || '').toLowerCase().includes(keyword) || (item.debtorName || '').toLowerCase().includes(keyword)
-      );
+
+      // selectedData = selectedData.filter(
+      //   item => (item.proposalNumber || '').toLowerCase().includes(keyword) || (item.debtorName || '').toLowerCase().includes(keyword)
+      // );
+      selectedData = selectedData.filter(item => {
+        const allText = JSON.stringify(item).toLowerCase();
+        return allText.includes(keyword);
+      });
     }
 
     selectedData.sort((a, b) => {
@@ -836,10 +848,8 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
 
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal: any, index: number): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
-
     const customerType = this.misCpTimeline.get('customerType')?.value;
     const search = this.misCpTimeline.get('query')?.value;
-
     const rawTimeline = timeLineCreditProposal?.timeLineCreditProposal || [];
 
     let filteredTimeline: any[] = [];
@@ -853,8 +863,8 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
     }
 
     const reversedTimeline = [...filteredTimeline].reverse();
-
     const timelineData = filteredTimeline;
+
     const tatPipeline = this._tatPipelineProcess(timelineData);
     const tatReview = this._tatReviewProcess(timelineData);
     const tatPending = this._tatPendingAcceptance(timelineData);
@@ -926,6 +936,7 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       });
 
       const endRow = startRow + filteredTimeline.length - 1;
+
       worksheet.mergeCells(`A${startRow}:A${endRow}`);
       worksheet.mergeCells(`B${startRow}:B${endRow}`);
       worksheet.mergeCells(`C${startRow}:C${endRow}`);
@@ -949,7 +960,6 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       worksheet.mergeCells(`AA${startRow}:AA${endRow}`);
       worksheet.mergeCells(`AB${startRow}:AB${endRow}`);
     } else {
-      // fallback kalau timeline kosong/null
       worksheet.addRow({
         no: manualNo,
         proposalNumber: timeLineCreditProposal.proposalNumber || '',

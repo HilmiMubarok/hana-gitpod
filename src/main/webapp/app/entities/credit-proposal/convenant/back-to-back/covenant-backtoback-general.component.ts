@@ -91,8 +91,15 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = data;
+        }
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? data.length
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral;
+        
         const gridCondition = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridCondition[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }

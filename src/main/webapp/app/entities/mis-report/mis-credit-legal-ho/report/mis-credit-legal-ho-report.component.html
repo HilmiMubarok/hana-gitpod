@@ -36,7 +36,8 @@
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>
-                                <mat-datepicker-toggle matSuffix (click)="clearDateRange(); $event.stopPropagation()" *ngIf="dateRangeHasValue()">
+                                <mat-datepicker-toggle matSuffix (click)="clearDateRange(); $event.stopPropagation()"
+                                    *ngIf="dateRangeHasValue()">
                                     <mat-icon matDatepickerToggleIcon>clear</mat-icon>
                                 </mat-datepicker-toggle>
                             </mat-form-field>
@@ -332,6 +333,29 @@
                             <div *ngIf="loadingSearch; else dataStatus" class="skeleton-loading"></div>
                             <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
                         </td>
+                    </ng-container>
+
+                    <!-- Select All -->
+                    <ng-container matColumnDef="action">
+
+                        <th mat-header-cell *matHeaderCellDef>
+                            <!-- Action -->
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [hidden]="(searchResult && searchResult.length === 0 ) || loadingSearch">
+                            </mat-checkbox>
+                        </th>
+
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="loadingSearch; else dataAction"></div>
+                            <ng-template #dataAction>
+                                <mat-checkbox (change)="selection.toggle(element)"
+                                    [checked]="selection.isSelected(element)">
+                                </mat-checkbox>
+                            </ng-template>
+                        </td>
+
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
