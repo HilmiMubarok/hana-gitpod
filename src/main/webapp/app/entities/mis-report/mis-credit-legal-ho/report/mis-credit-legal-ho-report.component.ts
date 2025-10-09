@@ -129,10 +129,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   public allSelectedProposalStatus = false;
   public searchResult = null;
   public selection = new SelectionModel<any>(true, []);
-  public pageSize = 10;
-  public currentPage = 0;
-  public totalItems = 0;
-  public pageSizeOptions: number[] = [5, 10, 25, 50];
+  // public pageSize = 10;
+  // public currentPage = 0;
+  // public totalItems = 0;
+  // public pageSizeOptions: number[] = [5, 10, 25, 50];
   public loadingSearch = false;
   private debounceTimer: any;
   public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status', 'action'];
@@ -740,17 +740,17 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     this.selection.clear();
     this.loadingSearch = true;
 
-    if (pageEvent) {
-      this.currentPage = pageEvent.pageIndex;
-      this.pageSize = pageEvent.pageSize;
-    }
+    // if (pageEvent) {
+    //   this.currentPage = pageEvent.pageIndex;
+    //   this.pageSize = pageEvent.pageSize;
+    // }
 
     const queryValue = this.form.get('query')?.value;
 
     const predicate: object = {
-      page: this.currentPage,
+      page: 0,
       query: queryValue,
-      size: this.pageSize,
+      size: 999,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
     };
@@ -761,8 +761,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       next: res => {
         this.searchResult = res.body || [];
         this.setAllSelectedSearch();
-        const totalCount = res.headers.get('X-Total-Count');
-        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        // const totalCount = res.headers.get('X-Total-Count');
+        // this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
 
         if (queryValue !== null && queryValue !== undefined) {
@@ -935,9 +935,16 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         return '';
       }
 
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      if (createdDate > threeMonthsAgo) {
+      let threeMonthsAgo = new Date();
+      const datestring = threeMonthsAgo.toISOString().split('T')[0];
+      threeMonthsAgo = new Date(datestring);
+
+      const year = threeMonthsAgo.getFullYear();
+      const month = String(threeMonthsAgo.getMonth() + 1).padStart(2, '0');
+      const day = String(threeMonthsAgo.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      if (createdDate > formattedDate) {
         return 'CANCEL';
       } else {
         return 'PENDING';
