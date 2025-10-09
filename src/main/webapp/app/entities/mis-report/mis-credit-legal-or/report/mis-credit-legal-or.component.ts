@@ -918,7 +918,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       const day = String(threeMonthsAgo.getDate()).padStart(2, '0');
       const formattedDate = `${year}-${month}-${day}`;
 
-      if (createdDate > formattedDate) {
+      if (createdDate < formattedDate) {
         return 'CANCEL';
       } else {
         return 'PENDING';

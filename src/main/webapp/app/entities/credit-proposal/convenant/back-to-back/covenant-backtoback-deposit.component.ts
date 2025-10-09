@@ -100,6 +100,7 @@ export class CovenantBackToBackDepositComponent implements OnInit {
           gridDeposit[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridBackToBackDeposit = gridDeposit;
+        this.standardDataGridBackToBackDeposit.sort((a, b) => a.id - b.id);
         if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
           this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = replaceConvenantFromMaster(
             this.standardDataGridBackToBackDeposit,
