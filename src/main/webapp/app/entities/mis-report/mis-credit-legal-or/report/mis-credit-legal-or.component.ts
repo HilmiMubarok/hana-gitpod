@@ -909,9 +909,16 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         return '';
       }
 
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      if (createdDate > threeMonthsAgo) {
+      let threeMonthsAgo = new Date();
+      const datestring = threeMonthsAgo.toISOString().split('T')[0];
+      threeMonthsAgo = new Date(datestring);
+
+      const year = threeMonthsAgo.getFullYear();
+      const month = String(threeMonthsAgo.getMonth() + 1).padStart(2, '0');
+      const day = String(threeMonthsAgo.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      if (createdDate > formattedDate) {
         return 'CANCEL';
       } else {
         return 'PENDING';
