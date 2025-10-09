@@ -143,7 +143,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
   protected processData(data: any[]): void {
     const sortedProposals = this._sortByDppkDate(data);
-    console.log(sortedProposals, 'sortedProposal');
+
     let noCounter = 1;
     sortedProposals.forEach(proposal => {
       noCounter = this._addProposalData(this.worksheet, proposal, noCounter);
@@ -152,17 +152,11 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
 
   private _sortByDppkDate(data: any[]) {
     return data
-      .map(proposal => ({
-        ...proposal,
-        dppkInDate:
-          proposal.timeLineCreditProposal
-            .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-            .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
-            .map(timeline => timeline.fromDate)[0] || null,
+      .map(p => ({
+        ...p,
+        dppkInDate: this._getFirstDate(p.timeLineCreditProposal, 'DPPK Finalize'),
       }))
-      .sort((a, b) => {
-        return new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime();
-      });
+      .sort((a, b) => new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime());
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, noStart: number): number {
@@ -289,7 +283,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _getTimelineDates(timeline: any[], status: string): string {
     return timeline
       .filter(item => item.statusDescription === status)
-      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
       .map(item => this._convertDate(item.fromDate))
       .filter(Boolean)
       .join(',\n');
@@ -298,11 +291,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _getTimelineTimes(timeline: any[], status: string): string {
     return timeline
       .filter(item => item.statusDescription === status)
-      .sort((a, b) => {
-        const timeA = a.fromTime || '';
-        const timeB = b.fromTime || '';
-        return timeA.localeCompare(timeB);
-      })
       .map(item => this._convertTime(item.fromTime))
       .filter(Boolean)
       .join(',\n');
