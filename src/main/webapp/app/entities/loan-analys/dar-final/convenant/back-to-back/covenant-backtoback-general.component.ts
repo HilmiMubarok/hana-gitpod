@@ -114,8 +114,8 @@ export class DarCovenantBackToBackGeneralComponent implements OnInit, OnDestroy 
           this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = activeData;
         }
         const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
-          ? activeData.length
-          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral;
+          ? activeData
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0 ? activeData : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral;
         const gridAbove = [];
         for (let i = 0; i < dataLength.length; i++) {
           const num = i;

@@ -106,12 +106,9 @@ export class DarCovenantAboveComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
 
-        if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
-          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = activeData;
-        }
         const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
-          ? activeData.length
-          : this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+          ? activeData
+          : this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0 ? activeData : this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
         
         const gridAbove = [];
         for (let i = 0; i < dataLength.length; i++) {
