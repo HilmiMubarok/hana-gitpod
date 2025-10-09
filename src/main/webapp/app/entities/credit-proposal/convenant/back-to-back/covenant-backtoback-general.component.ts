@@ -102,7 +102,7 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
         }
         this.standardDataGridBackToBackGeneral = gridCondition;
         // sort standardDataGridBackToBackGeneral by id asc
-        this.standardDataGridBackToBackGeneral.sort((a, b) => b.id - a.id);
+        this.standardDataGridBackToBackGeneral.sort((a, b) => a.id - b.id);
         
         if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
           this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = replaceConvenantFromMaster(
