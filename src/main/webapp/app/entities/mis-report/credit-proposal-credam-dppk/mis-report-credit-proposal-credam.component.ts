@@ -286,23 +286,21 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     return Math.abs(Math.round(diff / (1000 * 60 * 60 * 24)));
   }
 
-  private _getTimelineDates(timeline: any[], status: string): string {
+  private _getSortedTimeline(timeline: any[], status: string): any[] {
     return timeline
       .filter(item => item.statusDescription === status)
-      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
+      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+  }
+
+  private _getTimelineDates(timeline: any[], status: string): string {
+    return this._getSortedTimeline(timeline, status)
       .map(item => this._convertDate(item.fromDate))
       .filter(Boolean)
       .join(',\n');
   }
 
   private _getTimelineTimes(timeline: any[], status: string): string {
-    return timeline
-      .filter(item => item.statusDescription === status)
-      .sort((a, b) => {
-        const timeA = a.fromTime || '';
-        const timeB = b.fromTime || '';
-        return timeA.localeCompare(timeB);
-      })
+    return this._getSortedTimeline(timeline, status)
       .map(item => this._convertTime(item.fromTime))
       .filter(Boolean)
       .join(',\n');
