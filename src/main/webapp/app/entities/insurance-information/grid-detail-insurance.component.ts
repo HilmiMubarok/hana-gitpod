@@ -54,6 +54,7 @@ export class GridDetailInsuranceComponent implements OnInit {
     this._creditProposal = cp;
   }
 
+  showAddButton;
   @Input() isViewMode;
   constructor(
     protected _snackbar: MatSnackBar,
@@ -69,6 +70,7 @@ export class GridDetailInsuranceComponent implements OnInit {
   ngOnInit(): void {
     const collateral = this.collateral.id;
     this.loadByPartyId(collateral);
+    this.showAddButton = this.creditProposal.statusInsuranceId !== 'INSURANCE_COMPLETE';
   }
   private loadByPartyId(collateralId: number): void {
     this.insuranceInformationService.filterTableData(collateralId).subscribe(res => {

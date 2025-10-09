@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { map, switchMap, tap } from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'jhi-mis-credit-legal-ho-report',
@@ -127,13 +128,14 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   public allSelectedSummary = false;
   public allSelectedProposalStatus = false;
   public searchResult = null;
-  public pageSize = 10;
-  public currentPage = 0;
-  public totalItems = 0;
-  public pageSizeOptions: number[] = [5, 10, 25, 50];
+  public selection = new SelectionModel<any>(true, []);
+  // public pageSize = 10;
+  // public currentPage = 0;
+  // public totalItems = 0;
+  // public pageSizeOptions: number[] = [5, 10, 25, 50];
   public loadingSearch = false;
   private debounceTimer: any;
-  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status', 'action'];
   public skeletonData = [
     {
       proposalNumber: '',
@@ -603,6 +605,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
     const statusProposal = this.form.get('proposalStatus')?.value;
+    const selectedIds = this.processSelectedItems();
 
     let cp = data.filter(proposal => proposal.internalRegion === 'R1');
 
@@ -618,6 +621,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       if (statusProposal && statusProposal.length > 0) {
         cp = cp.filter(proposal => statusProposal.includes(proposal.statusProposal));
       }
+    }
+
+    if (selectedIds.length > 0) {
+      cp = cp.filter(proposal => selectedIds.includes(proposal.id));
     }
 
     return cp;
@@ -726,22 +733,24 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   public clearSearch(): void {
     this.form.get('query')?.reset();
     this.searchResult = null;
+    this.selection.clear();
   }
 
   public doSearch(pageEvent?: PageEvent): void {
+    this.selection.clear();
     this.loadingSearch = true;
 
-    if (pageEvent) {
-      this.currentPage = pageEvent.pageIndex;
-      this.pageSize = pageEvent.pageSize;
-    }
+    // if (pageEvent) {
+    //   this.currentPage = pageEvent.pageIndex;
+    //   this.pageSize = pageEvent.pageSize;
+    // }
 
     const queryValue = this.form.get('query')?.value;
 
     const predicate: object = {
-      page: this.currentPage,
+      page: 0,
       query: queryValue,
-      size: this.pageSize,
+      size: 999,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
     };
@@ -751,8 +760,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
         this.searchResult = res.body || [];
-        const totalCount = res.headers.get('X-Total-Count');
-        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.setAllSelectedSearch();
+        // const totalCount = res.headers.get('X-Total-Count');
+        // this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
 
         if (queryValue !== null && queryValue !== undefined) {
@@ -787,6 +797,39 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
   // ==== End Form Search Section ==== //
 
+  // ==== Form Search Selection Section ==== //
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
+  processSelectedItems() {
+    const selectedData = this.selection.selected;
+    if (!selectedData || selectedData.length === 0) {
+      return [];
+    }
+    const selectedIds = selectedData.map((item: any) => item.id);
+    return selectedIds;
+  }
+
+  setAllSelectedSearch() {
+    this.selection.select(...this.searchResult);
+  }
+
+  selectAll() {
+    if (this.selection.selected.length > 0) {
+      this.selection.clear();
+    } else {
+      this.selection.select(...this.searchResult);
+    }
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+  // ==== End Form Search Selection Section ==== //
+
   private _getPicTimeline(timeLineCreditProposal) {
     if (!Array.isArray(timeLineCreditProposal)) {
       return '';
@@ -796,7 +839,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       .filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize')
       .map(timeline => timeline.personName);
 
-    return filtered.length ? filtered.join(',\n') : '';
+    const final = [...new Set(filtered)].map(item => item);
+
+    return final.length ? final.join(',\n') : '';
   }
 
   private _getTanggalJatuhTempo(product) {
@@ -890,9 +935,16 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         return '';
       }
 
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      if (createdDate > threeMonthsAgo) {
+      let threeMonthsAgo = new Date();
+      const datestring = threeMonthsAgo.toISOString().split('T')[0];
+      threeMonthsAgo = new Date(datestring);
+
+      const year = threeMonthsAgo.getFullYear();
+      const month = String(threeMonthsAgo.getMonth() + 1).padStart(2, '0');
+      const day = String(threeMonthsAgo.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      if (createdDate > formattedDate) {
         return 'CANCEL';
       } else {
         return 'PENDING';

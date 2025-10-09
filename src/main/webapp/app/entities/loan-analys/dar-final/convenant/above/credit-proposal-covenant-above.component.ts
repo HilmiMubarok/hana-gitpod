@@ -5,6 +5,8 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-covenant-dar-above',
@@ -98,17 +100,31 @@ export class DarCovenantAboveComponent implements OnInit, OnDestroy {
         idParameterType: 'COVENANT_ABOVE_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? activeData
+          : this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0 ? activeData : this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+        
         const gridAbove = [];
-        for (let i = 0; i < activeData.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridAbove[i] = { id: num, covenant: activeData[i].value, status: 'Applied', deviation: '', justification: '' };
         }
 
         this.standardDataGridAbove = gridAbove;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = replaceConvenantFromMaster(
+            this.standardDataGridAbove,
+            this.creditProposalItem.attributes['convenant'].standardDataGridAbove
+          );
+        }
+
         this.getStandardDataGridAbove();
 
         if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {

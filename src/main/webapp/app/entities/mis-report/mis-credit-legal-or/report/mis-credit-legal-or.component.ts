@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { map, switchMap, tap } from 'rxjs';
 import { InternalService } from 'app/entities/internal/internal.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'jhi-mis-credit-legal-or',
@@ -100,6 +101,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 })
 export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements OnInit {
   public originalLovBranch;
+  public selection = new SelectionModel<any>(true, []);
   public menu = 'dateFromStatus';
   public lovStatus = [];
   public lovUsername = [];
@@ -127,13 +129,13 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   public allSelectedSummary = false;
   public allSelectedProposalStatus = false;
   public searchResult = null;
-  public pageSize = 10;
+  public pageSize = 9999;
   public currentPage = 0;
   public totalItems = 0;
   public pageSizeOptions: number[] = [5, 10, 25, 50];
   public loadingSearch = false;
   private debounceTimer: any;
-  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status', 'select'];
   public skeletonData = [
     {
       proposalNumber: '',
@@ -142,6 +144,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       customerType: '',
       proposalDate: '',
       status: '',
+      select: '',
     },
   ];
   public statusMap = {
@@ -193,6 +196,37 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   onMenuChanged(): void {
     this._initializeForm();
     this._resetForms();
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
+  setAllSelectedSearch() {
+    this.selection.select(...this.searchResult);
+  }
+
+  selectAll() {
+    if (this.selection.selected.length > 0) {
+      this.selection.clear();
+    } else {
+      this.selection.select(...this.searchResult);
+    }
+  }
+
+  processSelectedItems() {
+    const selectedData = this.selection.selected;
+    if (!selectedData || selectedData.length === 0) {
+      return [];
+    }
+    const selectedIds = selectedData.map((item: any) => item.id);
+    return selectedIds;
   }
 
   private _resetForms(): void {
@@ -573,18 +607,30 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     });
   }
 
-  _filterCPBeforeGenerate(data) {
+  private _filterCPBeforeGenerate(data) {
+    // Tambah statusProposal ke setiap data
     data.forEach(proposal => {
       proposal.statusProposal = this._getStatusData(proposal);
     });
 
+    // Ambil value dari form
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
     const statusProposal = this.form.get('proposalStatus')?.value;
 
+    // Ambil data yang dipilih dari tabel (jika ada)
+    const selectedIds = this.processSelectedItems();
+
+    // Filter awal: hanya untuk internalRegion 'R2'
     let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
+    // 🔹 Jika user memilih beberapa data di tabel, utamakan itu
+    if (selectedIds.length > 0) {
+      return cp.filter(proposal => selectedIds.includes(proposal.id));
+    }
+
+    // 🔹 Jika tidak ada search, maka filter berdasarkan form
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
@@ -705,9 +751,11 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   public clearSearch(): void {
     this.form.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
     this.searchResult = null;
+    this.selection.clear();
   }
 
   public doSearch(pageEvent?: PageEvent): void {
+    this.selection.clear();
     this.loadingSearch = true;
 
     if (pageEvent) {
@@ -732,6 +780,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         this.searchResult = res.body || [];
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.setAllSelectedSearch();
         this.loadingSearch = false;
 
         if (queryValue !== null && queryValue !== undefined) {
@@ -860,9 +909,16 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         return '';
       }
 
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      if (createdDate > threeMonthsAgo) {
+      let threeMonthsAgo = new Date();
+      const datestring = threeMonthsAgo.toISOString().split('T')[0];
+      threeMonthsAgo = new Date(datestring);
+
+      const year = threeMonthsAgo.getFullYear();
+      const month = String(threeMonthsAgo.getMonth() + 1).padStart(2, '0');
+      const day = String(threeMonthsAgo.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      if (createdDate > formattedDate) {
         return 'CANCEL';
       } else {
         return 'PENDING';

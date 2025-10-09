@@ -5,6 +5,8 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-dar-covenant-back-to-back-general',
@@ -103,17 +105,32 @@ export class DarCovenantBackToBackGeneralComponent implements OnInit, OnDestroy 
         idParameterType: 'COVENANT_BTB_GENERAL_TIMES_CONDITION',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = activeData;
+        }
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? activeData
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0 ? activeData : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral;
         const gridAbove = [];
-        for (let i = 0; i < activeData.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridAbove[i] = { id: num, covenant: activeData[i].value, status: 'Applied', deviation: '', justification: '' };
         }
 
         this.standardDataGridBackToBackGeneral = gridAbove;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = replaceConvenantFromMaster(
+            this.standardDataGridBackToBackGeneral,
+            this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral
+          );
+        }
+
         this.getBackToBackGeneral();
 
         if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {

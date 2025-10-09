@@ -499,7 +499,12 @@ export class ReviewInsuranceDetailComponent implements OnInit {
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
 
-    this.getTasks();
+    if (this.creditProposal.statusInsuranceId !== 'INSURANCE_COMPLETE') {
+      this.getTasks();
+    } else {
+      this.tasks = [];
+    }
+
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });

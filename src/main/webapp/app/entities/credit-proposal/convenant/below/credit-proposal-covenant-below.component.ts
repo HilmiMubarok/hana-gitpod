@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantBelow } from '../convenant.constant';
+import { dataCovenantBelow, statusCovenantNotRefreshedFromMaster } from '../convenant.constant';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { replaceConvenantFromMaster } from '../convenant.helper';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-below',
@@ -78,17 +79,29 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         idParameterType: 'COVENANT_BELOW_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        const dataLength =  !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId) ? data : this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0 ? data: this.creditProposalItem.attributes['convenant'].standardCovenant;
+        
         const gridBelow = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardCovenant = gridBelow;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = replaceConvenantFromMaster(
+            this.standardCovenant,
+            this.creditProposalItem.attributes['convenant'].standardCovenant
+          );
+        }
+
         this.getStandardDataGridBelow();
 
         if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {

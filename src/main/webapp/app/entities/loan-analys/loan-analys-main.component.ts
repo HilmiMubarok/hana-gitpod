@@ -2183,7 +2183,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
+
       const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
+
       const lcaData = this.creditProposal.notes.filter(note => note.type === 'loan_committee');
       if (source === 'default') {
         if (this.loanAnalysOpinionComponent) {
@@ -2197,7 +2199,7 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
           }
         } else {
-          this.saveCoverageAndUpdate('not-complete-not-visit', source);
+          this.saveUpdate('not-complete-not-visit', source);
         }
       } else if (source === 'process') {
         if (!caption.includes('return') && !caption.includes('Return')) {
@@ -2221,7 +2223,7 @@ export class LoanAnalysMainComponent implements OnInit {
                     detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                   });
                 } else {
-                  this.saveCoverageAndUpdate('complete-not-visit', source);
+                  this.saveUpdate('complete-not-visit', source);
                 }
               }
             }
@@ -2240,7 +2242,7 @@ export class LoanAnalysMainComponent implements OnInit {
                       detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
                     });
                   } else {
-                    this.saveCoverageAndUpdate('complete-not-visit', source);
+                    this.saveUpdate('complete-not-visit', source);
                   }
                 } else {
                   this.messageService.add({
@@ -2258,16 +2260,15 @@ export class LoanAnalysMainComponent implements OnInit {
               }
             }
           } else {
-            this.saveCoverageAndUpdate('not-complete-not-visit', source);
+            this.saveUpdate('not-complete-not-visit', source);
           }
         } else {
-          this.saveCoverageAndUpdate('complete-not-visit', source);
+          this.saveUpdate('complete-not-visit', source);
         }
       }
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
-    this.saveCoverageAndUpdate('complete-not-visit', source);
   }
 
   // public onSave(source: string): void {
