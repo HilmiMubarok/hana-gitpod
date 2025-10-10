@@ -227,7 +227,7 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
       .subscribe(({ standard, staff }) => {
         this.latestStandard = standard;
         this.latestStaff = staff;
-        const positionTypeIds = this.getLocStor('POSO')
+        const positionTypeIds = 'LOAN_OPS_OFFICER';
 
         this.getExisting(positionTypeIds).subscribe(res => {
           this.latestStaff = res.length;
@@ -238,21 +238,6 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
 
   getExisting(positionTypeIds: string) {
     return this.productivityService.getExisting(positionTypeIds);
-  }
-
-  private getLocStor(cookieName: string) {
-    let result = null;
-    const cookies: string[] = document.cookie.split(';');
-
-    cookies.forEach(o => {
-      const cookie: string[] = o.split('=');
-      const name: string = cookie[0].trim();
-      if (name === cookieName) {
-        result = cookie[1];
-      }
-    });
-
-    return result;
   }
 
   ngOnInit() {
