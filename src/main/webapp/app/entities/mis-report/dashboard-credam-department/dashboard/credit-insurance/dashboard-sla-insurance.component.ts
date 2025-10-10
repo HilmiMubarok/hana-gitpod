@@ -307,7 +307,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
         const slaStandardInsurance = res.find((item: any) => item.id === 'SLA_STANDARD_INSURANCE');
         this.slaStandardValue = slaStandardInsurance ? slaStandardInsurance.value : 0;
 
-        const positionTypeIds = 'LOAN_OPS_OFFICER';
+        const positionTypeIds = 'INSURANCE_ADMIN';
         this.getExisting(positionTypeIds);
 
         this.getChartData();
