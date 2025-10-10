@@ -174,7 +174,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const tatDays = this._calculateDaysDifference(reviewCheckerDate, dppkFinalizeDate);
     const reviewCheckerTime = this._getFirstTime(timeline, 'Review Checker 2');
     const dppkFinalizeTime = this._getFirstTime(timeline, 'DPPK Finalize');
-
+    console.log('reviewCheckerTime', reviewCheckerTime);
     const tatTime = this._buildTatTime(tatDays, reviewCheckerTime, dppkFinalizeTime);
     const checkerOutData = this._getCheckerOutData(timeline);
     const approvalOutData = this._getApprovalOutData(timeline);
@@ -253,19 +253,34 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
 
   private _getFirstTime(timeline: any[], status: string): string {
-    return (
-      timeline
-        ?.filter(t => t.statusDescription === status)
-        .sort((a, b) => this._toMinutes(b.fromTime) - this._toMinutes(a.fromTime))[0]
-        ?.fromTime?.slice(0, 5) || ''
-    );
+    const filtered = timeline?.filter(t => t.statusDescription === status);
+    if (!filtered || filtered.length === 0) {
+      return '';
+    }
+    const latest = filtered.sort((a, b) => {
+      const dateA = new Date(`${a.fromDate}T${a.fromTime}`);
+      const dateB = new Date(`${b.fromDate}T${b.fromTime}`);
+      return dateB.getTime() - dateA.getTime();
+    })[0];
+
+    // Kembalikan fromTime-nya, hanya 5 karakter pertama (HH:mm)
+    return latest?.fromTime?.slice(0, 5) || '';
+  }
+
+  private _normalizeTime(time: string): string {
+    if (!time) {
+      return '00:00';
+    }
+    const [h, m] = time.split(':');
+    return `${h.padStart(2, '0')}:${(m || '00').padStart(2, '0')}`;
   }
 
   private _toMinutes(time: string): number {
     if (!time) {
       return 0;
     }
-    const [h, m] = time.split(':').map(Number);
+    const normalized = this._normalizeTime(time);
+    const [h, m] = normalized.split(':').map(Number);
     return h * 60 + m;
   }
 
@@ -286,21 +301,17 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     return Math.abs(Math.round(diff / (1000 * 60 * 60 * 24)));
   }
 
-  private _getSortedTimeline(timeline: any[], status: string): any[] {
+  private _getTimelineDates(timeline: any[], status: string): string {
     return timeline
       .filter(item => item.statusDescription === status)
-      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
-  }
-
-  private _getTimelineDates(timeline: any[], status: string): string {
-    return this._getSortedTimeline(timeline, status)
       .map(item => this._convertDate(item.fromDate))
       .filter(Boolean)
       .join(',\n');
   }
 
   private _getTimelineTimes(timeline: any[], status: string): string {
-    return this._getSortedTimeline(timeline, status)
+    return timeline
+      .filter(item => item.statusDescription === status)
       .map(item => this._convertTime(item.fromTime))
       .filter(Boolean)
       .join(',\n');
