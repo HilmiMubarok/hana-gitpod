@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 export interface FacilityDataType {
   newFacility: number;
   existingFacility: number;
@@ -32,6 +34,9 @@ export interface ProductivityRow {
   providedIn: 'root',
 })
 export class MisCpSlaloanopsProductivityService {
+
+  constructor(private http: HttpClient, private applicationConfig: ApplicationConfigService) {}
+  
   private month1$ = new BehaviorSubject<number>(0);
   private month2$ = new BehaviorSubject<number>(0);
   private month3$ = new BehaviorSubject<number>(0);
@@ -81,6 +86,13 @@ export class MisCpSlaloanopsProductivityService {
       row.shortOver = shortOver;
     });
     this.processedRows$.next(rows);
+  }
+
+  getExisting(positionTypeIds: string) {
+    const params = {
+      positionTypeIds,
+    };
+    return this.http.get<any>(this.applicationConfig.getEndpointFor(MICROSERVICENAME.LOS + '/api/mis/get-persons'), { params });
   }
 
   roundToDecimals(value, decimals) {
