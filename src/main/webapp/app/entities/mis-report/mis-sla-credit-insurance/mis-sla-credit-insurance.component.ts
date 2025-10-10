@@ -369,6 +369,26 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .join(',\n');
   }
 
+  // private _getMakerOutTimeFiltered(timeLineInsurance: any[]): string {
+  //   if (!Array.isArray(timeLineInsurance)) {
+  //     return '';
+  //   }
+
+  //   return timeLineInsurance
+  //     .filter((item: any) => item.statusDescription === 'Insurance Review')
+  //     .sort((a: any, b: any) => {
+  //       const [hourA, minuteA] = a.fromTime.split(':').map(Number);
+  //       const [hourB, minuteB] = b.fromTime.split(':').map(Number);
+
+  //       return hourA !== hourB ? hourA - hourB : minuteA - minuteB;
+  //     })
+  //     .map((item: any) => {
+  //       const [hour, minute] = item.fromTime.split(':');
+  //       return `${hour}:${minute}`;
+  //     })
+  //     .join(',\n');
+  // }
+
   private _getMakerOutTimeFiltered(timeLineInsurance: any[]): string {
     if (!Array.isArray(timeLineInsurance)) {
       return '';
@@ -376,12 +396,6 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     return timeLineInsurance
       .filter((item: any) => item.statusDescription === 'Insurance Review')
-      .sort((a: any, b: any) => {
-        const [hourA, minuteA] = a.fromTime.split(':').map(Number);
-        const [hourB, minuteB] = b.fromTime.split(':').map(Number);
-
-        return hourA !== hourB ? hourA - hourB : minuteA - minuteB;
-      })
       .map((item: any) => {
         const [hour, minute] = item.fromTime.split(':');
         return `${hour}:${minute}`;
@@ -579,10 +593,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
     const startRow = ws.rowCount;
     const debtorName = prop.debtorName || '';
-
     let counter = startRow;
-
-    // const debtorName = prop.debtorName || '';
 
     prop.collateral
       ?.filter(col => col.partyName === debtorName)
@@ -594,19 +605,32 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
           const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
 
-          // Hitung TAT Days
-          let tatDays = null;
+          // 🔹 Hitung TAT Days (hari kerja saja)
+          let tatDays: number | null = null;
           if (firstMakerInDdate && latestApprovalOutDate) {
             const makerDateParts = firstMakerInDdate.split('/');
             const approvalDateParts = latestApprovalOutDate.split('/');
 
-            const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
-            const approvalDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
+            const startDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
+            const endDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
 
-            tatDays = Math.ceil(Math.abs(approvalDate.getTime() - makerDate.getTime()) / (1000 * 60 * 60 * 24));
+            if (startDate <= endDate) {
+              let workingDays = 0;
+              const currentDate = new Date(startDate);
+
+              while (currentDate <= endDate) {
+                const day = currentDate.getDay(); // 0 = Minggu, 6 = Sabtu
+                if (day !== 0 && day !== 6) {
+                  workingDays++;
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+              }
+
+              tatDays = workingDays;
+            }
           }
 
-          // hitung tat time
+          // 🔹 Hitung TAT Time (tetap sama seperti sebelumnya)
           const formatDate = (date: string | undefined | null) => {
             if (!date || typeof date !== 'string' || !date.includes('/')) {
               return '';
@@ -618,7 +642,6 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
             }
 
             const [day, month, year] = parts;
-
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
           };
 
@@ -632,7 +655,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
           const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
 
-          const fromDateTimeObject = new Date(`${fromDateTime}+07:00`); // GMT+7
+          const fromDateTimeObject = new Date(`${fromDateTime}+07:00`);
           const targetDate =
             tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
 
@@ -678,7 +701,6 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
                   return `${day}-${month}-${year}`;
                 })()
               : '',
-
             keterangan: insurance.remarks || '',
             segment: prop.regionalParentRM || '',
             branch: prop.bookingBranchName || '',
