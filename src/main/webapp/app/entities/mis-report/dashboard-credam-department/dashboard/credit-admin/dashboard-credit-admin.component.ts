@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MisCpSlaloanopsProductivityService } from 'app/entities/mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-productivity.service';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
 import { MessageService } from 'primeng/api';
@@ -241,7 +242,11 @@ export class MisDashboardCredamComponent implements OnInit {
 
   statuses = ['DPPK_FINALIZE', 'DPPK_REVIEW'];
 
-  constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
+  constructor(
+    private dashboardService: MisDashboardService,
+    public messageService: MessageService,
+    private productivityService: MisCpSlaloanopsProductivityService
+  ) {
     this.initializeForm();
   }
 
@@ -281,7 +286,10 @@ export class MisDashboardCredamComponent implements OnInit {
         const staff = res.find((item: any) => item.id === 'STAFF_CREDAM');
         this.slaStandardValue = slaStandard ? slaStandard.value : 0;
         this.staffcredams = staff ? staff.value : 0;
-        this.getChartData();
+        this.getExisting('CREDIT_ADMIN').subscribe(res => {
+          this.staffcredams = res.length;
+          this.getChartData();
+        });
       },
       error: () => {
         this.messageService.add({
@@ -376,7 +384,9 @@ export class MisDashboardCredamComponent implements OnInit {
       };
     });
   }
-
+  getExisting(positionTypeIds: string) {
+    return this.productivityService.getExisting(positionTypeIds);
+  }
   getChartData(): void {
     this.dateForm.valueChanges.subscribe(value => {
       const formattedDate = value.date?.format('YYYY-MM-DD');
