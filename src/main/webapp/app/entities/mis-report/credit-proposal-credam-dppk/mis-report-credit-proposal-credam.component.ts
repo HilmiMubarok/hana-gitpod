@@ -172,7 +172,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const tatDays = this._calculateDaysDifference(reviewCheckerDate, dppkFinalizeDate);
     const reviewCheckerTime = this._getFirstTimes(timeline, 'Review Checker 2');
     const dppkFinalizeTime = this._getFirstTime(timeline, 'DPPK Finalize');
-    console.log('reviewCheckerTime', reviewCheckerTime);
     const tatTime = this._buildTatTime(tatDays, reviewCheckerTime, dppkFinalizeTime);
     const checkerOutData = this._getCheckerOutData(timeline);
     const approvalOutData = this._getApprovalOutData(timeline);
@@ -261,14 +260,13 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     if (!filtered || filtered.length === 0) {
       return '';
     }
-    const latest = filtered.sort((a, b) => {
+    const first = filtered.sort((a, b) => {
       const dateA = new Date(`${a.fromDate}T${a.fromTime}`);
       const dateB = new Date(`${b.fromDate}T${b.fromTime}`);
-      return dateB.getTime() - dateA.getTime();
+      return dateA.getTime() - dateB.getTime();
     })[0];
 
-    // Kembalikan fromTime-nya, hanya 5 karakter pertama (HH:mm)
-    return latest?.fromTime?.slice(0, 5) || '';
+    return first?.fromTime?.slice(0, 5) || '';
   }
   private _getFirstTimes(timeline: any[], status: string): string {
     const filtered = timeline?.filter(t => t.fromStatusDescription === status);
