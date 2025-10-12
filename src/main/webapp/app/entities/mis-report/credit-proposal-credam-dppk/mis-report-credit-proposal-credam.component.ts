@@ -260,27 +260,28 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     if (!filtered || filtered.length === 0) {
       return '';
     }
-    const first = filtered.sort((a, b) => {
-      const dateA = new Date(`${a.fromDate}T${a.fromTime}`);
-      const dateB = new Date(`${b.fromDate}T${b.fromTime}`);
+
+    const firstDateItem = filtered.sort((a, b) => {
+      const dateA = new Date(a.fromDate);
+      const dateB = new Date(b.fromDate);
       return dateA.getTime() - dateB.getTime();
     })[0];
 
-    return first?.fromTime?.slice(0, 5) || '';
+    return firstDateItem?.fromTime?.slice(0, 5) || '';
   }
+
   private _getFirstTimes(timeline: any[], status: string): string {
     const filtered = timeline?.filter(t => t.fromStatusDescription === status);
     if (!filtered || filtered.length === 0) {
       return '';
     }
-    const latest = filtered.sort((a, b) => {
-      const dateA = new Date(`${a.fromDate}T${a.fromTime}`);
-      const dateB = new Date(`${b.fromDate}T${b.fromTime}`);
+    const latestDateItem = filtered.sort((a, b) => {
+      const dateA = new Date(a.fromDate);
+      const dateB = new Date(b.fromDate);
       return dateB.getTime() - dateA.getTime();
     })[0];
 
-    // Kembalikan fromTime-nya, hanya 5 karakter pertama (HH:mm)
-    return latest?.fromTime?.slice(0, 5) || '';
+    return latestDateItem?.fromTime?.slice(0, 5) || '';
   }
   private _normalizeTime(time: string): string {
     if (!time) {
