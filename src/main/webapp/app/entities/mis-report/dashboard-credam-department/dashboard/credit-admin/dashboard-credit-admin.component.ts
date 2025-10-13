@@ -181,8 +181,8 @@ import { MessageService } from 'primeng/api';
       .mat-column-aveInDay {
         width: 32px;
         border-right: 1px solid #e0e0e0;
-        padding-right: 24px;
-        padding-left: 24px;
+        padding-right: 30px;
+        padding-left: 30px;
         text-align: center;
         vertical-align: middle;
       }
@@ -208,8 +208,8 @@ import { MessageService } from 'primeng/api';
       .mat-column-totalStaffNeeds {
         width: 32px;
         border-right: 1px solid #e0e0e0;
-        padding-right: 40px;
-        padding-left: 40px;
+        padding-right: 10px;
+        padding-left: 10px;
         text-align: center;
         vertical-align: middle;
       }
