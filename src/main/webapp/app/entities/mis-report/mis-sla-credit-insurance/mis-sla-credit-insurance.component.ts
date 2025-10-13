@@ -38,9 +38,55 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+      .mat-card-actions,
+      .mat-card-subtitle,
+      .mat-card-content {
+        display: block;
+        margin-bottom: 0px;
+      }
 
-      :host ::ng-deep .ng-invalid:not(form) {
-        border: none !important;
+      .nav-button {
+        min-width: 250px;
+        min-height: 40px;
+        border-radius: 10px;
+        font-weight: bold;
+        color: #9dcac7;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .nav-button.active {
+        background-color: #5bafaa;
+        color: white;
+      }
+
+      .department-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        height: 74px;
+        margin-bottom: 3px;
+        margin-top: 25px;
+      }
+
+      .department-name {
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5bafaa;
+      }
+
+      .e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text .e-anchor-wrap {
+        align-items: inherit;
+        display: inherit;
+        color: #3c958f;
+        font-size: 16px;
       }
     `,
   ],
