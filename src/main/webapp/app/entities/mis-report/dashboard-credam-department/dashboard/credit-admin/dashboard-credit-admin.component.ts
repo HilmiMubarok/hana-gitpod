@@ -118,6 +118,13 @@ import { MessageService } from 'primeng/api';
         gap: 8px;
       }
 
+      .productivity-title {
+        text-align: center;
+        font-weight: bold;
+        color: #257e79;
+        font-size: 1.2rem;
+      }
+
       :host ::ng-deep .mat-mdc-form-field {
         width: 140px;
         margin-bottom: -1.25em;
@@ -164,58 +171,72 @@ import { MessageService } from 'primeng/api';
       // css grid
       .mat-column-applicationType {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-aveTrx {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-slaStandard {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-staffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-totalStaffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
-        padding-right: 24px;
+        border-right: 1px solid #e0e0e0;
+        padding-right: 40px;
+        padding-left: 40px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-existing {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-shortOver {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
     `,
   ],

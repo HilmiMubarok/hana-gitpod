@@ -276,9 +276,22 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       return '';
     }
     const latestDateItem = filtered.sort((a, b) => {
-      const dateA = new Date(a.fromDate);
-      const dateB = new Date(b.fromDate);
-      return dateB.getTime() - dateA.getTime();
+      const dateA = new Date(a.fromDate).getTime();
+      const dateB = new Date(b.fromDate).getTime();
+
+      if (dateA === dateB) {
+        const timeA = a.fromTime ? a.fromTime.slice(0, 5) : '00:00';
+        const timeB = b.fromTime ? b.fromTime.slice(0, 5) : '00:00';
+
+        const [hA, mA] = timeA.split(':').map(Number);
+        const [hB, mB] = timeB.split(':').map(Number);
+        const totalA = hA * 60 + mA;
+        const totalB = hB * 60 + mB;
+
+        return totalB - totalA;
+      }
+
+      return dateB - dateA;
     })[0];
 
     return latestDateItem?.fromTime?.slice(0, 5) || '';
@@ -386,13 +399,21 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _getCheckerOutData(timeline: any[]): any[] {
     return timeline
       .filter(item => item.fromStatusDescription === 'Review Checker 1')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+      .sort((a, b) => {
+        const dateA = new Date(a.fromDate).getTime();
+        const dateB = new Date(b.fromDate).getTime();
+        return dateA - dateB;
+      });
   }
 
   private _getApprovalOutData(timeline: any[]): any[] {
     return timeline
       .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+      .sort((a, b) => {
+        const dateA = new Date(a.fromDate).getTime();
+        const dateB = new Date(b.fromDate).getTime();
+        return dateA - dateB;
+      });
   }
 
   public generateMISReportCP() {
