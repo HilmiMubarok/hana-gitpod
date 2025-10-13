@@ -350,6 +350,28 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     return times.join('\n');
   }
 
+  private _getFirstMakerInTime(timeLineInsurance: any[]): string {
+    if (!Array.isArray(timeLineInsurance)) {
+      return '';
+    }
+
+    const filtered = timeLineInsurance.filter((item: any) => item.statusDescription === 'Insurance Checking' && item.fromTime);
+
+    if (filtered.length === 0) {
+      return '';
+    }
+
+    const sorted = filtered.sort((a: any, b: any) => {
+      const timeA = new Date(`1970-01-01T${a.fromTime}`).getTime();
+      const timeB = new Date(`1970-01-01T${b.fromTime}`).getTime();
+      return timeA - timeB;
+    });
+
+    const first = sorted[0];
+    const [hour, minute] = first.fromTime.split(':');
+    return `${hour}:${minute}`;
+  }
+
   private _getMakerOutDateFiltered(timeLineInsurance: any[]): string {
     if (!Array.isArray(timeLineInsurance)) {
       return '';
@@ -608,6 +630,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
           const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
           const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
+          const makerInTimeFirst = this._getFirstMakerInTime(prop.timeLineInsurance);
 
           // 🔹 Hitung TAT Days (hari kerja saja)
           let tatDays: number | null = null;
@@ -639,7 +662,8 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
             }
           }
 
-          // 🔹 Hitung TAT Time (tetap sama seperti sebelumnya)
+          // tat time
+
           const formatDate = (date: string | undefined | null) => {
             if (!date || typeof date !== 'string' || !date.includes('/')) {
               return '';
@@ -659,10 +683,10 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           const latestApprovalOutDateISO = formatDate(latestApprovalOutDate);
           const latestApprovalOutTimeISO = formatTime(latestApprovalOutTime);
           const latestDarIssuedDateISO = formatDate(latestDarIssuedDate);
-          const latestDarIssuedTimeISO = formatTime(latestDarIssuedTime);
+          const makerInTimeFirstISO = formatTime(makerInTimeFirst);
 
           const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
-          const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
+          const darIssuedDateTime = `${latestDarIssuedDateISO}T${makerInTimeFirstISO}`;
 
           const fromDateTimeObject = new Date(`${fromDateTime}+07:00`);
           const targetDate =
@@ -674,7 +698,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
             differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
             const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-            const minutes = Math.ceil(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
+            const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
             tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
           }
 
