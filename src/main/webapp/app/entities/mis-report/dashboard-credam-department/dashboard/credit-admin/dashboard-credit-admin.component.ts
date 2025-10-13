@@ -118,13 +118,6 @@ import { MessageService } from 'primeng/api';
         gap: 8px;
       }
 
-      .productivity-title {
-        text-align: center;
-        font-weight: bold;
-        color: #257e79;
-        font-size: 1.2rem;
-      }
-
       :host ::ng-deep .mat-mdc-form-field {
         width: 140px;
         margin-bottom: -1.25em;
