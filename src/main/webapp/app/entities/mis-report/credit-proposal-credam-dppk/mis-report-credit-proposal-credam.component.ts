@@ -313,8 +313,43 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     if (!date1 || !date2) {
       return '';
     }
-    const diff = new Date(date1).getTime() - new Date(date2).getTime();
-    return Math.abs(Math.round(diff / (1000 * 60 * 60 * 24)));
+    const parseDate = (s: string): Date => {
+      const dmy = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (dmy) {
+        const day = parseInt(dmy[1], 10);
+        const month = parseInt(dmy[2], 10) - 1;
+        const year = parseInt(dmy[3], 10);
+        return new Date(day, month, year);
+      }
+      return new Date(s);
+    };
+
+    let start = parseDate(date1);
+    let end = parseDate(date2);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return '';
+    }
+
+    if (start > end) {
+      const tmp = start;
+      start = end;
+      end = tmp;
+    }
+
+    let count = 0;
+    const current = new Date(start);
+
+    current.setDate(current.getDate() + 1);
+    while (current <= end) {
+      const day = current.getDay();
+      if (day !== 0 && day !== 6) {
+        count++;
+      }
+      current.setDate(current.getDate() + 1);
+    }
+
+    return count;
   }
 
   private _getTimelineDates(timeline: any[], status: string): string {
