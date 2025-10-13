@@ -12,7 +12,7 @@ import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { map, tap, switchMap } from 'rxjs';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
-
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
@@ -147,7 +147,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   public totalItems = 0;
   public pageSizeOptions: number[] = [5, 10, 25, 50];
   public loadingSearch = false;
-  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status', 'select'];
   public skeletonData = [
     {
       proposalNumber: '',
@@ -164,7 +164,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   originalLovBranch: { id: number; name: string; parentId: number }[];
   allSelectedjenisPk: boolean;
   allSelectedAggrementType: any;
-
+  public selection = new SelectionModel<any>(true, []);
   constructor(
     public misReportService: MisReportService,
     public messageService: MessageService,
@@ -557,6 +557,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
     const aggrementType = this.form.get('aggrementType')?.value;
     const segmentation = this.form.get('regional')?.value;
+    const selectedIds = this.processSelectedItems();
     let cp = data;
 
     if (!search) {
@@ -585,6 +586,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       }
       if (aggrementType && aggrementType.length > 0) {
         cp = cp.filter(p => aggrementType.includes(p.agreement.agreementType));
+      }
+      if (selectedIds.length > 0) {
+        cp = cp.filter(proposal => selectedIds.includes(proposal.id));
       }
     }
 
@@ -735,9 +739,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   public clearSearch(): void {
     this.form.get('query')?.reset();
     this.searchResult = null;
+    this.selection.clear();
   }
 
   public doSearch(pageEvent?: PageEvent): void {
+    this.selection.clear();
     this.loadingSearch = true;
 
     if (pageEvent) {
@@ -760,8 +766,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
         this.searchResult = res.body || [];
-        const totalCount = res.headers.get('X-Total-Count');
-        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.setAllSelectedSearch();
+        // const totalCount = res.headers.get('X-Total-Count');
+        // this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
 
         if (queryValue !== null && queryValue !== undefined) {
@@ -798,5 +805,35 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       return '';
     }
     return moment(date).format('DD-MM-YYYY');
+  }
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.searchResult.length;
+    return numSelected === numRows;
+  }
+
+  processSelectedItems() {
+    const selectedData = this.selection.selected;
+    if (!selectedData || selectedData.length === 0) {
+      return [];
+    }
+    const selectedIds = selectedData.map((item: any) => item.id);
+    return selectedIds;
+  }
+
+  setAllSelectedSearch() {
+    this.selection.select(...this.searchResult);
+  }
+
+  selectAll() {
+    if (this.selection.selected.length > 0) {
+      this.selection.clear();
+    } else {
+      this.selection.select(...this.searchResult);
+    }
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.searchResult.forEach(row => this.selection.select(row));
   }
 }

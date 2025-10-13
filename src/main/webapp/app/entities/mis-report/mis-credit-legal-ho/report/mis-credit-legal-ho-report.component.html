@@ -361,9 +361,9 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table>
-                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                <!-- <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
                     [pageIndex]="currentPage" (page)="doSearch($event)" aria-label="Select page">
-                </mat-paginator>
+                </mat-paginator> -->
             </div>
         </mat-card-content>
     </mat-card>

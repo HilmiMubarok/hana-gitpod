@@ -227,12 +227,21 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
       .subscribe(({ standard, staff }) => {
         this.latestStandard = standard;
         this.latestStaff = staff;
-        this.tryProcessFacilityData();
+        const positionTypeIds = 'LOAN_OPS_OFFICER';
+
+        this.getExisting(positionTypeIds).subscribe(res => {
+          this.latestStaff = res.length;
+          this.tryProcessFacilityData();
+        });
       });
   }
 
+  getExisting(positionTypeIds: string) {
+    return this.productivityService.getExisting(positionTypeIds);
+  }
+
   ngOnInit() {
-    this.loadData()
+    this.loadData();
   }
 
   ngOnChanges(changes: SimpleChanges) {

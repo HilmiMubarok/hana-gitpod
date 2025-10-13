@@ -225,7 +225,24 @@
                 <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
               </td>
             </ng-container>
-
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <!-- Action -->
+                <mat-checkbox
+                  (change)="$event ? masterToggle() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  [hidden]="(searchResult && searchResult.length === 0) || loadingSearch"
+                >
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="loadingSearch; else dataAction"></div>
+                <ng-template #dataAction>
+                  <mat-checkbox (change)="selection.toggle(element)" [checked]="selection.isSelected(element)"> </mat-checkbox>
+                </ng-template>
+              </td>
+            </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
@@ -411,11 +428,28 @@
                 <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
               </td>
             </ng-container>
-
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <!-- Action -->
+                <mat-checkbox
+                  (change)="$event ? masterToggle() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  [hidden]="(searchResult && searchResult.length === 0) || loadingSearch"
+                >
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="loadingSearch; else dataAction"></div>
+                <ng-template #dataAction>
+                  <mat-checkbox (change)="selection.toggle(element)" [checked]="selection.isSelected(element)"> </mat-checkbox>
+                </ng-template>
+              </td>
+            </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <mat-paginator
+          <!-- <mat-paginator
             [length]="totalItems"
             [pageSize]="pageSize"
             [pageSizeOptions]="pageSizeOptions"
@@ -423,7 +457,7 @@
             (page)="doSearch($event)"
             aria-label="Select page"
           >
-          </mat-paginator>
+          </mat-paginator> -->
         </div>
       </div>
     </mat-card-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MisCpSlaloanopsProductivityService } from 'app/entities/mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-productivity.service';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
 import { MessageService } from 'primeng/api';
@@ -248,7 +249,11 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   dataSource: any[] = [];
 
-  constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
+  constructor(
+    private dashboardService: MisDashboardService,
+    public messageService: MessageService,
+    private productivityService: MisCpSlaloanopsProductivityService
+  ) {
     this.initializeForm();
   }
 
@@ -256,7 +261,14 @@ export class MisDashboardInsuranceComponent implements OnInit {
   chartUserData;
   statuses = ['INSURANCE_CHECKING', 'INSURANCE_REVIEW', 'INSURANCE_COMPLETE'];
 
-  private getLocStor(cookieName: string) {
+  ngOnInit(): void {
+    // const positionTypeIds = this.getLocStor('POSO');
+    // this._fetchAllData(this.dateForm.get('date')?.value);
+    // this.getExisting(positionTypeIds);
+    this.getSlaStandardData();
+  }
+
+  private getLocStor(cookieName: string): string | null {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
 
@@ -271,9 +283,19 @@ export class MisDashboardInsuranceComponent implements OnInit {
     return result;
   }
 
-  ngOnInit(): void {
-    this._fetchAllData(this.dateForm.get('date')?.value);
-    this.getSlaStandardData();
+  getExisting(positionTypeIds: string): void {
+    this.productivityService.getExisting(positionTypeIds).subscribe({
+      next: res => {
+        this.existingValue = Array.isArray(res) ? res.length : 0;
+
+        this._fetchAllData(this.dateForm.get('date')?.value);
+      },
+      error: err => {
+        console.error('[getExisting] Error:', err);
+        this.existingValue = 0;
+        this._fetchAllData(this.dateForm.get('date')?.value);
+      },
+    });
   }
 
   public slaStandardValue = 0;
@@ -285,8 +307,8 @@ export class MisDashboardInsuranceComponent implements OnInit {
         const slaStandardInsurance = res.find((item: any) => item.id === 'SLA_STANDARD_INSURANCE');
         this.slaStandardValue = slaStandardInsurance ? slaStandardInsurance.value : 0;
 
-        const staffInsurance = res.find((item: any) => item.id === 'STAFF_INSURANCE');
-        this.existingValue = staffInsurance ? staffInsurance.value : 0;
+        const positionTypeIds = 'INSURANCE_ADMIN';
+        this.getExisting(positionTypeIds);
 
         this.getChartData();
       },
@@ -439,7 +461,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
       });
 
       const totalStaffNeedsValue = this.totalStaffNeeds(processedData);
-      const shortOver = (parseFloat(this.existingValue?.toString() || '0') - totalStaffNeedsValue);
+      const shortOver = parseFloat(this.existingValue?.toString() || '0') - totalStaffNeedsValue;
 
       this.dataSource = this.calculateRowSpan(
         processedData.map(row => ({

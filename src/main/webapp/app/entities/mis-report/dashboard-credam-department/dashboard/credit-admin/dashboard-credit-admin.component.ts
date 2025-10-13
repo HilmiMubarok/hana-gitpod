@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MisCpSlaloanopsProductivityService } from 'app/entities/mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-productivity.service';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
 import { MessageService } from 'primeng/api';
@@ -163,58 +164,72 @@ import { MessageService } from 'primeng/api';
       // css grid
       .mat-column-applicationType {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-aveTrx {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-slaStandard {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-staffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-totalStaffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
-        padding-right: 24px;
+        border-right: 1px solid #e0e0e0;
+        padding-right: 40px;
+        padding-left: 40px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-existing {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
 
       .mat-column-shortOver {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
+        padding-left: 24px;
         text-align: center;
+        vertical-align: middle;
       }
     `,
   ],
@@ -241,7 +256,11 @@ export class MisDashboardCredamComponent implements OnInit {
 
   statuses = ['DPPK_FINALIZE', 'DPPK_REVIEW'];
 
-  constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
+  constructor(
+    private dashboardService: MisDashboardService,
+    public messageService: MessageService,
+    private productivityService: MisCpSlaloanopsProductivityService
+  ) {
     this.initializeForm();
   }
 
@@ -281,7 +300,10 @@ export class MisDashboardCredamComponent implements OnInit {
         const staff = res.find((item: any) => item.id === 'STAFF_CREDAM');
         this.slaStandardValue = slaStandard ? slaStandard.value : 0;
         this.staffcredams = staff ? staff.value : 0;
-        this.getChartData();
+        this.getExisting('CREDIT_ADMIN').subscribe(resX => {
+          this.staffcredams = resX.length;
+          this.getChartData();
+        });
       },
       error: () => {
         this.messageService.add({
@@ -376,7 +398,9 @@ export class MisDashboardCredamComponent implements OnInit {
       };
     });
   }
-
+  getExisting(positionTypeIds: string) {
+    return this.productivityService.getExisting(positionTypeIds);
+  }
   getChartData(): void {
     this.dateForm.valueChanges.subscribe(value => {
       const formattedDate = value.date?.format('YYYY-MM-DD');

@@ -563,25 +563,35 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     this._resetData();
   }
 
+  private _clearParam(param: any[]) {
+    return param.filter(item => item !== '');
+  }
+
   private filterData(data) {
-    const reviewerNames = this._convertStatusToString(this.MISReportSLA.get('reviewerName')?.value).split(',');
-    const approvalLC = this._convertStatusToString(this.MISReportSLA.get('approvalLC')?.value)
-      .split(',')
-      .map(approval => approval.replace(/_/g, ' '));
+    const reviewerNames = this._clearParam(this._convertStatusToString(this.MISReportSLA.get('reviewerName')?.value).split(','));
+    const approvalLC = this._clearParam(
+      this._convertStatusToString(this.MISReportSLA.get('approvalLC')?.value)
+        .split(',')
+        .map(approval => approval.replace(/_/g, ' '))
+    );
     const selectedIds = this.processSelectedItems();
 
     if (selectedIds.length > 0) {
       return data.filter(proposal => selectedIds.includes(proposal.id));
     } else {
-      switch (true) {
-        case Boolean(reviewerNames && reviewerNames.length > 0 && approvalLC && approvalLC.length > 0):
-          return data.filter(proposal => approvalLC.includes(proposal.approvalLc) || reviewerNames.includes(proposal.dataAssignToCROId));
-        case Boolean(reviewerNames && reviewerNames.length > 0):
-          return data.filter(proposal => reviewerNames.includes(proposal.dataAssignToCROId));
-        case Boolean(approvalLC && approvalLC.length > 0):
-          return data.filter(proposal => approvalLC.includes(proposal.approvalLc));
-        default:
+      const reviewerName = reviewerNames && reviewerNames.length > 0;
+      const approvalLCName = approvalLC && approvalLC.length > 0;
+      if (reviewerName && approvalLCName) {
+        if (reviewerName[0] === '' && approvalLCName[0] === '') {
           return data;
+        }
+        return data.filter(proposal => approvalLC.includes(proposal.approvalLc) || reviewerNames.includes(proposal.dataAssignToCROId));
+      } else if (reviewerName) {
+        return data.filter(proposal => reviewerNames.includes(proposal.dataAssignToCROId));
+      } else if (approvalLCName) {
+        return data.filter(proposal => approvalLC.includes(proposal.approvalLc));
+      } else {
+        return data;
       }
     }
   }

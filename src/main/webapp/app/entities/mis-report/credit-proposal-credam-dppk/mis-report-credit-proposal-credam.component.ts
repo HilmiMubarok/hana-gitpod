@@ -152,9 +152,13 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
 
   private _sortByDppkDate(data: any[]) {
     return data
-      .map(p => ({
-        ...p,
-        dppkInDate: this._getFirstDate(p.timeLineCreditProposal, 'DPPK Finalize'),
+      .map(proposal => ({
+        ...proposal,
+        dppkInDate:
+          proposal.timeLineCreditProposal
+            .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+            .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
+            .map(timeline => timeline.fromDate)[0] || null,
       }))
       .sort((a, b) => new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime());
   }
@@ -162,13 +166,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, noStart: number): number {
     const timeline = proposal.timeLineCreditProposal || [];
 
-    const reviewCheckerDate = this._getFirstDate(timeline, 'Review Checker 2');
+    const reviewCheckerDate = this._getFirstDates(timeline, 'Review Checker 2');
     const dppkFinalizeDate = this._getFirstDate(timeline, 'DPPK Finalize');
 
     const tatDays = this._calculateDaysDifference(reviewCheckerDate, dppkFinalizeDate);
-    const reviewCheckerTime = this._getFirstTime(timeline, 'Review Checker 2');
+    const reviewCheckerTime = this._getFirstTimes(timeline, 'Review Checker 2');
     const dppkFinalizeTime = this._getFirstTime(timeline, 'DPPK Finalize');
-
     const tatTime = this._buildTatTime(tatDays, reviewCheckerTime, dppkFinalizeTime);
     const checkerOutData = this._getCheckerOutData(timeline);
     const approvalOutData = this._getApprovalOutData(timeline);
@@ -245,21 +248,68 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())[0]?.fromDate || ''
     );
   }
-
-  private _getFirstTime(timeline: any[], status: string): string {
+  private _getFirstDates(timeline: any[], status: string): string {
     return (
       timeline
-        ?.filter(t => t.statusDescription === status)
-        .sort((a, b) => this._toMinutes(b.fromTime) - this._toMinutes(a.fromTime))[0]
-        ?.fromTime?.slice(0, 5) || ''
+        ?.filter(t => t.fromStatusDescription === status)
+        .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime())[0]?.fromDate || ''
     );
+  }
+  private _getFirstTime(timeline: any[], status: string): string {
+    const filtered = timeline?.filter(t => t.statusDescription === status);
+    if (!filtered || filtered.length === 0) {
+      return '';
+    }
+
+    const firstDateItem = filtered.sort((a, b) => {
+      const dateA = new Date(a.fromDate);
+      const dateB = new Date(b.fromDate);
+      return dateA.getTime() - dateB.getTime();
+    })[0];
+
+    return firstDateItem?.fromTime?.slice(0, 5) || '';
+  }
+
+  private _getFirstTimes(timeline: any[], status: string): string {
+    const filtered = timeline?.filter(t => t.fromStatusDescription === status);
+    if (!filtered || filtered.length === 0) {
+      return '';
+    }
+    const latestDateItem = filtered.sort((a, b) => {
+      const dateA = new Date(a.fromDate).getTime();
+      const dateB = new Date(b.fromDate).getTime();
+
+      if (dateA === dateB) {
+        const timeA = a.fromTime ? a.fromTime.slice(0, 5) : '00:00';
+        const timeB = b.fromTime ? b.fromTime.slice(0, 5) : '00:00';
+
+        const [hA, mA] = timeA.split(':').map(Number);
+        const [hB, mB] = timeB.split(':').map(Number);
+        const totalA = hA * 60 + mA;
+        const totalB = hB * 60 + mB;
+
+        return totalB - totalA;
+      }
+
+      return dateB - dateA;
+    })[0];
+
+    return latestDateItem?.fromTime?.slice(0, 5) || '';
+  }
+  private _normalizeTime(time: string): string {
+    if (!time) {
+      return '00:00';
+    }
+    const [h, m] = time.split(':');
+    return `${h.padStart(2, '0')}:${(m || '00').padStart(2, '0')}`;
   }
 
   private _toMinutes(time: string): number {
     if (!time) {
       return 0;
     }
-    const [h, m] = time.split(':').map(Number);
+    const normalized = this._normalizeTime(time);
+    const [h, m] = normalized.split(':').map(Number);
     return h * 60 + m;
   }
 
@@ -276,8 +326,43 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     if (!date1 || !date2) {
       return '';
     }
-    const diff = new Date(date1).getTime() - new Date(date2).getTime();
-    return Math.abs(Math.round(diff / (1000 * 60 * 60 * 24)));
+    const parseDate = (s: string): Date => {
+      const dmy = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (dmy) {
+        const day = parseInt(dmy[1], 10);
+        const month = parseInt(dmy[2], 10) - 1;
+        const year = parseInt(dmy[3], 10);
+        return new Date(day, month, year);
+      }
+      return new Date(s);
+    };
+
+    let start = parseDate(date1);
+    let end = parseDate(date2);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return '';
+    }
+
+    if (start > end) {
+      const tmp = start;
+      start = end;
+      end = tmp;
+    }
+
+    let count = 0;
+    const current = new Date(start);
+
+    current.setDate(current.getDate() + 1);
+    while (current <= end) {
+      const day = current.getDay();
+      if (day !== 0 && day !== 6) {
+        count++;
+      }
+      current.setDate(current.getDate() + 1);
+    }
+
+    return count;
   }
 
   private _getTimelineDates(timeline: any[], status: string): string {
@@ -314,13 +399,21 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _getCheckerOutData(timeline: any[]): any[] {
     return timeline
       .filter(item => item.fromStatusDescription === 'Review Checker 1')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+      .sort((a, b) => {
+        const dateA = new Date(a.fromDate).getTime();
+        const dateB = new Date(b.fromDate).getTime();
+        return dateA - dateB;
+      });
   }
 
   private _getApprovalOutData(timeline: any[]): any[] {
     return timeline
       .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+      .sort((a, b) => {
+        const dateA = new Date(a.fromDate).getTime();
+        const dateB = new Date(b.fromDate).getTime();
+        return dateA - dateB;
+      });
   }
 
   public generateMISReportCP() {
