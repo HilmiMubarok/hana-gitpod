@@ -252,7 +252,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     return (
       timeline
         ?.filter(t => t.fromStatusDescription === status)
-        .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())[0]?.fromDate || ''
+        .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime())[0]?.fromDate || ''
     );
   }
   private _getFirstTime(timeline: any[], status: string): string {
