@@ -771,9 +771,10 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
+      internalRegion: 'R2',
     };
 
-    predicate['target'] = 'mis-cp-report';
+    predicate['target'] = 'mis-cp-or-report';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
