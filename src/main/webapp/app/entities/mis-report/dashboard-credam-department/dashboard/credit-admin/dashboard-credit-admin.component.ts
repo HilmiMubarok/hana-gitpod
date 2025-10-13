@@ -286,8 +286,8 @@ export class MisDashboardCredamComponent implements OnInit {
         const staff = res.find((item: any) => item.id === 'STAFF_CREDAM');
         this.slaStandardValue = slaStandard ? slaStandard.value : 0;
         this.staffcredams = staff ? staff.value : 0;
-        this.getExisting('CREDIT_ADMIN').subscribe(res => {
-          this.staffcredams = res.length;
+        this.getExisting('CREDIT_ADMIN').subscribe(resX => {
+          this.staffcredams = resX.length;
           this.getChartData();
         });
       },
