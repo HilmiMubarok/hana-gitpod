@@ -210,7 +210,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_CREDIT_INSURANCE'),
+      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Insurance'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -292,15 +292,21 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     const filteredItems = arrayData.filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate);
 
-    const sortedItems = filteredItems.sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
-
-    const latest = sortedItems[0];
-    if (latest) {
-      const date = new Date(latest.fromDate);
-      return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+    if (filteredItems.length === 0) {
+      return '';
     }
 
-    return '';
+    const formattedDates = filteredItems
+      .map(item => {
+        const date = new Date(item.fromDate);
+        if (isNaN(date.getTime())) {
+          return null;
+        }
+        return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+      })
+      .filter(Boolean);
+
+    return formattedDates.join('\n');
   }
 
   private _getMakerInDateFilteredFirst(timeLineInsurance: any[]): string {
@@ -336,14 +342,12 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    const latest = filtered.sort((a: any, b: any) => {
-      const [hourA, minuteA] = a.fromTime.split(':').map(Number);
-      const [hourB, minuteB] = b.fromTime.split(':').map(Number);
-      return hourB !== hourA ? hourB - hourA : minuteB - minuteA;
-    })[0];
+    const times = filtered.map((item: any) => {
+      const [hour, minute] = item.fromTime.split(':');
+      return `${hour}:${minute}`;
+    });
 
-    const [hour, minute] = latest.fromTime.split(':');
-    return `${hour}:${minute}`;
+    return times.join('\n');
   }
 
   private _getMakerOutDateFiltered(timeLineInsurance: any[]): string {
@@ -607,6 +611,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
           // 🔹 Hitung TAT Days (hari kerja saja)
           let tatDays: number | null = null;
+
           if (firstMakerInDdate && latestApprovalOutDate) {
             const makerDateParts = firstMakerInDdate.split('/');
             const approvalDateParts = latestApprovalOutDate.split('/');
@@ -614,12 +619,16 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
             const startDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
             const endDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
 
-            if (startDate <= endDate) {
+            if (startDate.getTime() === endDate.getTime()) {
+              tatDays = 0;
+            } else if (startDate < endDate) {
               let workingDays = 0;
               const currentDate = new Date(startDate);
 
+              currentDate.setDate(currentDate.getDate() + 1);
+
               while (currentDate <= endDate) {
-                const day = currentDate.getDay(); // 0 = Minggu, 6 = Sabtu
+                const day = currentDate.getDay();
                 if (day !== 0 && day !== 6) {
                   workingDays++;
                 }
@@ -660,10 +669,12 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
             tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
 
           let tatTime = '';
+          let differenceMs = 0;
+
           if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-            const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
+            differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
             const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-            const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
+            const minutes = Math.ceil(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
             tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
           }
 
