@@ -144,7 +144,7 @@
                 <li class="select-all" (click)="toggleSelectAktaAll()">
                   {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.label }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -347,7 +347,7 @@
                 <li class="select-all" (click)="toggleSelectAktaAll()">
                   {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.label }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
