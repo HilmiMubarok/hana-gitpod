@@ -224,7 +224,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       approvalOutDate: approvalOut.map(i => this._convertDate(i.fromDate)).join(',\n'),
       approvalOutTime: approvalOut.map(i => this._convertTime(i.fromTime)).join(',\n'),
       tatDays: tatDays?.toString() || '',
-      tatTime: tatTime || '',
+      tatTime: tatDays ? tatTime : '',
       status: proposal.status || '',
       transaksi: prod.pengajuan || '',
       fasilitas: prod.facility || '',
