@@ -144,7 +144,7 @@
                 <li class="select-all" (click)="toggleSelectAktaAll()">
                   {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.label }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -246,7 +246,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <mat-paginator
+          <!-- <mat-paginator
             [length]="totalItems"
             [pageSize]="pageSize"
             [pageSizeOptions]="pageSizeOptions"
@@ -254,7 +254,7 @@
             (page)="doSearch($event)"
             aria-label="Select page"
           >
-          </mat-paginator>
+          </mat-paginator> -->
         </div>
       </div>
       <!---If ProposalDate-->
@@ -347,7 +347,7 @@
                 <li class="select-all" (click)="toggleSelectAktaAll()">
                   {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.label }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
