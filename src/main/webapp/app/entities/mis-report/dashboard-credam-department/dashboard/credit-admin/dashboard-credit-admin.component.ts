@@ -48,6 +48,7 @@ import { MessageService } from 'primeng/api';
       ></jhi-mis-dashboard-bar-chart>
     </ng-template>
     <ng-template #productivity>
+      <h3 class="productivity-title">Productivity Credit Admin</h3>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
         <ng-container matColumnDef="applicationType">
           <th mat-header-cell *matHeaderCellDef>Application Type</th>
@@ -148,7 +149,12 @@ import { MessageService } from 'primeng/api';
         width: 100%;
         border-collapse: collapse;
       }
-
+      .productivity-title {
+        text-align: center;
+        font-weight: bold;
+        color: #257e79;
+        font-size: 1.2rem;
+      }
       th {
         background-color: #a9d6c6;
         font-weight: bold;
