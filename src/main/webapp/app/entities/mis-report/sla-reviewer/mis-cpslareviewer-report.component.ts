@@ -10,6 +10,7 @@ import { SLAReviewerService } from './services/sla-reviewer.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectionModel } from '@angular/cdk/collections';
 import { handleBlur, handleFocus, setupQueryControlBehavior } from './services/utils';
+import * as lodash from 'lodash'
 
 @Component({
   selector: 'jhi-mis-cpslareviewer-report',
@@ -531,7 +532,10 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Review'),
+      next: res => {
+        const clonedData = JSON.parse(JSON.stringify(res.body))
+        this._processGenerate(clonedData, 'MIS_SLA_Credit_Review');
+      },
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -628,7 +632,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         'Default',
         false
       ).split(',\n'),
-      dateReturnToReviewer: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Checker', 'Assignment']).split(',\n'),
+      dateReturnToReviewer: this._getDateReturnToReviewer(proposal, 'Default', false).split(',\n'),
       generateDAR: [this.getGenerateDAR(proposal, false)],
       finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker'], 'Default', false).split(
         ',\n'
@@ -701,7 +705,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         dateReturnToBranch: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)']) || '',
         proposalBackToCRO: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)']) || '',
         proposalCheckByChecker: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
-        dateReturnToReviewer: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Checker', 'Assignment']) || '',
+        dateReturnToReviewer: this._getDateReturnToReviewer(proposal) || '',
         loanApprovalLoanCommDate:
           this.getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
         generateDAR: this.getGenerateDAR(proposal),
@@ -764,6 +768,43 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         'slaLength',
       ]);
     }
+  }
+
+  private _getDateReturnToReviewer(proposal, outputType: 'Default' | 'Count' = 'Default', format = true) {
+    const timeLineCreditProposal: any[] = proposal.timeLineCreditProposal;
+
+    if (!timeLineCreditProposal) {
+      return '';
+    }
+
+    // Return '' if there is no timeline data
+    if (!timeLineCreditProposal || !Array.isArray(timeLineCreditProposal)) {
+      return '';
+    }
+
+    // Sort timelines asc by id (create new array to avoid mutation)
+    const sortedTimelines = [...timeLineCreditProposal].sort((a, b) => a.id - b.id);
+
+    // return where timelineCreditProposal.statusDescription === 'Assignment' and timelineCreditProposal.fromStatusDescription === 'Checker'
+    const returnToReviewer = sortedTimelines.filter(
+      t => t.statusDescription === 'Assignment' && t.fromStatusDescription === 'Checker'
+    );
+
+    if (!returnToReviewer) {
+      return '';
+    }
+
+    if (outputType === 'Count') {
+      return timeLineCreditProposal
+        .filter(t => t.statusDescription === 'Assignment' && t.fromStatusDescription === 'Checker')
+        .length.toString();
+    }
+
+    if (format) {
+      return returnToReviewer.map(t => this.formatDate(t.fromDate)).join(',\n');
+    }
+
+    return returnToReviewer.map(t => t.fromDate).join(',\n');
   }
 
   private _applyStyles(): void {
@@ -984,11 +1025,11 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       return '';
     }
 
-    // Sort timelines asc by id
-    timelines.sort((a, b) => a.id - b.id);
+    // Sort timelines asc by id (create new array to avoid mutation)
+    const sortedTimelines = [...timelines].sort((a, b) => a.id - b.id);
 
     // Filter timelines based on the specified field and statuses in the array
-    const filteredTimelines = timelines.filter(t => status.includes(t[field]));
+    const filteredTimelines = sortedTimelines.filter(t => status.includes(t[field]));
 
     if (outputType === 'Default') {
       // Map the filtered timelines to their fromDate and join them with a newline separator
@@ -1025,14 +1066,20 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     if (!product.maturityDate || product.maturityDate === 'null') {
       return '';
     }
+    const clonedMaturityDate = lodash.cloneDeep(product.maturityDate)
+    console.log("Maturity Date: ", {product: product.maturityDate, clonedMaturityDate})
 
     if (product.pengajuan === 'Renewal') {
       const tenor = product.tenorFasilitas;
       const period = product.periodType;
-      product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
+      const maturity = clonedMaturityDate;
+
+      return this.formatDate(this._getAdjustedMaturityDate(maturity, tenor, period));
     }
 
-    return this.formatDate(product.maturityDate) || '';
+    const maturity = clonedMaturityDate
+
+    return this.formatDate(maturity) || '';
   }
 
   private getExchangeRate(proposal) {
