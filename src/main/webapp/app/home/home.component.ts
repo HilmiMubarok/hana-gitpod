@@ -25,14 +25,23 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe(account => {
-      this.account = account;
-      if (account) {
-        this.goToDashboard();
-      } else {
-        this.login();
-      }
-    });
+    const isOnHomePage = this.router.url === '/' || this.router.url === '';
+
+    if (isOnHomePage) {
+      this.accountService.identity(true).subscribe(account => {
+        this.account = account;
+        if (account) {
+          this.goToDashboard();
+        } else {
+          this.login();
+        }
+      });
+    } else {
+      this.accountService.identity().subscribe(account => {
+        this.account = account;
+      });
+    }
+
     this.getHomePage();
   }
 

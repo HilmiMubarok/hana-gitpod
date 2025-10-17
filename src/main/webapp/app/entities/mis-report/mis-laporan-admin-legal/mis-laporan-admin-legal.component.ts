@@ -9,10 +9,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
-import { map, tap, switchMap } from 'rxjs';
+import { map, tap, switchMap, forkJoin } from 'rxjs';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
+import 'moment/locale/id';
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
@@ -134,7 +136,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   public lovBranch = [];
   public lovJenisPengikatan = ['Notaril', 'Un-Notaril'];
   public lovAggrementType = ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali'];
-  public lovAkta: IGeneralParameter[] = [];
+  public lovAkta = [];
   public form: FormGroup;
   public allSelected = false;
   public allSelectedJenisPengikatan = false;
@@ -156,6 +158,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       customerType: '',
       proposalDate: '',
       status: '',
+      select: '',
     },
   ];
 
@@ -169,7 +172,8 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     public misReportService: MisReportService,
     public messageService: MessageService,
     public internalService: InternalService,
-    public generalParameterService: GeneralParameterService
+    public generalParameterService: GeneralParameterService,
+    private documentTypeService: DocumentTypeService
   ) {
     super(misReportService);
     this._initializeForm();
@@ -242,14 +246,72 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
         },
       });
-    this.generalParameterService
-      .queryFilterBy({
+    forkJoin({
+      covernote: this.generalParameterService.queryFilterBy({
         idParameterType: 'COVERNOTE_LAINNYA',
         page: 0,
         size: 9999,
-      })
-      .subscribe(res => {
-        this.lovAkta = res.body;
+      }),
+      biaya: this.documentTypeService.queryFilterBy({
+        lvl2: true,
+        parentId: 'DOC_DPDL_LEGAL_BIAYA',
+        page: 0,
+        size: 10,
+        sort: ['id,desc'],
+      }),
+      akad: this.documentTypeService.queryFilterBy({
+        lvl2: true,
+        parentId: 'DOC_DPDL_LEGAL_AKAD',
+        page: 0,
+        size: 10,
+        sort: ['id,desc'],
+      }),
+      lampiran: this.documentTypeService.queryFilterBy({
+        lvl2: true,
+        parentId: 'DOC_DPDL_LEGAL_LAMPIRAN',
+        page: 0,
+        size: 10,
+        sort: ['id,desc'],
+      }),
+    })
+      .pipe(
+        map(results => {
+          const covernoteData =
+            results.covernote.body?.map(item => ({
+              id: item.id,
+              value: item.value,
+              label: item.value,
+              source: 'covernote',
+            })) || [];
+
+          const biayaData =
+            results.biaya.body?.map(item => ({
+              id: item.id,
+              value: item.description,
+              label: item.description,
+              source: 'biaya',
+            })) || [];
+
+          const akadData =
+            results.akad.body?.map(item => ({
+              id: item.id,
+              value: item.description,
+              label: item.description,
+              source: 'akad',
+            })) || [];
+
+          const lampiranData =
+            results.lampiran.body?.map(item => ({
+              id: item.id,
+              value: item.description,
+              label: item.description,
+              source: 'lampiran',
+            })) || [];
+          return [...covernoteData, ...biayaData, ...akadData, ...lampiranData];
+        })
+      )
+      .subscribe(combinedData => {
+        this.lovAkta = combinedData;
       });
   }
 
@@ -542,7 +604,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
   protected processData(data: any[]): void {
     const cp = this._filterCPBeforeGenerate(data);
-    console.log('@cp:', cp);
 
     let rowNumber = 1; // Mulai dari 1
     cp.forEach(proposal => {
@@ -559,7 +620,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const segmentation = this.form.get('regional')?.value;
     const selectedIds = this.processSelectedItems();
     let cp = data;
-
+    if (selectedIds.length > 0) {
+      cp = cp.filter(proposal => selectedIds.includes(proposal.id));
+    }
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(p => segmentation.includes(p.regionalId));
@@ -567,15 +630,33 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       if (akta && akta.length > 0) {
         cp = cp
           .map(p => {
-            const filteredLegalCovernote = (p.legalCovernote || [])
-              .map(cn => {
-                const filteredTasks = (cn.covernoteTask || []).filter(task => akta.includes(task.code));
-                return { ...cn, covernoteTask: filteredTasks };
+            const filteredDocumentLegal = (p.documentLegal || [])
+              .map(doc => {
+                if (doc.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+                  const filteredTasks = (doc.covernoteTask || []).filter(task => akta.includes(task.code));
+                  return { ...doc, covernoteTask: filteredTasks };
+                }
+
+                if (['DOC_DPDL_LEGAL_BIAYA', 'DOC_DPDL_LEGAL_AKAD', 'DOC_DPDL_LEGAL_LAMPIRAN'].includes(doc.parentId)) {
+                  const filteredTags = (doc.tags || []).filter(tag => akta.includes(tag.documentId));
+                  return { ...doc, tags: filteredTags };
+                }
+
+                return doc;
               })
-              .filter(cn => cn.covernoteTask.length > 0);
-            return { ...p, legalCovernote: filteredLegalCovernote };
+              .filter(doc => {
+                if (doc.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+                  return (doc.covernoteTask || []).length > 0;
+                }
+                if (['DOC_DPDL_LEGAL_BIAYA', 'DOC_DPDL_LEGAL_AKAD', 'DOC_DPDL_LEGAL_LAMPIRAN'].includes(doc.parentId)) {
+                  return (doc.tags || []).length > 0;
+                }
+                return false;
+              });
+
+            return { ...p, documentLegal: filteredDocumentLegal };
           })
-          .filter(p => p.legalCovernote.length > 0);
+          .filter(p => (p.documentLegal || []).length > 0);
       }
 
       if (branch && branch.length > 0) {
@@ -587,9 +668,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       if (aggrementType && aggrementType.length > 0) {
         cp = cp.filter(p => aggrementType.includes(p.agreement.agreementType));
       }
-      if (selectedIds.length > 0) {
-        cp = cp.filter(proposal => selectedIds.includes(proposal.id));
-      }
     }
 
     return cp;
@@ -597,22 +675,33 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, rowNumber: number): number {
     const meta = this._extractMeta(proposal);
-    const covernotes = proposal.legalCovernote || [];
+    const covernotes = proposal.documentLegal || [];
+    let dataCovernote = [];
 
-    if (covernotes.length) {
-      covernotes.forEach(cover => {
-        const tasks = cover.covernoteTask || [];
-        if (tasks.length) {
-          tasks.forEach(task => {
-            const row = this._buildRow(meta, proposal, rowNumber, task, cover);
-            worksheet.addRow(row);
-            rowNumber++;
-          });
-        } else {
-          const row = this._buildRow(meta, proposal, rowNumber, null, cover);
-          worksheet.addRow(row);
-          rowNumber++;
-        }
+    dataCovernote = [
+      ...covernotes
+        .filter(item => item.parentId === 'DOC_DPDL_LEGAL_COVERNOTE')
+        .flatMap(item =>
+          (item.covernoteTask || []).map(task => ({
+            code: task.code,
+            date: task.date,
+          }))
+        ),
+      ...covernotes
+        .filter(item => ['DOC_DPDL_LEGAL_BIAYA', 'DOC_DPDL_LEGAL_AKAD', 'DOC_DPDL_LEGAL_LAMPIRAN'].includes(item.parentId))
+        .flatMap(item =>
+          (item.tags || []).map(tag => ({
+            code: tag.documentId,
+            date: tag.documentDate || null,
+          }))
+        ),
+    ];
+
+    if (dataCovernote.length) {
+      dataCovernote.forEach(item => {
+        const row = this._buildRow(meta, proposal, rowNumber, item);
+        worksheet.addRow(row);
+        rowNumber++;
       });
     } else {
       const row = this._buildRow(meta, proposal, rowNumber);
@@ -665,9 +754,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       namaNotaris: isNotaril === 'Notaril' ? agreement.notaryName : ' - ',
       jenisPK: agreement.agreementType || '',
       akta: task?.code || '',
-      noAkta: isNotaril === 'Notaril' ? cover?.attributes?.notaryNumber : agreement.agreementNumber,
+      noAkta: isNotaril === 'Notaril' ? proposal.documentLegal?.attributes?.notaryNumber : agreement.agreementNumber,
       tglAkta: this._convertDate(agreement.dateAgreement) || '',
-      tglTargetPenyelesaian: '',
+      tglTargetPenyelesaian: this._convertDate(task?.date),
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
       tglSelesaiAkta: '',
@@ -683,10 +772,10 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       { header: 'Tanggal DPDL', key: 'tanggalDpdl' },
       { header: 'Bulan', key: 'bulan' },
       { header: 'Tahun', key: 'tahun' },
-      { header: 'Nama Debitur', key: 'namaDebitur' },
+      { header: 'Nama Debitor', key: 'namaDebitur' },
       { header: 'Cabang', key: 'cabang' },
       { header: 'RM', key: 'rm' },
-      { header: 'Segmentasion', key: 'segmentation' },
+      { header: 'Segmentasi', key: 'segmentation' },
       { header: 'PIC', key: 'pic' },
       { header: 'Tanggal Pembagian Tugas', key: 'tglPemTgs' },
       { header: 'Tanggal Akad', key: 'tglAkad' },
@@ -804,7 +893,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     if (!date) {
       return '';
     }
-    return moment(date).format('DD-MM-YYYY');
+    return moment(date).locale('id').format('D MMMM YYYY');
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
