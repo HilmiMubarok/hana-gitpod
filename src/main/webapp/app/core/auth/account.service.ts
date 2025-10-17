@@ -72,6 +72,12 @@ export class AccountService {
     return this.authenticationState.asObservable();
   }
 
+  clearAuthenticationState(): void {
+    this.userIdentity = null;
+    this.accountCache$ = null;
+    this.authenticationState.next(null);
+  }
+
   private fetch(): Observable<Account> {
     // return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account?ngsw-bypass=true'));
     return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));

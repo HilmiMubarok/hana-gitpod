@@ -559,15 +559,15 @@ export abstract class AbstractExcelMISReport {
 
     const filteredProducts = products.filter(p => p.maturityDate !== null && p.maturityDate !== 'null');
 
-    filteredProducts.map(product => {
+    const adjustedProducts = filteredProducts.map(product => {
       if (product.pengajuan === 'Renewal') {
         const tenor = product.tenorFasilitas;
         const period = product.periodType;
-        product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
+        return this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
       }
+      return product.maturityDate;
     });
-
-    return filteredProducts.map(product => product.maturityDate).join(',\n');
+    return adjustedProducts.join(',\n');
   }
 
   protected _getFromDateBasedOnField(
@@ -639,6 +639,11 @@ export abstract class AbstractExcelMISReport {
     });
 
     const daysToMaturityDate = diffDays.length > 0 ? diffDays.reduce((a, b) => Math.min(a, b)).toString() : '';
+
+    // if NaN return ''
+    if (isNaN(Number(daysToMaturityDate))) {
+      return '';
+    }
 
     return daysToMaturityDate;
   }

@@ -258,7 +258,6 @@ export class NavbarComponent implements OnInit {
   public logout(): void {
     this.deleteCookie(this.cNamePos, this.positionIdPub);
     this.deleteCookie(this.cNameInt, this.internalIdPub);
-    this.loginService.logout();
-    this.router.navigate(['']);
+    this.loginService.logout()
   }
 }
