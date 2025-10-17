@@ -1,0 +1,59 @@
+<div class="e-card-header-caption">
+  <ejs-breadcrumb cssClass="margin: 1rem;">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+      <e-breadcrumb-item class="breadcrumb-title" text="Yearly Report" url=""></e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb>
+</div>
+
+<div class="department-header" style="margin-bottom: 20px">
+  <div class="department-name h4">CREDIT REVIEW DEPARTMENT</div>
+</div>
+
+<div class="row my-3">
+  <mat-button-toggle-group name="menu" [(ngModel)]="activeTab" (ngModelChange)="setTab($event)">
+    <mat-button-toggle value="yearly">Yearly</mat-button-toggle>
+    <mat-button-toggle value="monthly">Monthly</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="tab-content">
+  <ng-container *ngIf="isActive('yearly')">
+    <jhi-mis-summary-approval-yearly></jhi-mis-summary-approval-yearly>
+  </ng-container>
+  <ng-container *ngIf="isActive('monthly')">
+    <jhi-mis-monthly></jhi-mis-monthly>
+  </ng-container>
+</div>
+
+<!-- <div class="report-container">
+  <h2 class="title">CREDIT REVIEW DEPARTMENT</h2>
+
+  <div class="tab-header">
+    <button
+      class="tab-btn"
+      [class.active]="isActive('yearly')"
+      (click)="setTab('yearly')"
+    >
+      Yearly
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="isActive('monthly')"
+      (click)="setTab('monthly')"
+    >
+      Monthly
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <ng-container *ngIf="isActive('yearly')">
+      <jhi-mis-summary-approval-yearly></jhi-mis-summary-approval-yearly>
+    </ng-container>
+
+    <ng-container *ngIf="isActive('monthly')">
+      <jhi-mis-monthly></jhi-mis-monthly>
+    </ng-container>
+  </div>
+</div> -->
