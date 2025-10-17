@@ -1,0 +1,44 @@
+.report-container {
+  background-color: #f8ffff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.title {
+  color: #1d3557;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.tab-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  background-color: #00bfa6;
+  color: white;
+}
+
+.tab-btn:hover:not(.active) {
+  background-color: #d0d0d0;
+}
+
+.tab-content {
+  /* border-top: 1px solid #ccc; */
+  padding-top: 20px;
+}
