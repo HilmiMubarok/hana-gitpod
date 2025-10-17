@@ -11,178 +11,242 @@ const parseAmount = (amount: string): number => parseFloat(amount) || 0;
 export const transformDataIntoTableData = (data: any): TableData[] => {
   const results: TableData[] = [];
 
-  const lcTypeMap = new Map<string, any>();
+  // Check original data type from normalization step
+  // If _originalType is 'LC', treat as LC data even after normalization
+  const isRegionalData = data._originalType === 'SEGMENT' || 
+                         (!data._originalType && data.segment && data.segment.length > 0 && 
+                          data.segment[0].lcType && data.segment[0].lcType.length > 0);
 
-  data.segment.forEach((segment: any) => {
-    segment.lcType.forEach((lc: any) => {
-      if (!lcTypeMap.has(lc.lcId)) {
-        lcTypeMap.set(lc.lcId, {
-          lcId: lc.lcId,
-          lcName: lc.lcName,
-          segments: [],
+  if (isRegionalData) {
+    // For Regional data: Group by segments (SME1, SME2, etc.) as main headers
+    data.segment.forEach((segment: any) => {
+      const segmentTitle = segment.segmentName; // SME 1, SME 2, etc.
+      const lcGroups = segment.lcType.map((lc: any) => lc.lcName); // LC 1 SME, LC 2 SME, etc.
+
+      const reportData: any = {
+        // Approved categories
+        approved_new: { total: { noa: 0, summaryTotal: [] } },
+        approved_additional: { total: { noa: 0, summaryTotal: [] } },
+        approved_renewal: { total: { noa: 0, summaryTotal: [] } },
+        approved_restructure: { total: { noa: 0, summaryTotal: [] } },
+        approved_decrease: { total: { noa: 0, summaryTotal: [] } },
+        approved_other: { total: { noa: 0, summaryTotal: [] } },
+
+        // Reject categories
+        reject_new: { total: { noa: 0, summaryTotal: [] } },
+        reject_additional: { total: { noa: 0, summaryTotal: [] } },
+        reject_renewal: { total: { noa: 0, summaryTotal: [] } },
+        reject_restructure: { total: { noa: 0, summaryTotal: [] } },
+        reject_decrease: { total: { noa: 0, summaryTotal: [] } },
+        reject_other: { total: { noa: 0, summaryTotal: [] } },
+
+        // Other categories
+        cancel: { total: { noa: 0, summaryTotal: [] } },
+        total: { total: { noa: 0, summaryTotal: [] } },
+        percent_approved: { total: { noa: '', summaryTotal: [] } },
+        percent_reject: { total: { noa: '', summaryTotal: [] } },
+        percent_cancel: { total: { noa: '', summaryTotal: [] } },
+      };
+
+      // Initialize data for each LC
+      lcGroups.forEach((_: string, index: number) => {
+        const lcKey = `lc${index + 1}`;
+        Object.keys(reportData).forEach(category => {
+          if (!reportData[category][lcKey]) {
+            reportData[category][lcKey] = { noa: 0, summaryTotal: [] };
+          }
         });
-      }
-
-      lcTypeMap.get(lc.lcId).segments.push({
-        segmentId: segment.segmentId,
-        segmentName: segment.segmentName,
-        conditionType: lc.conditionType,
       });
-    });
-  });
 
-  lcTypeMap.forEach((lcData, lcId) => {
-    const groups = lcData.segments.map((seg: any) => seg.segmentName);
+      // Process each LC type for this segment
+      segment.lcType.forEach((lc: any, lcIndex: number) => {
+        const lcKey = `lc${lcIndex + 1}`;
 
-    const reportData: any = {
-      // Approved categories
-      approved_new: { total: { noa: 0, summaryTotal: [] } },
-      approved_additional: { total: { noa: 0, summaryTotal: [] } },
-      approved_renewal: { total: { noa: 0, summaryTotal: [] } },
-      approved_restructure: { total: { noa: 0, summaryTotal: [] } },
-      approved_decrease: { total: { noa: 0, summaryTotal: [] } },
-      approved_other: { total: { noa: 0, summaryTotal: [] } },
+        if (lc.conditionType && lc.conditionType.length > 0) {
+          lc.conditionType.forEach((condition: any) => {
+            const conditionName = condition.conditionName.toLowerCase();
 
-      // Reject categories
-      reject_new: { total: { noa: 0, summaryTotal: [] } },
-      reject_additional: { total: { noa: 0, summaryTotal: [] } },
-      reject_renewal: { total: { noa: 0, summaryTotal: [] } },
-      reject_restructure: { total: { noa: 0, summaryTotal: [] } },
-      reject_decrease: { total: { noa: 0, summaryTotal: [] } },
-      reject_other: { total: { noa: 0, summaryTotal: [] } },
+            if (condition.product && condition.product.length > 0) {
+              condition.product.forEach((product: any) => {
+                const kategori = product.kategoriProduct.toLowerCase();
+                let categoryKey = '';
 
-      // Other categories
-      cancel: { total: { noa: 0, summaryTotal: [] } },
-      total: { total: { noa: 0, summaryTotal: [] } },
-      percent_approved: { total: { noa: '', summaryTotal: [] } },
-      percent_reject: { total: { noa: '', summaryTotal: [] } },
-      percent_cancel: { total: { noa: '', summaryTotal: [] } },
-    };
+                if (conditionName === 'approved') {
+                  if (kategori.includes('new') || kategori.includes('ntb')) {
+                    categoryKey = 'approved_new';
+                  } else if (kategori.includes('additional') || kategori.includes('existing')) {
+                    categoryKey = 'approved_additional';
+                  } else if (kategori.includes('renewal')) {
+                    categoryKey = 'approved_renewal';
+                  } else if (kategori.includes('restructure')) {
+                    categoryKey = 'approved_restructure';
+                  } else if (kategori.includes('decrease')) {
+                    categoryKey = 'approved_decrease';
+                  } else {
+                    categoryKey = 'approved_other';
+                  }
+                } else if (conditionName === 'reject') {
+                  if (kategori.includes('new') || kategori.includes('ntb')) {
+                    categoryKey = 'reject_new';
+                  } else if (kategori.includes('additional') || kategori.includes('existing')) {
+                    categoryKey = 'reject_additional';
+                  } else if (kategori.includes('renewal')) {
+                    categoryKey = 'reject_renewal';
+                  } else if (kategori.includes('restructure')) {
+                    categoryKey = 'reject_restructure';
+                  } else if (kategori.includes('decrease')) {
+                    categoryKey = 'reject_decrease';
+                  } else {
+                    categoryKey = 'reject_other';
+                  }
+                } else if (conditionName === 'cancel') {
+                  categoryKey = 'cancel';
+                }
 
-    groups.forEach((_: string, index: number) => {
-      const segmentKey = `sme${index + 1}`;
-      Object.keys(reportData).forEach(category => {
-        if (!reportData[category][segmentKey]) {
-          reportData[category][segmentKey] = { noa: 0, summaryTotal: [] };
-        }
-      });
-    });
-
-    // Process each segment
-    lcData.segments.forEach((segment: any, segmentIndex: number) => {
-      const segmentKey = `sme${segmentIndex + 1}`;
-
-      //   if conditionType undefined
-      if (!segment.conditionType) {
-        segment.conditionType = [];
-      }
-
-      segment.conditionType.forEach((condition: any) => {
-        const conditionName = condition.conditionName.toLowerCase();
-
-        if (condition.product && condition.product.length > 0) {
-          condition.product.forEach((product: any) => {
-            const kategori = product.kategoriProduct.toLowerCase();
-            let categoryKey = '';
-
-            if (conditionName === 'approved') {
-              if (kategori.includes('new') || kategori.includes('ntb')) {
-                categoryKey = 'approved_new';
-              } else if (kategori.includes('additional') || kategori.includes('existing')) {
-                categoryKey = 'approved_additional';
-              } else if (kategori.includes('renewal')) {
-                categoryKey = 'approved_renewal';
-              } else if (kategori.includes('restructure')) {
-                categoryKey = 'approved_restructure';
-              } else if (kategori.includes('decrease')) {
-                categoryKey = 'approved_decrease';
-              } else {
-                categoryKey = 'approved_other';
-              }
-            } else if (conditionName === 'reject') {
-              if (kategori.includes('new') || kategori.includes('ntb')) {
-                categoryKey = 'reject_new';
-              } else if (kategori.includes('additional') || kategori.includes('existing')) {
-                categoryKey = 'reject_additional';
-              } else if (kategori.includes('renewal')) {
-                categoryKey = 'reject_renewal';
-              } else if (kategori.includes('restructure')) {
-                categoryKey = 'reject_restructure';
-              } else if (kategori.includes('decrease')) {
-                categoryKey = 'reject_decrease';
-              } else {
-                categoryKey = 'reject_other';
-              }
-            } else if (conditionName === 'cancel') {
-              categoryKey = 'cancel';
-            }
-
-            if (categoryKey && reportData[categoryKey]) {
-              // Update segment data
-              const noa = parseInt(product.noa, 10) || 0;
-              reportData[categoryKey][segmentKey].noa += noa;
-              
-              // Only process summaryTotal if NOA > 0
-              if (noa > 0) {
-                // Process summaryTotal at condition level (same level as product)
-                const amountTypeMap = new Map();
-                
-                if (condition.summaryTotal && condition.summaryTotal.length > 0) {
-                  condition.summaryTotal.forEach((summary: any) => {
-                    const amountType = summary.amountType;
+                if (categoryKey && reportData[categoryKey]) {
+                  // Update LC data
+                  const noa = parseInt(product.noa, 10) || 0;
+                  reportData[categoryKey][lcKey].noa += noa;
+                  
+                  // Only process summaryTotal if NOA > 0
+                  if (noa > 0) {
+                    // Process summaryTotal at condition level
+                    const amountTypeMap = new Map();
                     
-                    if (!amountTypeMap.has(amountType)) {
-                      amountTypeMap.set(amountType, {
-                        amountType,
-                        currencyAmount: []
-                      });
-                    }
+                    if (condition.summaryTotal && condition.summaryTotal.length > 0) {
+                      condition.summaryTotal.forEach((summary: any) => {
+                        const amountType = summary.amountType;
+                        
+                        if (!amountTypeMap.has(amountType)) {
+                          amountTypeMap.set(amountType, {
+                            amountType,
+                            currencyAmount: []
+                          });
+                        }
 
-                    if (summary.currencyAmount) {
-                      summary.currencyAmount.forEach((currency: any) => {
-                        const existingCurrency = amountTypeMap.get(amountType).currencyAmount.find(c => c.currency === currency.currency);
-                        if (existingCurrency) {
-                          existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
-                        } else {
-                          amountTypeMap.get(amountType).currencyAmount.push({
-                            currency: currency.currency,
-                            amount: currency.amount
+                        if (summary.currencyAmount) {
+                          summary.currencyAmount.forEach((currency: any) => {
+                            const existingCurrency = amountTypeMap.get(amountType).currencyAmount.find(c => c.currency === currency.currency);
+                            if (existingCurrency) {
+                              existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                            } else {
+                              amountTypeMap.get(amountType).currencyAmount.push({
+                                currency: currency.currency,
+                                amount: currency.amount
+                              });
+                            }
                           });
                         }
                       });
                     }
-                  });
+
+                    // Convert map to summaryTotal array
+                    const summaryTotalArray = Array.from(amountTypeMap.values());
+                    reportData[categoryKey][lcKey].summaryTotal = summaryTotalArray;
+                  } else {
+                    // If NOA = 0, ensure summaryTotal is empty
+                    reportData[categoryKey][lcKey].summaryTotal = [];
+                  }
+
+                  // Update total
+                  reportData[categoryKey].total.noa += noa;
+                  
+                  // Merge summaryTotal for totals only if NOA > 0
+                  if (noa > 0 && reportData[categoryKey][lcKey].summaryTotal) {
+                    reportData[categoryKey][lcKey].summaryTotal.forEach(summaryItem => {
+                      const existingTotal = reportData[categoryKey].total.summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                      if (existingTotal) {
+                        summaryItem.currencyAmount.forEach(currency => {
+                          const existingCurrency = existingTotal.currencyAmount.find(c => c.currency === currency.currency);
+                          if (existingCurrency) {
+                            existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                          } else {
+                            existingTotal.currencyAmount.push({
+                              currency: currency.currency,
+                              amount: currency.amount
+                            });
+                          }
+                        });
+                      } else {
+                        reportData[categoryKey].total.summaryTotal.push({
+                          amountType: summaryItem.amountType,
+                          currencyAmount: [...summaryItem.currencyAmount]
+                        });
+                      }
+                    });
+                  }
                 }
+              });
+            }
+          });
+        }
+      });
 
-                // Convert map to summaryTotal array
-                const summaryTotalArray = Array.from(amountTypeMap.values());
-                reportData[categoryKey][segmentKey].summaryTotal = summaryTotalArray;
+      // Calculate grand totals and percentages
+      let grandTotalNOA = 0;
+      const grandTotalSummaryTotal = [];
+
+      const categoriesToSum = [
+        'approved_new', 'approved_additional', 'approved_renewal', 
+        'approved_restructure', 'approved_decrease', 'approved_other',
+        'reject_new', 'reject_additional', 'reject_renewal', 
+        'reject_restructure', 'reject_decrease', 'reject_other',
+        'cancel'
+      ];
+
+      categoriesToSum.forEach(key => {
+        if (reportData[key]) {
+          grandTotalNOA += reportData[key].total.noa || 0;
+
+          // Merge summaryTotal for grand total
+          if (reportData[key].total.summaryTotal) {
+            reportData[key].total.summaryTotal.forEach(summaryItem => {
+              const existingGrandTotal = grandTotalSummaryTotal.find(t => t.amountType === summaryItem.amountType);
+              if (existingGrandTotal) {
+                summaryItem.currencyAmount.forEach(currency => {
+                  const existingCurrency = existingGrandTotal.currencyAmount.find(c => c.currency === currency.currency);
+                  if (existingCurrency) {
+                    existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                  } else {
+                    existingGrandTotal.currencyAmount.push({
+                      currency: currency.currency,
+                      amount: currency.amount
+                    });
+                  }
+                });
               } else {
-                // If NOA = 0, ensure summaryTotal is empty
-                reportData[categoryKey][segmentKey].summaryTotal = [];
+                grandTotalSummaryTotal.push({
+                  amountType: summaryItem.amountType,
+                  currencyAmount: [...summaryItem.currencyAmount]
+                });
               }
+            });
+          }
 
-              // Update total
-              reportData[categoryKey].total.noa += noa;
+          // Update LC totals
+          lcGroups.forEach((_: string, index: number) => {
+            const lcKey = `lc${index + 1}`;
+            if (reportData[key][lcKey]) {
+              reportData.total[lcKey].noa += reportData[key][lcKey].noa || 0;
               
-              // Merge summaryTotal for totals only if NOA > 0
-              if (noa > 0 && reportData[categoryKey][segmentKey].summaryTotal) {
-                reportData[categoryKey][segmentKey].summaryTotal.forEach(summaryItem => {
-                  const existingTotal = reportData[categoryKey].total.summaryTotal.find(t => t.amountType === summaryItem.amountType);
-                  if (existingTotal) {
+              // Merge summaryTotal for LC totals
+              if (reportData[key][lcKey].summaryTotal) {
+                reportData[key][lcKey].summaryTotal.forEach(summaryItem => {
+                  const existingLcTotal = reportData.total[lcKey].summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                  if (existingLcTotal) {
                     summaryItem.currencyAmount.forEach(currency => {
-                      const existingCurrency = existingTotal.currencyAmount.find(c => c.currency === currency.currency);
+                      const existingCurrency = existingLcTotal.currencyAmount.find(c => c.currency === currency.currency);
                       if (existingCurrency) {
                         existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
                       } else {
-                        existingTotal.currencyAmount.push({
+                        existingLcTotal.currencyAmount.push({
                           currency: currency.currency,
                           amount: currency.amount
                         });
                       }
                     });
                   } else {
-                    reportData[categoryKey].total.summaryTotal.push({
+                    reportData.total[lcKey].summaryTotal.push({
                       amountType: summaryItem.amountType,
                       currencyAmount: [...summaryItem.currencyAmount]
                     });
@@ -193,152 +257,389 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
           });
         }
       });
+
+      reportData.total.total = {
+        noa: grandTotalNOA,
+        summaryTotal: grandTotalSummaryTotal,
+      };
+
+      // Calculate percentages
+      lcGroups.forEach((_: string, index: number) => {
+        const lcKey = `lc${index + 1}`;
+
+        const approvedLcTotal = Object.keys(reportData)
+          .filter(key => key.startsWith('approved_'))
+          .reduce((sum, key) => sum + (reportData[key][lcKey]?.noa || 0), 0);
+
+        const rejectLcTotal = Object.keys(reportData)
+          .filter(key => key.startsWith('reject_'))
+          .reduce((sum, key) => sum + (reportData[key][lcKey]?.noa || 0), 0);
+
+        const cancelLcTotal = reportData.cancel[lcKey]?.noa || 0;
+        const lcGrandTotal = reportData.total[lcKey]?.noa || 0;
+
+        if (lcGrandTotal > 0) {
+          reportData.percent_approved[lcKey].noa = `${Math.round((approvedLcTotal / lcGrandTotal) * 100)}%`;
+          reportData.percent_reject[lcKey].noa = `${Math.round((rejectLcTotal / lcGrandTotal) * 100)}%`;
+          reportData.percent_cancel[lcKey].noa = `${Math.round((cancelLcTotal / lcGrandTotal) * 100)}%`;
+        } else {
+          reportData.percent_approved[lcKey].noa = '0%';
+          reportData.percent_reject[lcKey].noa = '0%';
+          reportData.percent_cancel[lcKey].noa = '0%';
+        }
+      });
+
+      const approvedTotal = Object.keys(reportData)
+        .filter(key => key.startsWith('approved_'))
+        .reduce((sum, key) => sum + reportData[key].total.noa, 0);
+
+      const rejectTotal = Object.keys(reportData)
+        .filter(key => key.startsWith('reject_'))
+        .reduce((sum, key) => sum + reportData[key].total.noa, 0);
+
+      const cancelTotal = reportData.cancel.total.noa;
+
+      if (grandTotalNOA > 0) {
+        reportData.percent_approved.total.noa = `${Math.round((approvedTotal / grandTotalNOA) * 100)}%`;
+        reportData.percent_reject.total.noa = `${Math.round((rejectTotal / grandTotalNOA) * 100)}%`;
+        reportData.percent_cancel.total.noa = `${Math.round((cancelTotal / grandTotalNOA) * 100)}%`;
+      } else {
+        reportData.percent_approved.total.noa = '0%';
+        reportData.percent_reject.total.noa = '0%';
+        reportData.percent_cancel.total.noa = '0%';
+      }
+      
+      results.push({
+        title: segmentTitle,
+        groups: lcGroups,
+        reportData,
+      });
     });
+  } else {
+    // For LC data: Keep the original logic (group by LC types)
+    const lcTypeMap = new Map<string, any>();
 
-    // Calculate grand totals using summaryTotal structure
-    let grandTotalNOA = 0;
-    const grandTotalSummaryTotal = [];
-
-    // Sum all approved, reject, and cancel
-    const categoriesToSum = [
-      'approved_new', 'approved_additional', 'approved_renewal', 
-      'approved_restructure', 'approved_decrease', 'approved_other',
-      'reject_new', 'reject_additional', 'reject_renewal', 
-      'reject_restructure', 'reject_decrease', 'reject_other',
-      'cancel'
-    ];
-
-    categoriesToSum.forEach(key => {
-      if (reportData[key]) {
-        grandTotalNOA += reportData[key].total.noa || 0;
-
-        // Merge summaryTotal for grand total
-        if (reportData[key].total.summaryTotal) {
-          reportData[key].total.summaryTotal.forEach(summaryItem => {
-            const existingGrandTotal = grandTotalSummaryTotal.find(t => t.amountType === summaryItem.amountType);
-            if (existingGrandTotal) {
-              summaryItem.currencyAmount.forEach(currency => {
-                const existingCurrency = existingGrandTotal.currencyAmount.find(c => c.currency === currency.currency);
-                if (existingCurrency) {
-                  existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
-                } else {
-                  existingGrandTotal.currencyAmount.push({
-                    currency: currency.currency,
-                    amount: currency.amount
-                  });
-                }
-              });
-            } else {
-              grandTotalSummaryTotal.push({
-                amountType: summaryItem.amountType,
-                currencyAmount: [...summaryItem.currencyAmount]
-              });
-            }
+    data.segment.forEach((segment: any) => {
+      segment.lcType.forEach((lc: any) => {
+        if (!lcTypeMap.has(lc.lcId)) {
+          lcTypeMap.set(lc.lcId, {
+            lcId: lc.lcId,
+            lcName: lc.lcName,
+            segments: [],
           });
         }
 
-        // Update segment totals
-        groups.forEach((_: string, index: number) => {
-          const segmentKey = `sme${index + 1}`;
-          if (reportData[key][segmentKey]) {
-            reportData.total[segmentKey].noa += reportData[key][segmentKey].noa || 0;
-            
-            // Merge summaryTotal for segment totals
-            if (reportData[key][segmentKey].summaryTotal) {
-              reportData[key][segmentKey].summaryTotal.forEach(summaryItem => {
-                const existingSegmentTotal = reportData.total[segmentKey].summaryTotal.find(t => t.amountType === summaryItem.amountType);
-                if (existingSegmentTotal) {
-                  summaryItem.currencyAmount.forEach(currency => {
-                    const existingCurrency = existingSegmentTotal.currencyAmount.find(c => c.currency === currency.currency);
-                    if (existingCurrency) {
-                      existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+        lcTypeMap.get(lc.lcId).segments.push({
+          segmentId: segment.segmentId,
+          segmentName: segment.segmentName,
+          conditionType: lc.conditionType,
+        });
+      });
+    });
+
+    lcTypeMap.forEach((lcData, lcId) => {
+      const groups = lcData.segments.map((seg: any) => seg.segmentName);
+
+      const reportData: any = {
+        // Approved categories
+        approved_new: { total: { noa: 0, summaryTotal: [] } },
+        approved_additional: { total: { noa: 0, summaryTotal: [] } },
+        approved_renewal: { total: { noa: 0, summaryTotal: [] } },
+        approved_restructure: { total: { noa: 0, summaryTotal: [] } },
+        approved_decrease: { total: { noa: 0, summaryTotal: [] } },
+        approved_other: { total: { noa: 0, summaryTotal: [] } },
+
+        // Reject categories
+        reject_new: { total: { noa: 0, summaryTotal: [] } },
+        reject_additional: { total: { noa: 0, summaryTotal: [] } },
+        reject_renewal: { total: { noa: 0, summaryTotal: [] } },
+        reject_restructure: { total: { noa: 0, summaryTotal: [] } },
+        reject_decrease: { total: { noa: 0, summaryTotal: [] } },
+        reject_other: { total: { noa: 0, summaryTotal: [] } },
+
+        // Other categories
+        cancel: { total: { noa: 0, summaryTotal: [] } },
+        total: { total: { noa: 0, summaryTotal: [] } },
+        percent_approved: { total: { noa: '', summaryTotal: [] } },
+        percent_reject: { total: { noa: '', summaryTotal: [] } },
+        percent_cancel: { total: { noa: '', summaryTotal: [] } },
+      };
+
+      groups.forEach((_: string, index: number) => {
+        const segmentKey = `sme${index + 1}`;
+        Object.keys(reportData).forEach(category => {
+          if (!reportData[category][segmentKey]) {
+            reportData[category][segmentKey] = { noa: 0, summaryTotal: [] };
+          }
+        });
+      });
+
+      // Process each segment (original LC logic)
+      lcData.segments.forEach((segment: any, segmentIndex: number) => {
+        const segmentKey = `sme${segmentIndex + 1}`;
+
+        if (!segment.conditionType) {
+          segment.conditionType = [];
+        }
+
+        segment.conditionType.forEach((condition: any) => {
+          const conditionName = condition.conditionName.toLowerCase();
+
+          if (condition.product && condition.product.length > 0) {
+            condition.product.forEach((product: any) => {
+              const kategori = product.kategoriProduct.toLowerCase();
+              let categoryKey = '';
+
+              if (conditionName === 'approved') {
+                if (kategori.includes('new') || kategori.includes('ntb')) {
+                  categoryKey = 'approved_new';
+                } else if (kategori.includes('additional') || kategori.includes('existing')) {
+                  categoryKey = 'approved_additional';
+                } else if (kategori.includes('renewal')) {
+                  categoryKey = 'approved_renewal';
+                } else if (kategori.includes('restructure')) {
+                  categoryKey = 'approved_restructure';
+                } else if (kategori.includes('decrease')) {
+                  categoryKey = 'approved_decrease';
+                } else {
+                  categoryKey = 'approved_other';
+                }
+              } else if (conditionName === 'reject') {
+                if (kategori.includes('new') || kategori.includes('ntb')) {
+                  categoryKey = 'reject_new';
+                } else if (kategori.includes('additional') || kategori.includes('existing')) {
+                  categoryKey = 'reject_additional';
+                } else if (kategori.includes('renewal')) {
+                  categoryKey = 'reject_renewal';
+                } else if (kategori.includes('restructure')) {
+                  categoryKey = 'reject_restructure';
+                } else if (kategori.includes('decrease')) {
+                  categoryKey = 'reject_decrease';
+                } else {
+                  categoryKey = 'reject_other';
+                }
+              } else if (conditionName === 'cancel') {
+                categoryKey = 'cancel';
+              }
+
+              if (categoryKey && reportData[categoryKey]) {
+                const noa = parseInt(product.noa, 10) || 0;
+                reportData[categoryKey][segmentKey].noa += noa;
+                
+                if (noa > 0) {
+                  const amountTypeMap = new Map();
+                  
+                  if (condition.summaryTotal && condition.summaryTotal.length > 0) {
+                    condition.summaryTotal.forEach((summary: any) => {
+                      const amountType = summary.amountType;
+                      
+                      if (!amountTypeMap.has(amountType)) {
+                        amountTypeMap.set(amountType, {
+                          amountType,
+                          currencyAmount: []
+                        });
+                      }
+
+                      if (summary.currencyAmount) {
+                        summary.currencyAmount.forEach((currency: any) => {
+                          const existingCurrency = amountTypeMap.get(amountType).currencyAmount.find(c => c.currency === currency.currency);
+                          if (existingCurrency) {
+                            existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                          } else {
+                            amountTypeMap.get(amountType).currencyAmount.push({
+                              currency: currency.currency,
+                              amount: currency.amount
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
+
+                  const summaryTotalArray = Array.from(amountTypeMap.values());
+                  reportData[categoryKey][segmentKey].summaryTotal = summaryTotalArray;
+                } else {
+                  reportData[categoryKey][segmentKey].summaryTotal = [];
+                }
+
+                reportData[categoryKey].total.noa += noa;
+                
+                if (noa > 0 && reportData[categoryKey][segmentKey].summaryTotal) {
+                  reportData[categoryKey][segmentKey].summaryTotal.forEach(summaryItem => {
+                    const existingTotal = reportData[categoryKey].total.summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                    if (existingTotal) {
+                      summaryItem.currencyAmount.forEach(currency => {
+                        const existingCurrency = existingTotal.currencyAmount.find(c => c.currency === currency.currency);
+                        if (existingCurrency) {
+                          existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                        } else {
+                          existingTotal.currencyAmount.push({
+                            currency: currency.currency,
+                            amount: currency.amount
+                          });
+                        }
+                      });
                     } else {
-                      existingSegmentTotal.currencyAmount.push({
-                        currency: currency.currency,
-                        amount: currency.amount
+                      reportData[categoryKey].total.summaryTotal.push({
+                        amountType: summaryItem.amountType,
+                        currencyAmount: [...summaryItem.currencyAmount]
                       });
                     }
                   });
-                } else {
-                  reportData.total[segmentKey].summaryTotal.push({
-                    amountType: summaryItem.amountType,
-                    currencyAmount: [...summaryItem.currencyAmount]
-                  });
                 }
-              });
-            }
+              }
+            });
           }
         });
-      }
-    });
+      });
 
-    reportData.total.total = {
-      noa: grandTotalNOA,
-      summaryTotal: grandTotalSummaryTotal,
-    };
+      // Calculate totals and percentages (same as regional logic)
+      let grandTotalNOA = 0;
+      const grandTotalSummaryTotal = [];
 
-    // Calculate percentages for each segment and total
-    groups.forEach((_: string, index: number) => {
-      const segmentKey = `sme${index + 1}`;
+      const categoriesToSum = [
+        'approved_new', 'approved_additional', 'approved_renewal', 
+        'approved_restructure', 'approved_decrease', 'approved_other',
+        'reject_new', 'reject_additional', 'reject_renewal', 
+        'reject_restructure', 'reject_decrease', 'reject_other',
+        'cancel'
+      ];
 
-      // Calculate totals for this segment
-      const approvedSegmentTotal = Object.keys(reportData)
+      categoriesToSum.forEach(key => {
+        if (reportData[key]) {
+          grandTotalNOA += reportData[key].total.noa || 0;
+
+          if (reportData[key].total.summaryTotal) {
+            reportData[key].total.summaryTotal.forEach(summaryItem => {
+              const existingGrandTotal = grandTotalSummaryTotal.find(t => t.amountType === summaryItem.amountType);
+              if (existingGrandTotal) {
+                summaryItem.currencyAmount.forEach(currency => {
+                  const existingCurrency = existingGrandTotal.currencyAmount.find(c => c.currency === currency.currency);
+                  if (existingCurrency) {
+                    existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                  } else {
+                    existingGrandTotal.currencyAmount.push({
+                      currency: currency.currency,
+                      amount: currency.amount
+                    });
+                  }
+                });
+              } else {
+                grandTotalSummaryTotal.push({
+                  amountType: summaryItem.amountType,
+                  currencyAmount: [...summaryItem.currencyAmount]
+                });
+              }
+            });
+          }
+
+          groups.forEach((_: string, index: number) => {
+            const segmentKey = `sme${index + 1}`;
+            if (reportData[key][segmentKey]) {
+              reportData.total[segmentKey].noa += reportData[key][segmentKey].noa || 0;
+              
+              if (reportData[key][segmentKey].summaryTotal) {
+                reportData[key][segmentKey].summaryTotal.forEach(summaryItem => {
+                  const existingSegmentTotal = reportData.total[segmentKey].summaryTotal.find(t => t.amountType === summaryItem.amountType);
+                  if (existingSegmentTotal) {
+                    summaryItem.currencyAmount.forEach(currency => {
+                      const existingCurrency = existingSegmentTotal.currencyAmount.find(c => c.currency === currency.currency);
+                      if (existingCurrency) {
+                        existingCurrency.amount = (parseAmount(existingCurrency.amount) + parseAmount(currency.amount)).toString();
+                      } else {
+                        existingSegmentTotal.currencyAmount.push({
+                          currency: currency.currency,
+                          amount: currency.amount
+                        });
+                      }
+                    });
+                  } else {
+                    reportData.total[segmentKey].summaryTotal.push({
+                      amountType: summaryItem.amountType,
+                      currencyAmount: [...summaryItem.currencyAmount]
+                    });
+                  }
+                });
+              }
+            }
+          });
+        }
+      });
+
+      reportData.total.total = {
+        noa: grandTotalNOA,
+        summaryTotal: grandTotalSummaryTotal,
+      };
+
+      // Calculate percentages
+      groups.forEach((_: string, index: number) => {
+        const segmentKey = `sme${index + 1}`;
+
+        const approvedSegmentTotal = Object.keys(reportData)
+          .filter(key => key.startsWith('approved_'))
+          .reduce((sum, key) => sum + (reportData[key][segmentKey]?.noa || 0), 0);
+
+        const rejectSegmentTotal = Object.keys(reportData)
+          .filter(key => key.startsWith('reject_'))
+          .reduce((sum, key) => sum + (reportData[key][segmentKey]?.noa || 0), 0);
+
+        const cancelSegmentTotal = reportData.cancel[segmentKey]?.noa || 0;
+        const segmentGrandTotal = reportData.total[segmentKey]?.noa || 0;
+
+        if (segmentGrandTotal > 0) {
+          reportData.percent_approved[segmentKey].noa = `${Math.round((approvedSegmentTotal / segmentGrandTotal) * 100)}%`;
+          reportData.percent_reject[segmentKey].noa = `${Math.round((rejectSegmentTotal / segmentGrandTotal) * 100)}%`;
+          reportData.percent_cancel[segmentKey].noa = `${Math.round((cancelSegmentTotal / segmentGrandTotal) * 100)}%`;
+        } else {
+          reportData.percent_approved[segmentKey].noa = '0%';
+          reportData.percent_reject[segmentKey].noa = '0%';
+          reportData.percent_cancel[segmentKey].noa = '0%';
+        }
+      });
+
+      const approvedTotal = Object.keys(reportData)
         .filter(key => key.startsWith('approved_'))
-        .reduce((sum, key) => sum + (reportData[key][segmentKey]?.noa || 0), 0);
+        .reduce((sum, key) => sum + reportData[key].total.noa, 0);
 
-      const rejectSegmentTotal = Object.keys(reportData)
+      const rejectTotal = Object.keys(reportData)
         .filter(key => key.startsWith('reject_'))
-        .reduce((sum, key) => sum + (reportData[key][segmentKey]?.noa || 0), 0);
+        .reduce((sum, key) => sum + reportData[key].total.noa, 0);
 
-      const cancelSegmentTotal = reportData.cancel[segmentKey]?.noa || 0;
+      const cancelTotal = reportData.cancel.total.noa;
 
-      const segmentGrandTotal = reportData.total[segmentKey]?.noa || 0;
-
-      // Calculate percentages for this segment
-      if (segmentGrandTotal > 0) {
-        reportData.percent_approved[segmentKey].noa = `${Math.round((approvedSegmentTotal / segmentGrandTotal) * 100)}%`;
-        reportData.percent_reject[segmentKey].noa = `${Math.round((rejectSegmentTotal / segmentGrandTotal) * 100)}%`;
-        reportData.percent_cancel[segmentKey].noa = `${Math.round((cancelSegmentTotal / segmentGrandTotal) * 100)}%`;
+      if (grandTotalNOA > 0) {
+        reportData.percent_approved.total.noa = `${Math.round((approvedTotal / grandTotalNOA) * 100)}%`;
+        reportData.percent_reject.total.noa = `${Math.round((rejectTotal / grandTotalNOA) * 100)}%`;
+        reportData.percent_cancel.total.noa = `${Math.round((cancelTotal / grandTotalNOA) * 100)}%`;
       } else {
-        reportData.percent_approved[segmentKey].noa = '0%';
-        reportData.percent_reject[segmentKey].noa = '0%';
-        reportData.percent_cancel[segmentKey].noa = '0%';
+        reportData.percent_approved.total.noa = '0%';
+        reportData.percent_reject.total.noa = '0%';
+        reportData.percent_cancel.total.noa = '0%';
       }
+      
+      results.push({
+        title: `${lcData.lcName}`,
+        groups,
+        reportData,
+      });
     });
-
-    const approvedTotal = Object.keys(reportData)
-      .filter(key => key.startsWith('approved_'))
-      .reduce((sum, key) => sum + reportData[key].total.noa, 0);
-
-    const rejectTotal = Object.keys(reportData)
-      .filter(key => key.startsWith('reject_'))
-      .reduce((sum, key) => sum + reportData[key].total.noa, 0);
-
-    const cancelTotal = reportData.cancel.total.noa;
-
-    if (grandTotalNOA > 0) {
-      reportData.percent_approved.total.noa = `${Math.round((approvedTotal / grandTotalNOA) * 100)}%`;
-      reportData.percent_reject.total.noa = `${Math.round((rejectTotal / grandTotalNOA) * 100)}%`;
-      reportData.percent_cancel.total.noa = `${Math.round((cancelTotal / grandTotalNOA) * 100)}%`;
-    } else {
-      reportData.percent_approved.total.noa = '0%';
-      reportData.percent_reject.total.noa = '0%';
-      reportData.percent_cancel.total.noa = '0%';
-    }
-    
-    results.push({
-      title: `${lcData.lcName}`,
-      groups,
-      reportData,
-    });
-
-  });
+  }
 
   return results;
 };
 
 export const transformAnyDataToTableData = (data: any): TableData[] => {
+  // Detect original data type BEFORE normalization
+  const isLcTypeData = data.lcType && Array.isArray(data.lcType);
   const normalizedData = normalizeDataFormat(data);
+  
+  // Pass the original data type information
+  if (isLcTypeData) {
+    normalizedData._originalType = 'LC';
+  } else {
+    normalizedData._originalType = 'SEGMENT';
+  }
+  
   return transformDataIntoTableData(normalizedData);
 };
 
@@ -347,7 +648,6 @@ const normalizeDataFormat = (data: any): any => {
     const hasListLC = data.segment.some((segment: any) => segment.lcType && segment.lcType.some((lc: any) => lc.listLC));
 
     if (hasListLC) {
-
       const normalizedSegments = data.segment.map((segment: any) => {
         const flattenedLcTypes: any[] = [];
 
