@@ -495,7 +495,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .filter((item: any) => item.fromStatusDescription === 'Insurance Checking')
       .map((item: any) => item.personName);
 
-    return data.length ? data[0] : '';
+    return data.length ? data[data.length - 1] : '';
   }
 
   private _getApprovalOutDateFiltered(timeLineInsurance: any[]): string {
