@@ -146,14 +146,15 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
     const columns = [
       { header: 'Branch', key: 'branch', width: 25 },
       ...monthRange.map(m => ({
-        header: `${m.short}-${m.year}`,
-        key: `${m.year}_${m.short}`,
-        width: 12,
+        header: `${m.month}-${m.year}`,
+        key: `${m.year}_${m.month}`,
+        width: 16,
       })),
       { header: 'Total', key: 'total', width: 12 },
     ];
     ws.columns = columns;
 
+    // Header merge baris pertama
     ws.mergeCells(1, 1, 2, 1);
     let col = 2;
 
@@ -167,33 +168,35 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       cell.value = `YEAR ${y}`;
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
       cell.font = { bold: true, color: { argb: '000000' } };
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } };
       cell.border = this.fullBorder();
 
       col += monthsInYear.length;
     });
 
+    // Kolom total
     ws.mergeCells(1, col, 2, col);
     const totalHeader = ws.getCell(1, col);
     totalHeader.value = 'Total';
     totalHeader.alignment = { horizontal: 'center', vertical: 'middle' };
     totalHeader.font = { bold: true };
-    totalHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru juga
+    totalHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } };
     totalHeader.border = this.fullBorder();
 
+    // Baris 2 header bulan
     ws.getCell(2, 1).value = 'Branch';
     ws.getCell(2, 1).alignment = { horizontal: 'center', vertical: 'middle' };
     ws.getCell(2, 1).font = { bold: true };
-    ws.getCell(2, 1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Abu-abu
+    ws.getCell(2, 1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } };
     ws.getCell(2, 1).border = this.fullBorder();
 
     let colIndex = 2;
     monthRange.forEach(m => {
       const cell = ws.getCell(2, colIndex++);
-      cell.value = m.short;
+      cell.value = m.month;
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
       cell.font = { bold: true };
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Abu-abu
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } };
       cell.border = this.fullBorder();
     });
 
@@ -201,11 +204,53 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
     totalLabelCell.value = 'Total';
     totalLabelCell.alignment = { horizontal: 'center', vertical: 'middle' };
     totalLabelCell.font = { bold: true };
-    totalLabelCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru
+    totalLabelCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } };
     totalLabelCell.border = this.fullBorder();
 
+    // Mulai isi data
     let currentRow = 3;
     const branchMap: Record<string, Record<string, number>> = {};
+
+    const normalizeMonth = (name: string): string => {
+      const lower = (name || '').toLowerCase();
+      if (lower.startsWith('jan')) {
+        return 'January';
+      }
+      if (lower.startsWith('feb')) {
+        return 'February';
+      }
+      if (lower.startsWith('mar')) {
+        return 'March';
+      }
+      if (lower.startsWith('apr')) {
+        return 'April';
+      }
+      if (lower.startsWith('may')) {
+        return 'May';
+      }
+      if (lower.startsWith('jun')) {
+        return 'June';
+      }
+      if (lower.startsWith('jul')) {
+        return 'July';
+      }
+      if (lower.startsWith('aug')) {
+        return 'August';
+      }
+      if (lower.startsWith('sep')) {
+        return 'September';
+      }
+      if (lower.startsWith('oct')) {
+        return 'October';
+      }
+      if (lower.startsWith('nov')) {
+        return 'November';
+      }
+      if (lower.startsWith('dec')) {
+        return 'December';
+      }
+      return name;
+    };
 
     data.forEach(main => {
       (main.data || []).forEach(yearData => {
@@ -213,13 +258,11 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
           const branchName = branch.branchName || 'Unknown';
           branchMap[branchName] = branchMap[branchName] || {};
           (branch.summaryMonth || []).forEach((s: any) => {
-            const keyMonth = s.month?.toLowerCase();
+            const keyMonth = normalizeMonth(s.month || '');
             const keyYear = s.year || yearData.year;
-            const monthObj = monthRange.find(
-              m => (m.month.toLowerCase() === keyMonth || m.short.toLowerCase() === keyMonth) && m.year === keyYear
-            );
+            const monthObj = monthRange.find(m => m.month === keyMonth && m.year === keyYear);
             if (monthObj) {
-              const key = `${monthObj.year}_${monthObj.short}`;
+              const key = `${monthObj.year}_${monthObj.month}`;
               branchMap[branchName][key] = (branchMap[branchName][key] || 0) + (s.count || 0);
             }
           });
@@ -227,17 +270,18 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       });
     });
 
+    // Isi nilai ke baris Excel
     Object.entries(branchMap).forEach(([branchName, monthData]) => {
       const row = ws.getRow(currentRow);
       row.getCell(1).value = branchName;
       row.getCell(1).alignment = { horizontal: 'left' };
-      row.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Kolom Branch abu
+      row.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } };
 
       let totalCount = 0;
       let colOffset = 2;
 
       monthRange.forEach(m => {
-        const key = `${m.year}_${m.short}`;
+        const key = `${m.year}_${m.month}`;
         const val = monthData[key] || 0;
         const cell = row.getCell(colOffset++);
         cell.value = val;
@@ -249,17 +293,18 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       const totalCell = row.getCell(colOffset);
       totalCell.value = totalCount;
       totalCell.alignment = { horizontal: 'center' };
-      totalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru Total
+      totalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } };
       totalCell.border = this.fullBorder();
 
       currentRow++;
     });
 
+    // Baris total EOM
     const totalRow = ws.getRow(currentRow);
     totalRow.getCell(1).value = 'Total E.O.M';
     totalRow.getCell(1).font = { bold: true };
     totalRow.getCell(1).alignment = { horizontal: 'center' };
-    totalRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } }; // 💛 Kuning
+    totalRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } };
     totalRow.getCell(1).border = this.fullBorder();
 
     monthRange.forEach((_, i) => {
@@ -268,7 +313,7 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       const endRow = currentRow - 1;
       totalRow.getCell(2 + i).value = endRow >= startRow ? { formula: `SUM(${colLetter}${startRow}:${colLetter}${endRow})` } : 0;
       totalRow.getCell(2 + i).alignment = { horizontal: 'center' };
-      totalRow.getCell(2 + i).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } }; // 💛 Kuning
+      totalRow.getCell(2 + i).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } };
       totalRow.getCell(2 + i).border = this.fullBorder();
     });
 
@@ -279,9 +324,178 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       endRow >= startRow ? { formula: `SUM(${totalLetter}${startRow}:${totalLetter}${endRow})` } : 0;
     totalRow.getCell(2 + monthRange.length).alignment = { horizontal: 'center' };
     totalRow.getCell(2 + monthRange.length).font = { color: { argb: '000000' }, bold: true };
-    totalRow.getCell(2 + monthRange.length).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru total EOM
+    totalRow.getCell(2 + monthRange.length).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } };
     totalRow.getCell(2 + monthRange.length).border = this.fullBorder();
   }
+
+  // private addMonthlyReportLayout(data: any[], startDate: moment.Moment, endDate: moment.Moment): void {
+  //   const ws = this.worksheet;
+
+  //   const allMonths = [
+  //     { full: 'January', short: 'Jan' },
+  //     { full: 'February', short: 'Feb' },
+  //     { full: 'March', short: 'Mar' },
+  //     { full: 'April', short: 'Apr' },
+  //     { full: 'May', short: 'May' },
+  //     { full: 'June', short: 'Jun' },
+  //     { full: 'July', short: 'Jul' },
+  //     { full: 'August', short: 'Aug' },
+  //     { full: 'September', short: 'Sep' },
+  //     { full: 'October', short: 'Oct' },
+  //     { full: 'November', short: 'Nov' },
+  //     { full: 'December', short: 'Dec' },
+  //   ];
+
+  //   const monthRange: { year: number; month: string; short: string }[] = [];
+  //   const current = startDate.clone();
+  //   while (current.isSameOrBefore(endDate, 'month')) {
+  //     const mObj = allMonths[current.month()];
+  //     monthRange.push({ year: current.year(), month: mObj.full, short: mObj.short });
+  //     current.add(1, 'month');
+  //   }
+
+  //   const years = [...new Set(monthRange.map(m => m.year))];
+  //   const columns = [
+  //     { header: 'Branch', key: 'branch', width: 25 },
+  //     ...monthRange.map(m => ({
+  //       header: `${m.short}-${m.year}`,
+  //       key: `${m.year}_${m.short}`,
+  //       width: 12,
+  //     })),
+  //     { header: 'Total', key: 'total', width: 12 },
+  //   ];
+  //   ws.columns = columns;
+
+  //   ws.mergeCells(1, 1, 2, 1);
+  //   let col = 2;
+
+  //   years.forEach(y => {
+  //     const monthsInYear = monthRange.filter(m => m.year === y);
+  //     const startCol = col;
+  //     const endCol = col + monthsInYear.length - 1;
+
+  //     ws.mergeCells(1, startCol, 1, endCol);
+  //     const cell = ws.getCell(1, startCol);
+  //     cell.value = `YEAR ${y}`;
+  //     cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  //     cell.font = { bold: true, color: { argb: '000000' } };
+  //     cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru
+  //     cell.border = this.fullBorder();
+
+  //     col += monthsInYear.length;
+  //   });
+
+  //   ws.mergeCells(1, col, 2, col);
+  //   const totalHeader = ws.getCell(1, col);
+  //   totalHeader.value = 'Total';
+  //   totalHeader.alignment = { horizontal: 'center', vertical: 'middle' };
+  //   totalHeader.font = { bold: true };
+  //   totalHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru juga
+  //   totalHeader.border = this.fullBorder();
+
+  //   ws.getCell(2, 1).value = 'Branch';
+  //   ws.getCell(2, 1).alignment = { horizontal: 'center', vertical: 'middle' };
+  //   ws.getCell(2, 1).font = { bold: true };
+  //   ws.getCell(2, 1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Abu-abu
+  //   ws.getCell(2, 1).border = this.fullBorder();
+
+  //   let colIndex = 2;
+  //   monthRange.forEach(m => {
+  //     const cell = ws.getCell(2, colIndex++);
+  //     cell.value = m.short;
+  //     cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  //     cell.font = { bold: true };
+  //     cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Abu-abu
+  //     cell.border = this.fullBorder();
+  //   });
+
+  //   const totalLabelCell = ws.getCell(2, col);
+  //   totalLabelCell.value = 'Total';
+  //   totalLabelCell.alignment = { horizontal: 'center', vertical: 'middle' };
+  //   totalLabelCell.font = { bold: true };
+  //   totalLabelCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru
+  //   totalLabelCell.border = this.fullBorder();
+
+  //   let currentRow = 3;
+  //   const branchMap: Record<string, Record<string, number>> = {};
+
+  //   data.forEach(main => {
+  //     (main.data || []).forEach(yearData => {
+  //       (yearData.branch || []).forEach(branch => {
+  //         const branchName = branch.branchName || 'Unknown';
+  //         branchMap[branchName] = branchMap[branchName] || {};
+  //         (branch.summaryMonth || []).forEach((s: any) => {
+  //           const keyMonth = s.month?.toLowerCase();
+  //           const keyYear = s.year || yearData.year;
+  //           const monthObj = monthRange.find(
+  //             m => (m.month.toLowerCase() === keyMonth || m.short.toLowerCase() === keyMonth) && m.year === keyYear
+  //           );
+  //           if (monthObj) {
+  //             const key = `${monthObj.year}_${monthObj.short}`;
+  //             branchMap[branchName][key] = (branchMap[branchName][key] || 0) + (s.count || 0);
+  //           }
+  //         });
+  //       });
+  //     });
+  //   });
+
+  //   Object.entries(branchMap).forEach(([branchName, monthData]) => {
+  //     const row = ws.getRow(currentRow);
+  //     row.getCell(1).value = branchName;
+  //     row.getCell(1).alignment = { horizontal: 'left' };
+  //     row.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9D9D9' } }; // 🌫 Kolom Branch abu
+
+  //     let totalCount = 0;
+  //     let colOffset = 2;
+
+  //     monthRange.forEach(m => {
+  //       const key = `${m.year}_${m.short}`;
+  //       const val = monthData[key] || 0;
+  //       const cell = row.getCell(colOffset++);
+  //       cell.value = val;
+  //       cell.alignment = { horizontal: 'center' };
+  //       cell.border = this.fullBorder();
+  //       totalCount += val;
+  //     });
+
+  //     const totalCell = row.getCell(colOffset);
+  //     totalCell.value = totalCount;
+  //     totalCell.alignment = { horizontal: 'center' };
+  //     totalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru Total
+  //     totalCell.border = this.fullBorder();
+
+  //     currentRow++;
+  //   });
+
+  //   const totalRow = ws.getRow(currentRow);
+  //   totalRow.getCell(1).value = 'Total E.O.M';
+  //   totalRow.getCell(1).font = { bold: true };
+  //   totalRow.getCell(1).alignment = { horizontal: 'center' };
+  //   totalRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } }; // 💛 Kuning
+  //   totalRow.getCell(1).border = this.fullBorder();
+
+  //   monthRange.forEach((_, i) => {
+  //     const colLetter = ws.getColumn(2 + i).letter;
+  //     const startRow = 3;
+  //     const endRow = currentRow - 1;
+  //     totalRow.getCell(2 + i).value = endRow >= startRow ? { formula: `SUM(${colLetter}${startRow}:${colLetter}${endRow})` } : 0;
+  //     totalRow.getCell(2 + i).alignment = { horizontal: 'center' };
+  //     totalRow.getCell(2 + i).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF00' } }; // 💛 Kuning
+  //     totalRow.getCell(2 + i).border = this.fullBorder();
+  //   });
+
+  //   const totalLetter = ws.getColumn(2 + monthRange.length).letter;
+  //   const startRow = 3;
+  //   const endRow = currentRow - 1;
+  //   totalRow.getCell(2 + monthRange.length).value =
+  //     endRow >= startRow ? { formula: `SUM(${totalLetter}${startRow}:${totalLetter}${endRow})` } : 0;
+  //   totalRow.getCell(2 + monthRange.length).alignment = { horizontal: 'center' };
+  //   totalRow.getCell(2 + monthRange.length).font = { color: { argb: '000000' }, bold: true };
+  //   totalRow.getCell(2 + monthRange.length).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '00B0F0' } }; // 💠 Biru total EOM
+  //   totalRow.getCell(2 + monthRange.length).border = this.fullBorder();
+  // }
+
+  // atas fix
 
   // private addMonthlyReportLayout(data: any[], startDate: moment.Moment, endDate: moment.Moment): void {
   //   const ws = this.worksheet;
