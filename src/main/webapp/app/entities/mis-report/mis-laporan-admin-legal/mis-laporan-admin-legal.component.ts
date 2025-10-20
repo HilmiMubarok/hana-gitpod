@@ -685,24 +685,31 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
           (item.covernoteTask || []).map(task => ({
             code: task.code,
             date: task.date,
+            notaryNumber: item?.attributes?.notaryNumber,
           }))
         ),
+
       ...covernotes
         .filter(item => ['DOC_DPDL_LEGAL_BIAYA', 'DOC_DPDL_LEGAL_AKAD', 'DOC_DPDL_LEGAL_LAMPIRAN'].includes(item.parentId))
         .flatMap(item =>
           (item.tags || []).map(tag => ({
             code: tag.documentId,
-            date: tag.documentDate || null,
+            date: tag.documentDate,
+            notaryNumber: item?.attributes?.notaryNumber,
           }))
         ),
     ];
 
     if (dataCovernote.length) {
-      dataCovernote.forEach(item => {
-        const row = this._buildRow(meta, proposal, rowNumber, item);
-        worksheet.addRow(row);
-        rowNumber++;
-      });
+      const mergedItem = {
+        code: dataCovernote.map(item => item.code).join(', '),
+        date: dataCovernote.map(item => this._convertDate(item.date)).join(', '),
+        notaryNumber: [...new Set(dataCovernote.map(item => item.notaryNumber))].join(', '),
+      };
+
+      const row = this._buildRow(meta, proposal, rowNumber, mergedItem);
+      worksheet.addRow(row);
+      rowNumber++;
     } else {
       const row = this._buildRow(meta, proposal, rowNumber);
       worksheet.addRow(row);
@@ -727,7 +734,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
     return {
       dppkDay: dppkDate ? dppkDate.getDate().toString().padStart(2, '0') : '',
-      dppkMonth: dppkDate ? (dppkDate.getMonth() + 1).toString().padStart(2, '0') : '',
+      dppkMonth: dppkDate ? dppkDate.toLocaleString('id-ID', { month: 'long' }) : '',
       dppkYear: dppkDate ? dppkDate.getFullYear().toString() : '',
       pic: dppk[0]?.personName || '',
       tglPemTgs: ol[0]?.fromDate || '',
@@ -737,7 +744,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   private _buildRow(meta: any, proposal: any, rowNumber: number, task: any = null, cover: any = null): Record<string, any> {
     const agreement = proposal.agreement || {};
     const isNotaril = agreement.isNotaril;
-
+    console.log(task?.notaryNumber, 'notaryNumber');
     return {
       no: rowNumber,
       tanggalDpdl: meta.dppkDay,
@@ -754,9 +761,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       namaNotaris: isNotaril === 'Notaril' ? agreement.notaryName : ' - ',
       jenisPK: agreement.agreementType || '',
       akta: task?.code || '',
-      noAkta: isNotaril === 'Notaril' ? proposal.documentLegal?.attributes?.notaryNumber : agreement.agreementNumber,
+      noAkta: isNotaril === 'Notaril' ? task?.notaryNumber : agreement.agreementNumber,
       tglAkta: this._convertDate(agreement.dateAgreement) || '',
-      tglTargetPenyelesaian: this._convertDate(task?.date),
+      tglTargetPenyelesaian: task?.date,
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
       tglSelesaiAkta: '',
