@@ -509,6 +509,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.form.get('query')?.value) {
       params = {
         query: this.form.get('query')?.value,
+        Region: 'R1'
       };
     } else {
       if (this.menu === 'dateFromStatus') {
@@ -753,7 +754,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       size: 999,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
-      internalRegion: 'R1',
+      Region: 'R1',
     };
 
     predicate['target'] = 'mis-cp-ho-report';
