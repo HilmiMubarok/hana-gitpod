@@ -86,7 +86,7 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
       startMonth,
       endMonth,
       proposalType,
-      branchIds: branchId ? branchId.join(',') : '',
+      branchId,
     };
 
     this.misReportService.getMisMonthlyReport(params).subscribe({
