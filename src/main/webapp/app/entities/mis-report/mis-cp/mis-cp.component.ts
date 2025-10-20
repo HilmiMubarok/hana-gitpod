@@ -113,6 +113,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   public lovApprovalLc = [];
   public lovDebtorStatus = [];
   public lovstatusMemo = ['Yes', 'No'];
+  public lovdebtorStatus = ['New', 'Restructure', 'Additional', 'Decrease', 'Renewal', 'Others'];
   public lovProposalType;
   public menu = 'dateFromStatus';
   public form: FormGroup;
@@ -122,7 +123,6 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   allSelected = false;
   allSelectedApprovalLc = false;
   allSelectedProposalType = false;
-  allSelectedDebtorStatus = false;
   dateTypes: string[] = ['Proposal Date', 'Date From Status'];
 
   @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
@@ -173,15 +173,6 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       this.misCp.get('proposalType')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
     } else {
       this.misCp.get('proposalType')?.setValue('');
-    }
-  }
-
-  toggleSelectAllDebtorStatus(): void {
-    this.allSelectedDebtorStatus = !this.allSelectedDebtorStatus;
-    if (this.allSelectedDebtorStatus) {
-      this.misCp.get('debtorStatus')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
-    } else {
-      this.misCp.get('debtorStatus')?.setValue('');
     }
   }
 
@@ -259,6 +250,16 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       this.misCp.get('statusMemo')?.setValue([...this.lovstatusMemo]);
     } else {
       this.misCp.get('statusMemo')?.setValue(null);
+    }
+  }
+
+  allSelectedDebtorStatus = false;
+  public toggleSelectDebtorStatus(): void {
+    this.allSelectedDebtorStatus = !this.allSelectedDebtorStatus;
+    if (this.allSelectedDebtorStatus) {
+      this.misCp.get('debtorStatus')?.setValue([...this.lovdebtorStatus]);
+    } else {
+      this.misCp.get('debtorStatus')?.setValue(null);
     }
   }
 
@@ -344,6 +345,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         startDate: this.misCp.get('date1')?.value,
         endDate: this.misCp.get('date2')?.value,
         status: this._convertStatusToString(this.misCp.get('status')?.value),
+        facilityRank: this._convertStatusToString(this.misCp.get('debtorStatus')?.value),
         type: 'STATELOG',
       };
     } else {
@@ -351,6 +353,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         startDate: null,
         endDate: null,
         status: this._convertStatusToString(this.misCp.get('status')?.value),
+        facilityRank: this._convertStatusToString(this.misCp.get('debtorStatus')?.value),
         type: null,
       };
     }
