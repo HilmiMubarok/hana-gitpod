@@ -429,7 +429,7 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
 
       filteredData1 = data.data1.filter(item => lcs.includes(item.title));
     }
-    console.log(filteredData1, 'filteredData1');
+
     // Process Data
     let indexRow = 0;
     filteredData1.forEach((item: any, index: number) => {
