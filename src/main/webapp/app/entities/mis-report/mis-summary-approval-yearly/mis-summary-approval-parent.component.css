@@ -42,3 +42,10 @@
   /* border-top: 1px solid #ccc; */
   padding-top: 20px;
 }
+
+.e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text {
+  align-items: inherit;
+  display: inherit;
+  color: #3c958f;
+  font-size: 16px;
+}
