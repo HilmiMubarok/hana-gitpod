@@ -393,7 +393,13 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     this._resetData();
     this.loadingGenerate = false;
   }
+  private formatDataLC(input) {
+    if (Array.isArray(input)) {
+      return input.map(item => item.replace(/([A-Z]+)(\d+)_([A-Z]+)/g, '$1 $2 $3')).join(', ');
+    }
 
+    return input.replace(/([A-Z]+)(\d+)_([A-Z]+)/g, '$1 $2 $3');
+  }
   protected processData(data: any): void {
     const ws = this.worksheet;
     const dateRangeRow = ws.getRow(1);
@@ -403,10 +409,30 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     const proposalTypeRow = ws.getRow(2);
     proposalTypeRow.getCell('A').value = 'Proposal Type';
     proposalTypeRow.getCell('B').value = data.payloadData1.proposalType;
+    let filteredData1 = data.data1;
+    if (data.payloadData1.segmentId) {
+      let segments = data.payloadData1.segmentId;
+
+      if (segments.includes(',')) {
+        segments = data.payloadData1.segmentId.split(',');
+      }
+
+      filteredData1 = data.data1.filter(item => segments.includes(item.title));
+    }
+
+    if (data.payloadData1.lc) {
+      let lcs = this.formatDataLC(data.payloadData1.lc);
+
+      if (lcs.includes(',')) {
+        lcs = this.formatDataLC(data.payloadData1.lc).split(',');
+      }
+
+      filteredData1 = data.data1.filter(item => lcs.includes(item.title));
+    }
 
     // Process Data
     let indexRow = 0;
-    data.data1.forEach((item: any, index: number) => {
+    filteredData1.forEach((item: any, index: number) => {
       const conditionsLength = processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length;
       indexRow += conditionsLength + 5;
       this.summaryApprovalService.createTableInWorksheet(
