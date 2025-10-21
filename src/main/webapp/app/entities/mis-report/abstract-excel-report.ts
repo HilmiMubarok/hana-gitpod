@@ -132,15 +132,31 @@ export abstract class AbstractExcelMISReport {
     });
   }
 
-  protected async downloadFile(fileName: string): Promise<void> {
+  protected async downloadFile(fileName: string, isWithHour = true): Promise<void> {
     const buffer = await this.workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const date = new Date();
-    const outputName = `${fileName}_${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(
-      2,
-      '0'
-    )}_${String(date.getHours()).padStart(2, '0')}-${String(date.getMinutes()).padStart(2, '0')}`;
+    const outputName = this.generateFileName(fileName, isWithHour);
     saveAs(blob, outputName);
+  }
+
+  private generateFileName(fileName: string, includeTime: boolean): string {
+    const date = new Date();
+    const datePart = this.formatDateFileName(date);
+    const timePart = includeTime ? `_${this.formatTime(date)}` : '';
+    return `${fileName}_${datePart}${timePart}`;
+  }
+
+  private formatDateFileName(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  private formatTime(date: Date): string {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}-${minutes}`;
   }
 
   public async generateReport(data: any[], fileName: string): Promise<void> {

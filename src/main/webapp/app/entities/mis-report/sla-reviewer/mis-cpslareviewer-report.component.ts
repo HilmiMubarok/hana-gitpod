@@ -554,7 +554,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles('ffffe49c');
-      this.downloadFile(fileName);
+      this.downloadFile(fileName, false);
       return;
     }
 
@@ -563,7 +563,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     this._applyStyles();
     this._setAutoWidthForAllColumns();
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
     this._resetData();
   }
 
