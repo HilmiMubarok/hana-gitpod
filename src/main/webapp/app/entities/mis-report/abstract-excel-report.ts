@@ -621,9 +621,9 @@ export abstract class AbstractExcelMISReport {
     // Jika full positif, ambil yang paling kecil. e.g [1, 2, 3, 4] -> 1
     // Jika full negatif, ambil yang paling besar. e.g [-1, -2, -3, -4] -> -4
 
-    const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis'], 'Default', false)
+    const tanggalCRA = this._getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis'], 'Default', false)
       .split(',')
-      .pop();
+      .shift();
     const jatuhTempo = this._getMaturityDate(proposal).split(',');
 
     if (!tanggalCRA || !jatuhTempo) {
@@ -634,7 +634,7 @@ export abstract class AbstractExcelMISReport {
     const maturityDates = jatuhTempo.map(date => new Date(date));
 
     const diffDays = maturityDates.map(date => {
-      const diffTime = Math.abs(date.getTime() - craDate.getTime());
+      const diffTime = date.getTime() - craDate.getTime();
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     });
 

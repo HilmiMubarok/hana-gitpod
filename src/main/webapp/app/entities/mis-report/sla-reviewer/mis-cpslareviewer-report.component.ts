@@ -1067,7 +1067,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       return '';
     }
     const clonedMaturityDate = lodash.cloneDeep(product.maturityDate)
-    console.log("Maturity Date: ", {product: product.maturityDate, clonedMaturityDate})
 
     if (product.pengajuan === 'Renewal') {
       const tenor = product.tenorFasilitas;
