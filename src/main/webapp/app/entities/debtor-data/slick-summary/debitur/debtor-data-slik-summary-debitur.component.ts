@@ -464,9 +464,12 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
     const partySlik: any = new PartySlik();
+
+    const partySlikCollaterals = this._processPartySlikCollaterals(item.partySlikCollaterals);
+
     partySlik.attributes = {
       name: item.debtorName,
-      partySlikCollaterals: JSON.stringify(item.partySlikCollaterals),
+      partySlikCollaterals: JSON.stringify(partySlikCollaterals),
     };
     partySlik.partyId = this.partyId;
     partySlik.bank = item.bank;
@@ -492,6 +495,25 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.kondisi = item.kondisi;
 
     return partySlik;
+  }
+  private _processPartySlikCollaterals(partySlikCollaterals: any): any {
+    const keysToFormat = ['nilaiPenilai', 'nilaiNJOP', 'collateralIdrMio'];
+
+    if (!partySlikCollaterals) {
+      return [];
+    }
+    
+    partySlikCollaterals.map(item => {
+      keysToFormat.forEach(key => {
+        if (item[key] === null) {
+          item[key] = "0";
+        } else {
+          item[key] = item[key].toString().replace(/[,.]/g, '');
+        }
+      });
+    });
+    
+    return partySlikCollaterals;
   }
   public resData: IPDFSlik[];
   private _processResponseData(response: IResponsePDFSlik): IPDFSlik[] {
