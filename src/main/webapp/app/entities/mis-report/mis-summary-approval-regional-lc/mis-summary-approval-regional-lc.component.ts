@@ -370,7 +370,7 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     if (!data) {
       if (this.worksheet) {
         this._setAutoWidthForAllColumns();
-        this.downloadFile('MIS_SUMMARY_APPROVAL');
+        this.downloadFile('MIS_SUMMARY_APPROVAL', false);
       }
       this.loadingGenerate = false;
       return;
@@ -384,9 +384,9 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     if (this.worksheet) {
       this._setAutoWidthForAllColumns();
       if (this.formConfigs[0].menuType === 'Regional') {
-        this.downloadFile('MIS_Summary_Approval_Regional_Report_');
+        this.downloadFile('MIS_Summary_Approval_Regional_Report_', false);
       } else {
-        this.downloadFile('MIS_Summary_Approval_LC_Report_');
+        this.downloadFile('MIS_Summary_Approval_LC_Report_', false);
       }
     }
 

@@ -126,7 +126,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     this.workbook = new ExcelJS.Workbook();
     this.worksheet = this.workbook.addWorksheet('Yearly Summary');
     this.processData(data);
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   private transformToWorksheetData(rawData: any[]) {
@@ -327,7 +327,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     this.workbook = new ExcelJS.Workbook();
     this.worksheet = this.workbook.addWorksheet('Monthly Summary');
     this.processDataMonthly(data);
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   private transformToWorksheetDataMonthly(rawData: any[]): any[] {
