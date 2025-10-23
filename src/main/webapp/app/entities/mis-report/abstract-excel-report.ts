@@ -51,27 +51,22 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _setAutoHeightForAllRows(): void {
+    const lineHeight = 19;
+    
     this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      let maxHeight = 0;
+      if (rowNumber <= 1) {
+        return;
+      }
+
+      let maxLine = 1;
       row.eachCell({ includeEmpty: true }, cell => {
-        if (cell.value && rowNumber > 1) {
-          const cellValue = cell.value.toString();
-          const cellLines = cellValue.split('\n');
-          const lineCount = cellLines.length;
-          const maxLineLength = Math.max(...cellLines.map(line => line.length));
-
-          // Estimate height based on line count and length
-          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7) * 5;
-
-          if (estimatedHeight > maxHeight) {
-            maxHeight = estimatedHeight;
-          }
+        if (cell.value) {
+          const lineCount = cell.value.toString().split('\n').length;
+          maxLine = Math.max(lineCount, maxLine);
         }
       });
-
-      // Set a minimum height and cap the maximum height
-      const finalHeight = Math.max(50, maxHeight);
-      row.height = finalHeight;
+      
+      row.height = lineHeight * maxLine;
     });
   }
 

@@ -391,7 +391,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
     this._applyStyles(worksheet);
     this._setAutoWidthForAllColumns();
-    // this._setAutoHeightForAllRows();
+    this._setAutoHeightForAllRows();
     this.downloadFile(fileName, false);
     this._resetData();
   }
@@ -717,7 +717,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         totalLVInternalEqToIDR: proposal.totalLVInternal || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
-        reviewer: proposal.dataAssignToCROName || '',
+        reviewer: this.formatReviewer(proposal.dataAssignToCROName),
         proposalStatus: proposal.status || '',
         dateOfStatus: this.formatDateMISCP(proposal.lastModifiedDate) || '',
         memo: this.getMemo(proposal),
@@ -984,8 +984,34 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       appealMemoDocNo === '' ||
       appealMemoDocNo === 'null'
     ) {
-      return 'No';
+      return 'N';
     }
-    return 'Yes';
+    return 'Y';
+  }
+
+  private formatReviewer(reviewerName: string): string {
+    try {
+      if (!reviewerName) {
+        return '';
+      }
+
+      if (reviewerName.includes('null')) {
+        reviewerName = reviewerName.replace('null', '');
+      }
+
+      const words = reviewerName.split(' ');
+
+      const formattedWords = words.map(word => {
+        if (word === word.toUpperCase()) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+
+      return formattedWords.join(' ');
+    } catch (error) {
+      console.log('Error formatting reviewer name:', error);
+      return '';
+    }
   }
 }
