@@ -464,17 +464,20 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
     const partySlik: any = new PartySlik();
+
+    const partySlikCollaterals = this._processPartySlikCollaterals(item.partySlikCollaterals);
+
     partySlik.attributes = {
       name: item.debtorName,
-      partySlikCollaterals: JSON.stringify(item.partySlikCollaterals),
+      partySlikCollaterals: JSON.stringify(partySlikCollaterals),
     };
     partySlik.partyId = this.partyId;
     partySlik.bank = item.bank;
-    partySlik.limit = item.limit === null ? 0 : Number(item.limit.toString().replace(/\./g, ''));
+    partySlik.limit = item.limit === null ? 0 : Number(item.limit.toString().replace(/[,.]/g, ''));
     partySlik.rate = item.rate == null ? 0 : Number(item.rate.toString().replace(' %', ''));
     partySlik.tenor = item.tenor == null ? 0 : Number(item.tenor.toString().replace(' bulan', ''));
-    partySlik.outstanding = item.outstanding == null ? 0 : Number(item.outstanding.toString().replace(/\./g, ''));
-    partySlik.collateralIdrMio = item.collateralIdrMio == null ? 0 : Number(item.collateralIdrMio.toString().replace(/\./g, ''));
+    partySlik.outstanding = item.outstanding == null ? 0 : Number(item.outstanding.toString().replace(/[,.]/g, ''));
+    partySlik.collateralIdrMio = item.collateralIdrMio == null ? 0 : Number(item.collateralIdrMio.toString().replace(/[,.]/g, ''));
     partySlik.restructureFrequency = item.frekuensiRestrukturasi == null ? 0 : Number(item.frekuensiRestrukturasi);
     partySlik.arrearsFrequency = item.frekuensiTunggakan == null ? 0 : Number(item.frekuensiTunggakan);
     partySlik.arrearsBase = item.tunggakanPokok == null ? 0 : Number(item.tunggakanPokok);
@@ -492,6 +495,25 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.kondisi = item.kondisi;
 
     return partySlik;
+  }
+  private _processPartySlikCollaterals(partySlikCollaterals: any): any {
+    const keysToFormat = ['nilaiPenilai', 'nilaiNJOP', 'collateralIdrMio'];
+
+    if (!partySlikCollaterals) {
+      return [];
+    }
+    
+    partySlikCollaterals.map(item => {
+      keysToFormat.forEach(key => {
+        if (item[key] === null) {
+          item[key] = "0";
+        } else {
+          item[key] = item[key].toString().replace(/[,.]/g, '');
+        }
+      });
+    });
+    
+    return partySlikCollaterals;
   }
   public resData: IPDFSlik[];
   private _processResponseData(response: IResponsePDFSlik): IPDFSlik[] {

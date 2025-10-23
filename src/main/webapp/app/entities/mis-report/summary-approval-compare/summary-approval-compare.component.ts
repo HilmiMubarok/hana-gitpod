@@ -363,7 +363,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   public processGenerate(data1, data2): void {
     if (!data1 || !data2) {
       this._setAutoWidthForAllColumns();
-      this.downloadFile('MIS_SUMMARY_APPROVAL_COMPARE');
+      this.downloadFile('Summary_Approval_Compare', false);
       this.loadingGenerate = false;
       return;
     }
@@ -377,7 +377,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     this.processData(processedData);
     this._setAutoWidthForAllColumns();
 
-    this.downloadFile('Summary_Approval_Compare_');
+    this.downloadFile('Summary_Approval_Compare', false);
     this._resetData();
     this.loadingGenerate = false;
   }
