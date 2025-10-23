@@ -823,10 +823,10 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _getPic(timeLineCreditProposal) {
-    return timeLineCreditProposal
-      .filter(timeline => timeline.fromStatusDescription === 'OL Assigned')
-      .map(timeline => timeline.personName)
-      .join(',\n');
+    const filtered = timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'OL Assigned');
+
+    const lastTimeline = filtered.length > 0 ? filtered[filtered.length - 1] : null;
+    return lastTimeline ? lastTimeline.personName : '';
   }
 
   private _getTanggalJatuhTempo(product) {
