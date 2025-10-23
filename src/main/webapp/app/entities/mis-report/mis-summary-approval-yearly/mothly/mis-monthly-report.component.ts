@@ -113,7 +113,7 @@ export class MisMonthlySummaryApprovalComponent extends AbstractExcelMISReport i
     }
 
     this.addMonthlyReportLayout(data, startDate, endDate);
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   private addMonthlyReportLayout(data: any[], startDate: moment.Moment, endDate: moment.Moment): void {

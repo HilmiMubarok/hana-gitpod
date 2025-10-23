@@ -84,7 +84,7 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
     this.setUpColumns(this.worksheet);
     this.processData(data);
 
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   protected setUpColumns(worksheet: ExcelJS.Worksheet) {
