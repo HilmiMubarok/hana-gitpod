@@ -743,8 +743,16 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const timeline = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
 
     const dppk = timeline
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+      .filter(
+        item =>
+          item.statusDescription === 'DPPK Finalize' &&
+          ['DPDL Legal Head Review', 'DPDL Legal Lead Review'].includes(item.fromStatusDescription)
+      )
+      .sort((a, b) => {
+        const dateTimeA = new Date(`${a.fromDate} ${a.fromTime}`).getTime();
+        const dateTimeB = new Date(`${b.fromDate} ${b.fromTime}`).getTime();
+        return dateTimeB - dateTimeA;
+      })[0];
 
     const ol = timeline
       .filter(item => item.statusDescription === 'OL Assigned')
