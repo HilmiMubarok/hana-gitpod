@@ -554,7 +554,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles('ffffe49c');
-      this.downloadFile(fileName);
+      this.downloadFile(fileName, false);
       return;
     }
 
@@ -563,7 +563,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     this._applyStyles();
     this._setAutoWidthForAllColumns();
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
     this._resetData();
   }
 
@@ -633,10 +633,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         false
       ).split(',\n'),
       dateReturnToReviewer: this._getDateReturnToReviewer(proposal, 'Default', false).split(',\n'),
-      generateDAR: [this.getGenerateDAR(proposal, false)],
-      finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker'], 'Default', false).split(
-        ',\n'
-      ),
+      generateDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker'], 'Default', false).split(',\n'),
+      finalizedDAR: this.getFinalizedDAR(proposal, false).split(',\n'),
     });
 
     const repeatCount = proposal.product?.length || 1;
@@ -708,8 +706,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         dateReturnToReviewer: this._getDateReturnToReviewer(proposal) || '',
         loanApprovalLoanCommDate:
           this.getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
-        generateDAR: this.getGenerateDAR(proposal),
-        finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
+        generateDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
+        finalizedDAR: this.getFinalizedDAR(proposal),
         slaLength: this.slaLengthService.getSLALength(),
       });
     }
@@ -1044,18 +1042,24 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     return filteredTimelines.length.toString();
   }
 
-  protected getGenerateDAR(proposal: any, isDateFormated = true): string {
-    const documentGenerate = proposal.documentGenerate;
+  protected getFinalizedDAR(proposal, isDateFormated = true) {
+    const timelines = proposal.timeLineCreditProposal;
 
-    if (!documentGenerate) {
+    if (!timelines || !Array.isArray(timelines)) {
       return '';
     }
 
-    if (!isDateFormated) {
-      return documentGenerate.generateDate || '';
+    const sortedTimelines = [...timelines].sort((a, b) => a.id - b.id);
+
+    const filteredTimelines = sortedTimelines.filter(
+      t => (t.fromStatusDescription === 'DAR Notif' || t.fromStatusDescription === 'DAR Checker') && t.statusDescription === 'Confirmation'
+    );
+
+    if (filteredTimelines.length === 0) {
+      return '';
     }
 
-    return this.formatDate(documentGenerate.generateDate);
+    return isDateFormated ? filteredTimelines.map(t => this.formatDate(t.fromDate)).join(',\n') : filteredTimelines.map(t => t.fromDate).join(',\n');
   }
 
   private getMaturityDate(product) {
@@ -1067,7 +1071,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       return '';
     }
     const clonedMaturityDate = lodash.cloneDeep(product.maturityDate)
-    console.log("Maturity Date: ", {product: product.maturityDate, clonedMaturityDate})
 
     if (product.pengajuan === 'Renewal') {
       const tenor = product.tenorFasilitas;

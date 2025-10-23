@@ -382,7 +382,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles('ffffe49c');
-      this.downloadFile(fileName);
+      this.downloadFile(fileName, false);
       return;
     }
 
@@ -392,7 +392,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     this._applyStyles(worksheet);
     this._setAutoWidthForAllColumns();
     // this._setAutoHeightForAllRows();
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
     this._resetData();
   }
 
@@ -690,7 +690,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         applicationType: product.pengajuan || '',
         takeOverYN: this.getTakeOverYN(proposal),
         previousBank: this.getPreviousBank(proposal),
-        facilityType: product.facilityType || '',
+        facilityType: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
         maturityDate: product.maturityDate === 'null' ? '' : product.maturityDate || '',
@@ -718,7 +718,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
         reviewer: proposal.dataAssignToCROName || '',
-        status: proposal.status || '',
+        proposalStatus: proposal.status || '',
         dateOfStatus: this.formatDateMISCP(proposal.lastModifiedDate) || '',
         memo: this.getMemo(proposal),
       });

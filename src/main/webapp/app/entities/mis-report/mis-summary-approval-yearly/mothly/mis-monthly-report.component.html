@@ -5,7 +5,14 @@
         <div class="col-12 col-md-6 mb-1">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Start Month</mat-label>
-            <input matInput [matDatepicker]="startPicker" placeholder="Select Start Month" formControlName="startMonth" readonly />
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              placeholder="Select Start Month"
+              formControlName="startMonth"
+              readonly
+              (focus)="startPicker.open()"
+            />
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker
               #startPicker
@@ -20,7 +27,14 @@
         <div class="col-12 col-md-6 mb-1">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>End Month</mat-label>
-            <input matInput [matDatepicker]="endPicker" placeholder="Select End Month" formControlName="endMonth" readonly />
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              placeholder="Select End Month"
+              formControlName="endMonth"
+              readonly
+              (focus)="endPicker.open()"
+            />
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker
               #endPicker

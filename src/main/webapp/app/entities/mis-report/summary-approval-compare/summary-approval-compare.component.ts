@@ -363,7 +363,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
   public processGenerate(data1, data2): void {
     if (!data1 || !data2) {
       this._setAutoWidthForAllColumns();
-      this.downloadFile('MIS_SUMMARY_APPROVAL_COMPARE');
+      this.downloadFile('Summary_Approval_Compare', false);
       this.loadingGenerate = false;
       return;
     }
@@ -377,9 +377,18 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     this.processData(processedData);
     this._setAutoWidthForAllColumns();
 
-    this.downloadFile('Summary_Approval_Compare_');
+    this.downloadFile('Summary_Approval_Compare', false);
     this._resetData();
     this.loadingGenerate = false;
+  }
+
+  private formatDataLC(input) {
+
+    if (Array.isArray(input)) {
+      return input.map(item => item.replace(/([A-Z]+)(\d+)_([A-Z]+)/g, '$1 $2 $3')).join(', ');
+    }
+
+    return input.replace(/([A-Z]+)(\d+)_([A-Z]+)/g, '$1 $2 $3');
   }
 
   protected processData(data): void {
@@ -394,9 +403,53 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow.getCell('A').value = 'Proposal Type';
     proposalTypeRow.getCell('B').value = data.payloadData1.proposalType;
 
+    // filtering data 1
+    let filteredData1 = data.data1;
+    if (data.payloadData1.segmentId) {
+      let segments = data.payloadData1.segmentId;
+
+      if (segments.includes(',')) {
+        segments = data.payloadData1.segmentId.split(',');
+      }
+
+      filteredData1 = data.data1.filter(item => segments.includes(item.title));
+    }
+
+    if (data.payloadData1.lc) {
+      let lcs = this.formatDataLC(data.payloadData1.lc);
+
+      if (lcs.includes(',')) {
+        lcs = this.formatDataLC(data.payloadData1.lc).split(',');
+      }
+
+      filteredData1 = data.data1.filter(item => lcs.includes(item.title));
+    }
+
+    // filtering data 2
+    let filteredData2 = data.data2;
+    if (data.payloadData2.segmentId) {
+      let segments = data.payloadData2.segmentId;
+
+      if (segments.includes(',')) {
+        segments = data.payloadData2.segmentId.split(',');
+      }
+
+      filteredData2 = data.data2.filter(item => segments.includes(item.title));
+    }
+
+    if (data.payloadData2.lc) {
+      let lcs = this.formatDataLC(data.payloadData2.lc);
+
+      if (lcs.includes(',')) {
+        lcs = this.formatDataLC(data.payloadData2.lc).split(',');
+      }
+
+      filteredData2 = data.data2.filter(item => lcs.includes(item.title));
+    }
+
     // Process Data 1
     let indexRow = 0;
-    data.data1.forEach((item, index) => {
+    filteredData1.forEach((item, index) => {
       indexRow += processConditions(data.payloadData1.condition, data.payloadData1.debtorStatus).length + 5;
       this.summaryApprovalService.createTableInWorksheet(
         ws,
@@ -419,7 +472,7 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
     proposalTypeRow2.getCell('B').value = data.payloadData2.proposalType;
 
     // Process Data 2
-    data.data2.forEach((item, index) => {
+    filteredData2.forEach((item, index) => {
       const indexRowData2 = processConditions(data.payloadData2.condition, data.payloadData2.debtorStatus).length + 5;
       this.summaryApprovalService.createTableInWorksheet(
         ws,
