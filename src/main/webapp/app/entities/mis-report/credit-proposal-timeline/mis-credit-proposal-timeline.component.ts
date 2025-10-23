@@ -419,7 +419,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles('ffffe49c');
-      this.downloadFile(fileName);
+      this.downloadFile(fileName, false);
       return;
     }
 
@@ -427,7 +427,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.processData(data);
 
     this._applyStyles();
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   private _getTimelineFilters(): {
