@@ -14,7 +14,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
-import 'moment/locale/id';
+
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
@@ -743,9 +743,16 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const timeline = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
 
     const dppk = timeline
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
-
+      .filter(
+        item =>
+          item.statusDescription === 'DPPK Finalize' &&
+          ['DPDL Legal Head Review', 'DPDL Legal Lead Review'].includes(item.fromStatusDescription)
+      )
+      .sort((a, b) => {
+        const dateTimeA = new Date(`${a.fromDate} ${a.fromTime}`).getTime();
+        const dateTimeB = new Date(`${b.fromDate} ${b.fromTime}`).getTime();
+        return dateTimeB - dateTimeA;
+      });
     const ol = timeline
       .filter(item => item.statusDescription === 'OL Assigned')
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
