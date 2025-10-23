@@ -752,7 +752,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         const dateTimeA = new Date(`${a.fromDate} ${a.fromTime}`).getTime();
         const dateTimeB = new Date(`${b.fromDate} ${b.fromTime}`).getTime();
         return dateTimeB - dateTimeA;
-      })[0];
+      });
 
     const ol = timeline
       .filter(item => item.statusDescription === 'OL Assigned')
