@@ -436,15 +436,21 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _handleFormChanges(): void {
+    this.form.get('startDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.form.get('endDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
     this.form.valueChanges.subscribe(changes => {
-      if (moment.isMoment(changes.startDate)) {
-        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
-      }
-
-      if (moment.isMoment(changes.endDate)) {
-        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
-      }
-
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
           this._updateFormControl('status', '');
@@ -465,6 +471,12 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
       if (changes.regional !== undefined) {
         this._handleRegionalChanges(changes.regional);
+      }
+    });
+
+    this.form.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
       }
     });
   }
@@ -609,29 +621,23 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _filterCPBeforeGenerate(data) {
-    // Tambah statusProposal ke setiap data
     data.forEach(proposal => {
       proposal.statusProposal = this._getStatusData(proposal);
     });
 
-    // Ambil value dari form
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
     const statusProposal = this.form.get('proposalStatus')?.value;
 
-    // Ambil data yang dipilih dari tabel (jika ada)
     const selectedIds = this.processSelectedItems();
 
-    // Filter awal: hanya untuk internalRegion 'R2'
     let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
-    // 🔹 Jika user memilih beberapa data di tabel, utamakan itu
     if (selectedIds.length > 0) {
       return cp.filter(proposal => selectedIds.includes(proposal.id));
     }
 
-    // 🔹 Jika tidak ada search, maka filter berdasarkan form
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
