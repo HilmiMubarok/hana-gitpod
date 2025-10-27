@@ -3,6 +3,8 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-back-to-back-deposit',
@@ -105,17 +107,33 @@ export class CPMemoBandingCovenantBackToBackDepositComponent implements OnInit {
         idParameterType: 'COVENANT_BTB_TERMS_CONDITION',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length === 0
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;
+
         const gridDeposit = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridDeposit[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridBackToBackDeposit = gridDeposit;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = replaceConvenantFromMaster(
+            this.standardDataGridBackToBackDeposit,
+            this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit
+          );
+        }
+
         this.getBackToBackDeposit();
 
         if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length === 0) {

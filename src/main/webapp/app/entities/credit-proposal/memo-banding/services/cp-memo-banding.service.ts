@@ -215,6 +215,9 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
   }
 
   compareOtherCovenant(firstData, secondData) {
+    firstData.sort((a, b) => a.id - b.id);
+    secondData.sort((a, b) => a.id - b.id);
+
     const comparedData = secondData.map(data => {
       const matchingData = firstData.find(d => d.id === data.id);
       const appealStatus = matchingData ? (_.isEqualWith(data, matchingData) ? 'Not changed' : 'Changed') : 'Added';
@@ -230,18 +233,19 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
     return comparedData;
   }
 
-  compareDeepData(firstData, secondData) {
-    // console.log('Data', { firstData, secondData });
+  compareDeepData(beforeData, afterData) {
+    beforeData.sort((a, b) => a.id - b.id);
+    afterData.sort((a, b) => a.id - b.id);
 
-    const comparedData = firstData.map(data => {
-      const matchingData = secondData.find(d => d.id === data.id);
-      const appealStatus = matchingData ? (_.isEqualWith(data, matchingData) ? 'Not changed' : 'Changed') : 'Removed';
+    const comparedData = afterData.map(data => {
+      const matchingData = beforeData.find(d => d.id === data.id);
+      const appealStatus = matchingData ? (_.isEqualWith(data, matchingData) ? 'Not changed' : 'Changed') : 'Added';
       return { ...data, appealStatus };
     });
 
-    secondData.forEach(data => {
-      if (!firstData.some(d => d.id === data.id)) {
-        comparedData.push({ ...data, appealStatus: 'Added' });
+    beforeData.forEach(data => {
+      if (!afterData.some(d => d.id === data.id)) {
+        comparedData.push({ ...data, appealStatus: 'Removed' });
       }
     });
 
