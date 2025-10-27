@@ -621,29 +621,23 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _filterCPBeforeGenerate(data) {
-    // Tambah statusProposal ke setiap data
     data.forEach(proposal => {
       proposal.statusProposal = this._getStatusData(proposal);
     });
 
-    // Ambil value dari form
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
     const statusProposal = this.form.get('proposalStatus')?.value;
 
-    // Ambil data yang dipilih dari tabel (jika ada)
     const selectedIds = this.processSelectedItems();
 
-    // Filter awal: hanya untuk internalRegion 'R2'
     let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
-    // 🔹 Jika user memilih beberapa data di tabel, utamakan itu
     if (selectedIds.length > 0) {
       return cp.filter(proposal => selectedIds.includes(proposal.id));
     }
 
-    // 🔹 Jika tidak ada search, maka filter berdasarkan form
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
