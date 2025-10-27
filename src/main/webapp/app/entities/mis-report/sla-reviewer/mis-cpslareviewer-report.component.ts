@@ -322,6 +322,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       { header: 'Branch', key: 'branchs' },
       { header: 'Regional', key: 'regional' },
       { header: 'SME Head Name', key: 'headName' },
+      { header: 'Dep Head', key: 'depHead' },
+      { header: 'Div Head', key: 'divHead' },
       { header: 'BM', key: 'bm' },
       { header: 'RM', key: 'rm' },
       { header: 'Debtor Name', key: 'debtorName' },
@@ -654,6 +656,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         branchs: proposal.bookingBranchName || '',
         regional: this.getRegionalParentRM(proposal.regionalParentRM),
         headName: proposal.headName || '',
+        depHead: proposal.deptHeadName || '',
+        divHead: proposal.dhName || '',
         bm: proposal.bm || '',
         rm:
           proposal.rmFirstName || proposal.rmLastName
@@ -725,6 +729,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         'branchs',
         'regional',
         'headName',
+        'depHead',
+        'divHead',
         'bm',
         'rm',
         'debtorName',
