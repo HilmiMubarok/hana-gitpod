@@ -3,6 +3,8 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
+import { statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-above',
@@ -101,6 +103,7 @@ export class CPMemoBandingCovenantAboveComponent implements OnInit {
         idParameterType: 'COVENANT_ABOVE_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         // res.body.forEach(data => {
@@ -113,12 +116,27 @@ export class CPMemoBandingCovenantAboveComponent implements OnInit {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+
         const gridAbove = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridAbove = gridAbove;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = replaceConvenantFromMaster(
+            this.standardDataGridAbove,
+            this.creditProposalItem.attributes['convenant'].standardDataGridAbove
+          );
+        }
+
         this.getStandardDataGridAbove();
 
         if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
