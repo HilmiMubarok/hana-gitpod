@@ -304,6 +304,10 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         this.clearSearch();
       }
     });
+
+    this.form.valueChanges.subscribe(() => {
+      this.checkFieldStatus();
+    });
   }
 
   _handleRegionalChanges(regionalData) {
@@ -665,8 +669,8 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       { header: 'Summary', key: 'summary' },
       { header: 'Tanggal Jatuh Tempo', key: 'tanggalJatuhTempo' },
       { header: 'Segmentation', key: 'segmentation' },
-      { header: 'Started (date)', key: 'started' },
       { header: 'Started (Month)', key: 'startedMonth' },
+      { header: 'Started (date)', key: 'started' },
       { header: 'Started (year)', key: 'year' },
       { header: 'DPDL (Month)', key: 'dpdlMonth' },
       { header: 'DPDL (date)', key: 'dpdl' },
