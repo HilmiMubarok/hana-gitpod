@@ -1,12 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
-import { MisReportService } from '../mis-report.service';
+import { MisReportService } from '../../mis-report.service';
 import { MessageService } from 'primeng/api';
 import * as ExcelJS from 'exceljs';
-import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { AbstractExcelMISReport } from '../../abstract-excel-report';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import saveAs from 'file-saver';
+import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 export const YEAR_FORMATS = {
   parse: { dateInput: 'YYYY' },
@@ -21,6 +22,8 @@ export const YEAR_FORMATS = {
 })
 export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport implements OnInit {
   public lovBranch = [];
+
+  public menuItems: MenuItemModel[] = [{ text: 'Yearly' }, { text: 'Monthly' }];
   lovProposalType: { code: string; description: string }[] = [];
   misYearlyReport: FormGroup;
 
@@ -81,7 +84,7 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
     this.setUpColumns(this.worksheet);
     this.processData(data);
 
-    this.downloadFile(fileName);
+    this.downloadFile(fileName, false);
   }
 
   protected setUpColumns(worksheet: ExcelJS.Worksheet) {

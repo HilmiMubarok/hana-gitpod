@@ -1,0 +1,86 @@
+<form [formGroup]="misMonthlyReport" (ngSubmit)="generateMISMonthlyReport()">
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Start Month</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              placeholder="Select Start Month"
+              formControlName="startMonth"
+              readonly
+              (focus)="startPicker.open()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker
+              #startPicker
+              startView="multi-year"
+              (yearSelected)="chosenStartYearHandler($event)"
+              (monthSelected)="chosenStartMonthHandler($event, startPicker)"
+              panelClass="month-picker"
+            ></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>End Month</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              placeholder="Select End Month"
+              formControlName="endMonth"
+              readonly
+              (focus)="endPicker.open()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker
+              #endPicker
+              startView="multi-year"
+              (monthSelected)="chosenEndMonthHandler($event, endPicker)"
+              panelClass="month-picker"
+            ></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Proposal Type</mat-label>
+            <mat-select formControlName="proposalType">
+              <mat-option *ngFor="let item of lovProposalType" [value]="item.code">{{ item.code }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-1">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Branch</mat-label>
+            <mat-select formControlName="branchId" multiple>
+              <li class="select-all" (click)="toggleSelectBranch()">
+                {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let branch of lovBranch" [value]="branch.id">{{ branch.facilityName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="mt-3 text-center">
+    <button
+      mat-raised-button
+      id="generate-btn"
+      class="confirm-button-no"
+      type="submit"
+      [disabled]="misReportService.loadingGenerateDocument$ | async"
+      [class.loading]="misReportService.loadingGenerateDocument$ | async"
+    >
+      {{ misReportService.generateDocumentLabel$ | async }}
+    </button>
+  </div>
+</form>

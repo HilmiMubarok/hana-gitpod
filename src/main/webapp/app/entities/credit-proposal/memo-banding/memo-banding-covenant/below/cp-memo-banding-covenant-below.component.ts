@@ -4,7 +4,8 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
-import { ICovenant } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { ICovenant, statusCovenantNotRefreshedFromMaster } from 'app/entities/credit-proposal/convenant/convenant.constant';
+import { replaceConvenantFromMaster } from 'app/entities/credit-proposal/convenant/convenant.helper';
 
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-below',
@@ -105,17 +106,33 @@ export class CPMemoBandingCovenantBelowComponent implements OnInit {
         idParameterType: 'COVENANT_BELOW_STANDARD',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        const dataLength = !statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0
+          ? data
+          : this.creditProposalItem.attributes['convenant'].standardCovenant;
+
         const gridBelow = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < dataLength.length; i++) {
           const num = i;
           gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardCovenant = gridBelow;
+
+        if (!statusCovenantNotRefreshedFromMaster.includes(this.creditProposalItem.statusId)) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = replaceConvenantFromMaster(
+            this.standardCovenant,
+            this.creditProposalItem.attributes['convenant'].standardCovenant
+          );
+        }
+
         this.getStandardDataGridBelow();
 
         if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
@@ -136,6 +153,7 @@ export class CPMemoBandingCovenantBelowComponent implements OnInit {
         console.log('Final Compare', {
           before: beforeCovenant,
           after: afterCovenant,
+          result: this.parsed,
         });
       });
   }

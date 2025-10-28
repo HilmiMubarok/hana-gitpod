@@ -113,6 +113,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   public lovApprovalLc = [];
   public lovDebtorStatus = [];
   public lovstatusMemo = ['Yes', 'No'];
+  public lovdebtorStatus = ['New', 'Restructure', 'Additional', 'Decrease', 'Renewal', 'Others'];
   public lovProposalType;
   public menu = 'dateFromStatus';
   public form: FormGroup;
@@ -122,7 +123,6 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   allSelected = false;
   allSelectedApprovalLc = false;
   allSelectedProposalType = false;
-  allSelectedDebtorStatus = false;
   dateTypes: string[] = ['Proposal Date', 'Date From Status'];
 
   @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
@@ -173,15 +173,6 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       this.misCp.get('proposalType')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
     } else {
       this.misCp.get('proposalType')?.setValue('');
-    }
-  }
-
-  toggleSelectAllDebtorStatus(): void {
-    this.allSelectedDebtorStatus = !this.allSelectedDebtorStatus;
-    if (this.allSelectedDebtorStatus) {
-      this.misCp.get('debtorStatus')?.setValue([...this.lovApprovalLc.map(status => status.statusId)]);
-    } else {
-      this.misCp.get('debtorStatus')?.setValue('');
     }
   }
 
@@ -259,6 +250,16 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       this.misCp.get('statusMemo')?.setValue([...this.lovstatusMemo]);
     } else {
       this.misCp.get('statusMemo')?.setValue(null);
+    }
+  }
+
+  allSelectedDebtorStatus = false;
+  public toggleSelectDebtorStatus(): void {
+    this.allSelectedDebtorStatus = !this.allSelectedDebtorStatus;
+    if (this.allSelectedDebtorStatus) {
+      this.misCp.get('debtorStatus')?.setValue([...this.lovdebtorStatus]);
+    } else {
+      this.misCp.get('debtorStatus')?.setValue(null);
     }
   }
 
@@ -344,6 +345,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         startDate: this.misCp.get('date1')?.value,
         endDate: this.misCp.get('date2')?.value,
         status: this._convertStatusToString(this.misCp.get('status')?.value),
+        facilityRank: this._convertStatusToString(this.misCp.get('debtorStatus')?.value),
         type: 'STATELOG',
       };
     } else {
@@ -351,6 +353,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         startDate: null,
         endDate: null,
         status: this._convertStatusToString(this.misCp.get('status')?.value),
+        facilityRank: this._convertStatusToString(this.misCp.get('debtorStatus')?.value),
         type: null,
       };
     }
@@ -379,7 +382,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles('ffffe49c');
-      this.downloadFile(fileName);
+      this.downloadFile(fileName, false);
       return;
     }
 
@@ -388,8 +391,8 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
     this._applyStyles(worksheet);
     this._setAutoWidthForAllColumns();
-    // this._setAutoHeightForAllRows();
-    this.downloadFile(fileName);
+    this._setAutoHeightForAllRows();
+    this.downloadFile(fileName, false);
     this._resetData();
   }
 
@@ -687,7 +690,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         applicationType: product.pengajuan || '',
         takeOverYN: this.getTakeOverYN(proposal),
         previousBank: this.getPreviousBank(proposal),
-        facilityType: product.facilityType || '',
+        facilityType: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
         maturityDate: product.maturityDate === 'null' ? '' : product.maturityDate || '',
@@ -714,8 +717,8 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         totalLVInternalEqToIDR: proposal.totalLVInternal || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
-        reviewer: proposal.dataAssignToCROName || '',
-        status: proposal.status || '',
+        reviewer: this.formatReviewer(proposal.dataAssignToCROName),
+        proposalStatus: proposal.status || '',
         dateOfStatus: this.formatDateMISCP(proposal.lastModifiedDate) || '',
         memo: this.getMemo(proposal),
       });
@@ -981,8 +984,34 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       appealMemoDocNo === '' ||
       appealMemoDocNo === 'null'
     ) {
-      return 'No';
+      return 'N';
     }
-    return 'Yes';
+    return 'Y';
+  }
+
+  private formatReviewer(reviewerName: string): string {
+    try {
+      if (!reviewerName) {
+        return '';
+      }
+
+      if (reviewerName.includes('null')) {
+        reviewerName = reviewerName.replace('null', '');
+      }
+
+      const words = reviewerName.split(' ');
+
+      const formattedWords = words.map(word => {
+        if (word === word.toUpperCase()) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+
+      return formattedWords.join(' ');
+    } catch (error) {
+      console.log('Error formatting reviewer name:', error);
+      return '';
+    }
   }
 }

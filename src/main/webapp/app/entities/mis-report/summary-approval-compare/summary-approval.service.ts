@@ -391,12 +391,11 @@ export class SummaryApprovalService {
 
     const conditionRows = processConditions(conditions, debtorStatus);
 
-    const groupKeys = groups.map((group: string) =>
-      group
-        .toLowerCase()
-        .replace(/\s+/g, '')
-        .replace(/[^a-z0-9]/g, '')
-    );
+    const groupKeys = groups.map((group: string, index: number) => {
+      const isLcData = group.toLowerCase().includes('lc');
+      const prefix = isLcData ? 'lc' : 'sme';
+      return `${prefix}${index + 1}`;
+    });
 
     let currentRow = startFromRow + 3;
     conditionRows.forEach(condition => {

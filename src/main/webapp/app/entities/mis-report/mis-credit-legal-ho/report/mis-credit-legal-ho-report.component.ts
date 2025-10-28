@@ -509,6 +509,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.form.get('query')?.value) {
       params = {
         query: this.form.get('query')?.value,
+        Region: 'R1'
       };
     } else {
       if (this.menu === 'dateFromStatus') {
@@ -640,11 +641,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       { header: 'Summary', key: 'summary' },
       { header: 'Tanggal Jatuh Tempo', key: 'tanggalJatuhTempo' },
       { header: 'Segmentation', key: 'segmentation' },
-      { header: 'Started (Date)', key: 'startedDate' },
       { header: 'Started (Month)', key: 'startedMonth' },
+      { header: 'Started (Date)', key: 'startedDate' },
       { header: 'Started (Year)', key: 'startedYear' },
-      { header: 'DPDL (Date)', key: 'dpdlDate' },
       { header: 'DPDL (Month)', key: 'dpdlMonth' },
+      { header: 'DPDL (Date)', key: 'dpdlDate' },
       { header: 'DPDL (Year)', key: 'dpdlYear' },
       { header: 'Fasilitas Kredit', key: 'fasilitasKredit' },
       { header: 'Currency', key: 'currency' },
@@ -682,9 +683,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         startedDate: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'OL Assigned', 'Date'),
         startedMonth: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'OL Assigned', 'Month'),
         startedYear: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'OL Assigned', 'Year'),
-        dpdlDate: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPDL Finalize', 'Date'),
-        dpdlMonth: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPDL Finalize', 'Month'),
-        dpdlYear: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPDL Finalize', 'Year'),
+        dpdlDate: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPPK Finalize', 'Date'),
+        dpdlMonth: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPPK Finalize', 'Month'),
+        dpdlYear: this._getStartedAndDpdl(proposal.timeLineCreditProposal, 'DPPK Finalize', 'Year'),
         fasilitasKredit: product.facility,
         currency: product.currency,
         nominal: product.totalPlafond,
@@ -753,7 +754,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       size: 999,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
-      internalRegion: 'R1',
+      Region: 'R1',
     };
 
     predicate['target'] = 'mis-cp-ho-report';

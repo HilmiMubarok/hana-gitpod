@@ -14,7 +14,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
-import 'moment/locale/id';
+
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
@@ -677,32 +677,59 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const meta = this._extractMeta(proposal);
     const covernotes = proposal.documentLegal || [];
     let dataCovernote = [];
-
     dataCovernote = [
       ...covernotes
         .filter(item => item.parentId === 'DOC_DPDL_LEGAL_COVERNOTE')
-        .flatMap(item =>
-          (item.covernoteTask || []).map(task => ({
-            code: task.code,
-            date: task.date,
-          }))
-        ),
+        .flatMap(item => {
+          const tasks = item.covernoteTask || [];
+
+          if (tasks.length === 0) {
+            return [
+              {
+                code: '',
+                date: '',
+                notaryNumber: item?.attributes?.notaryNumber || '',
+              },
+            ];
+          }
+
+          return tasks.map(task => ({
+            code: task.code || '',
+            date: task.date || '',
+            notaryNumber: item?.attributes?.notaryNumber || '',
+          }));
+        }),
       ...covernotes
         .filter(item => ['DOC_DPDL_LEGAL_BIAYA', 'DOC_DPDL_LEGAL_AKAD', 'DOC_DPDL_LEGAL_LAMPIRAN'].includes(item.parentId))
-        .flatMap(item =>
-          (item.tags || []).map(tag => ({
-            code: tag.documentId,
-            date: tag.documentDate || null,
-          }))
-        ),
+        .flatMap(item => {
+          const tags = item.tags || [];
+          if (tags.length === 0) {
+            return [
+              {
+                code: '',
+                date: '',
+                notaryNumber: item?.attributes?.notaryNumber || '',
+              },
+            ];
+          }
+          return tags.map(tag => ({
+            code: tag.documentId || '',
+            date: tag.documentDate || '',
+            notaryNumber: item?.attributes?.notaryNumber || '',
+          }));
+        }),
     ];
 
     if (dataCovernote.length) {
-      dataCovernote.forEach(item => {
-        const row = this._buildRow(meta, proposal, rowNumber, item);
-        worksheet.addRow(row);
-        rowNumber++;
-      });
+      const mergedItem = {
+        code: dataCovernote.map(item => item.code).join(', '),
+        date: dataCovernote.map(item => this._convertDate(item.date)).join(', '),
+        notaryNumber: dataCovernote.map(item => item.notaryNumber).join(', '),
+      };
+
+      const row = this._buildRow(meta, proposal, rowNumber, mergedItem);
+      worksheet.addRow(row);
+      rowNumber++;
     } else {
       const row = this._buildRow(meta, proposal, rowNumber);
       worksheet.addRow(row);
@@ -716,9 +743,16 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const timeline = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
 
     const dppk = timeline
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
-
+      .filter(
+        item =>
+          item.statusDescription === 'DPPK Finalize' &&
+          ['DPDL Legal Head Review', 'DPDL Legal Lead Review'].includes(item.fromStatusDescription)
+      )
+      .sort((a, b) => {
+        const dateTimeA = new Date(`${a.fromDate} ${a.fromTime}`).getTime();
+        const dateTimeB = new Date(`${b.fromDate} ${b.fromTime}`).getTime();
+        return dateTimeB - dateTimeA;
+      });
     const ol = timeline
       .filter(item => item.statusDescription === 'OL Assigned')
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
@@ -727,7 +761,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
     return {
       dppkDay: dppkDate ? dppkDate.getDate().toString().padStart(2, '0') : '',
-      dppkMonth: dppkDate ? (dppkDate.getMonth() + 1).toString().padStart(2, '0') : '',
+      dppkMonth: dppkDate ? dppkDate.toLocaleString('id-ID', { month: 'long' }) : '',
       dppkYear: dppkDate ? dppkDate.getFullYear().toString() : '',
       pic: dppk[0]?.personName || '',
       tglPemTgs: ol[0]?.fromDate || '',
@@ -737,7 +771,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   private _buildRow(meta: any, proposal: any, rowNumber: number, task: any = null, cover: any = null): Record<string, any> {
     const agreement = proposal.agreement || {};
     const isNotaril = agreement.isNotaril;
-
     return {
       no: rowNumber,
       tanggalDpdl: meta.dppkDay,
@@ -754,9 +787,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       namaNotaris: isNotaril === 'Notaril' ? agreement.notaryName : ' - ',
       jenisPK: agreement.agreementType || '',
       akta: task?.code || '',
-      noAkta: isNotaril === 'Notaril' ? proposal.documentLegal?.attributes?.notaryNumber : agreement.agreementNumber,
+      noAkta: isNotaril === 'Notaril' ? task?.notaryNumber : agreement.agreementNumber,
       tglAkta: this._convertDate(agreement.dateAgreement) || '',
-      tglTargetPenyelesaian: this._convertDate(task?.date),
+      tglTargetPenyelesaian: task?.date,
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
       tglSelesaiAkta: '',

@@ -83,7 +83,7 @@ body {
 
 @font-face {
   font-family: 'Poppins';
-  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
   /* Safari, Android, iOS */
 }
 
@@ -170,4 +170,16 @@ body {
   font-weight: bold;
   margin-top: 10px;
   color: #5bafaa;
+}
+
+::ng-deep .month-picker .mat-calendar-body-cell-content {
+  pointer-events: auto;
+}
+
+::ng-deep .month-picker .mat-calendar-body-label {
+  display: none;
+}
+
+::ng-deep .month-picker .mat-calendar-body {
+  pointer-events: none;
 }

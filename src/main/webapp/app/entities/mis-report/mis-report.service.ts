@@ -52,6 +52,14 @@ export class MisReportService {
     );
   }
 
+  public getMisMonthlyReport(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-monthly/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
   public getMisReportCPFacility(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal-detail-facility/`,
